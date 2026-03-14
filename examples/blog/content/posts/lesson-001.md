@@ -12,7 +12,7 @@ applies_to: [devlog-1-8]
 
 ## What Happened
 
-We built the entire theme — `global.css` with design tokens, `prose.css` with typography rules, both imported into `BaseLayout.astro` via a `<style>` tag:
+This lesson emerged during [[devlog-1-8|the theme layout work]]. We built the entire theme — `global.css` with design tokens, `prose.css` with typography rules, both imported into `BaseLayout.astro` via a `<style>` tag:
 
 ```html
 <style>

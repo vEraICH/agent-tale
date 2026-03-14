@@ -31,7 +31,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | 1.8 | Create default theme — components | `completed` | 1.7 | `docs/monorepo-structure.md` | `BacklinksPanel`, `PostCard`, `PostList`, `TagList`, `ThemeToggle`. LinkPreview deferred to 3.6. |
 | 1.9 | Create default theme — pages | `completed` | 1.7, 1.8 | `docs/monorepo-structure.md` | `posts/[...slug].astro`, `tags/[tag].astro`, `tags/index.astro`, `rss.xml.ts`, `sitemap.xml.ts` |
 | 1.14 | Lessons Learned post type | `completed` | 1.9 | `docs/content-model.md` | New content type for agent/human lessons. Frontmatter: `type: lesson`, `mistake`, `insight`, `applies_to`. LessonLayout with callout, badge. First lesson: CSS scoping bug. |
-| 1.10 | Graph visualization page | `pending` | 1.3, 1.8 | `docs/architecture.md` | Static graph page. React island with force-directed layout. `client:visible` |
+| 1.10 | Graph visualization page | `completed` | 1.3, 1.8 | `docs/architecture.md` | Static graph page. React island with force-directed layout. `client:visible` |
 | 1.11 | Create `create-agent-tale` CLI | `pending` | 1.7, 1.9 | `docs/monorepo-structure.md` | `npx create-agent-tale my-blog` — scaffold project, copy template, install deps |
 | 1.12 | Write seed content (dogfood) | `pending` | 1.9 | `docs/dogfooding.md` | Write 5-10 interconnected `.md` posts about building Agent-Tale itself |
 | 1.13 | Core test suite | `pending` | 1.2, 1.3, 1.4 | `docs/testing.md` | Unit tests for wikilink parser, graph builder, backlink computation |
@@ -51,6 +51,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | 2.9 | Unlinked mentions detection | `pending` | 1.3 | `docs/content-model.md` | Scan content for title/slug matches without explicit links |
 | 2.10 | `agent-tale check` CLI command | `pending` | 1.3 | `docs/conventions.md` | Validate content: broken wikilinks, missing frontmatter, orphan detection |
 | 2.11 | Integration test suite | `pending` | 2.5 | `docs/testing.md` | End-to-end: write via MCP → verify graph → verify rendered HTML |
+| 2.12 | Obsidian-grade graph view | `pending` | 1.10 | `docs/architecture.md` | Elevate graph to Obsidian Graph View level. Starfield feel at scale — thousands of nodes as constellations. Zoom, pan, local graph (neighborhood view), filters (by tag/agent/type), search-to-highlight, fade distant nodes. The graph IS the differentiation — digital garden users will compare this to Obsidian. Make them feel at home, then go further. Essential features only; Agent-Tale flavor, not a copy. |
 
 ## Phase 3 — Growth (Roadmap)
 

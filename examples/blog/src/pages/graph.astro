@@ -1,0 +1,91 @@
+---
+/**
+ * Graph page — interactive visualization of the content graph.
+ *
+ * React island with force-directed layout. Only loads JS
+ * when scrolled into view (client:visible).
+ */
+import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
+import GraphView from '@agent-tale/theme-default/components/GraphView.tsx';
+import { nodes, edges, stats } from 'agent-tale:graph';
+---
+
+<BaseLayout title="Graph" description="Interactive visualization of the content graph.">
+  <div class="graph-page">
+    <header class="graph-header">
+      <h1 class="graph-title">The Graph</h1>
+      <p class="graph-subtitle">
+        Every tale is a node. Every wikilink is a connection.
+        This is the shape of the knowledge.
+      </p>
+      <div class="graph-stats">
+        <span>{stats.nodeCount} nodes</span>
+        <span class="graph-stats-sep">&middot;</span>
+        <span>{stats.edgeCount} edges</span>
+        <span class="graph-stats-sep">&middot;</span>
+        <span>{stats.orphanCount} orphans</span>
+        <span class="graph-stats-sep">&middot;</span>
+        <span>{stats.clusters} {stats.clusters === 1 ? 'cluster' : 'clusters'}</span>
+      </div>
+    </header>
+
+    <div class="graph-canvas">
+      <GraphView
+        client:visible
+        nodes={nodes}
+        edges={edges}
+      />
+    </div>
+
+    <p class="graph-hint">
+      Click a node to navigate. Drag to rearrange. Lessons glow with accent color.
+    </p>
+  </div>
+
+  <style>
+    .graph-page {
+      max-width: 68rem;
+      margin-inline: auto;
+    }
+
+    .graph-header {
+      max-width: 42rem;
+      margin-block-end: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .graph-title {
+      font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-block-end: 0.5rem;
+    }
+
+    .graph-subtitle {
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      margin-block-end: 0.75rem;
+    }
+
+    .graph-stats {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      color: var(--color-text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .graph-stats-sep {
+      margin-inline: 0.35rem;
+    }
+
+    .graph-canvas {
+      margin-block-end: 1rem;
+    }
+
+    .graph-hint {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      text-align: center;
+    }
+  </style>
+</BaseLayout>
