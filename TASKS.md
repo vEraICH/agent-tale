@@ -22,7 +22,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
 | 1.1 | Initialize monorepo (pnpm workspace + turbo) | `completed` | — | `docs/monorepo-structure.md` | Create workspace root, all package.json stubs, tsconfig base |
-| 1.2 | Implement remark-wikilink plugin | `pending` | — | `docs/content-model.md` | Parse `[[slug]]`, `[[slug\|text]]`, `[[collection:slug]]`. Output hast anchor nodes. |
+| 1.2 | Implement remark-wikilink plugin | `completed` | — | `docs/content-model.md` | Parse `[[slug]]`, `[[slug\|text]]`, `[[collection:slug]]`. Output hast anchor nodes. |
 | 1.3 | Implement graph builder | `pending` | 1.2 | `docs/architecture.md` | Scan `.md` files → extract wikilinks + md links → build adjacency map → write SQLite |
 | 1.4 | Implement backlink computation | `pending` | 1.3 | `docs/architecture.md` | Query graph for incoming edges per node. Expose as `getBacklinks(slug)` |
 | 1.5 | Implement reading-time remark plugin | `pending` | — | `docs/content-model.md` | Inject `minutesRead` into frontmatter via remark |
