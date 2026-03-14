@@ -138,6 +138,7 @@ export function buildGraph(options: BuildGraphOptions): BuildGraphResult {
         title: (parsed.data as Record<string, unknown>).title as string ?? slug,
         date: new Date(),
         draft: false,
+        type: 'post' as const,
         tags: [],
       };
     } else {

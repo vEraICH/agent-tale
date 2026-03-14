@@ -14,11 +14,19 @@ export const PostSchema = z.object({
   tags: z.array(z.string()).default([]),
   author: z.string().optional(),
 
+  // Post type — determines layout and visual treatment
+  type: z.enum(['post', 'lesson', 'dialogue']).default('post'),
+
   // Agent-Tale-specific
   agent: z.string().optional(),
   confidence: z.number().min(0).max(1).optional(),
   sources: z.array(z.string()).optional(),
   parent: z.string().optional(),
+
+  // Lesson-specific (only used when type: 'lesson')
+  mistake: z.string().optional(),
+  insight: z.string().optional(),
+  applies_to: z.array(z.string()).optional(),
 
   // SEO
   canonical: z.string().url().optional(),

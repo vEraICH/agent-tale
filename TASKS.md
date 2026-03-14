@@ -30,6 +30,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | 1.7 | Create default theme — layouts | `completed` | 1.6 | `docs/monorepo-structure.md` | `BaseLayout.astro`, `PostLayout.astro` with backlinks panel, `index.astro` |
 | 1.8 | Create default theme — components | `completed` | 1.7 | `docs/monorepo-structure.md` | `BacklinksPanel`, `PostCard`, `PostList`, `TagList`, `ThemeToggle`. LinkPreview deferred to 3.6. |
 | 1.9 | Create default theme — pages | `completed` | 1.7, 1.8 | `docs/monorepo-structure.md` | `posts/[...slug].astro`, `tags/[tag].astro`, `tags/index.astro`, `rss.xml.ts`, `sitemap.xml.ts` |
+| 1.14 | Lessons Learned post type | `completed` | 1.9 | `docs/content-model.md` | New content type for agent/human lessons. Frontmatter: `type: lesson`, `mistake`, `insight`, `applies_to`. LessonLayout with callout, badge. First lesson: CSS scoping bug. |
 | 1.10 | Graph visualization page | `pending` | 1.3, 1.8 | `docs/architecture.md` | Static graph page. React island with force-directed layout. `client:visible` |
 | 1.11 | Create `create-agent-tale` CLI | `pending` | 1.7, 1.9 | `docs/monorepo-structure.md` | `npx create-agent-tale my-blog` — scaffold project, copy template, install deps |
 | 1.12 | Write seed content (dogfood) | `pending` | 1.9 | `docs/dogfooding.md` | Write 5-10 interconnected `.md` posts about building Agent-Tale itself |

@@ -11,6 +11,10 @@ const posts = defineCollection({
     agent: z.string().optional(),
     confidence: z.number().min(0).max(1).optional(),
     draft: z.boolean().default(false),
+    type: z.enum(['post', 'lesson', 'dialogue']).default('post'),
+    mistake: z.string().optional(),
+    insight: z.string().optional(),
+    applies_to: z.array(z.string()).optional(),
   }),
 });
 

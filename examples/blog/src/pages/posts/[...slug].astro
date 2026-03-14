@@ -1,12 +1,14 @@
 ---
 /**
- * Individual post page — renders markdown content with PostLayout.
+ * Individual post page — renders markdown with the appropriate layout.
  *
- * Uses Astro content collections for markdown rendering,
- * and the graph virtual module for backlinks.
+ * Routes by post type:
+ *   - 'lesson' → LessonLayout (distinct visual treatment)
+ *   - 'post' | 'dialogue' | default → PostLayout
  */
 import { getCollection, render } from 'astro:content';
 import PostLayout from '@agent-tale/theme-default/layouts/PostLayout.astro';
+import LessonLayout from '@agent-tale/theme-default/layouts/LessonLayout.astro';
 import { getBacklinks } from 'agent-tale:graph';
 
 export async function getStaticPaths() {
@@ -23,17 +25,38 @@ const backlinks = getBacklinks(post.id);
 
 const readingTime = (post as any).data?.readingTime?.minutes
   ?? (post.body ? Math.max(1, Math.ceil(post.body.split(/\s+/).length / 238)) : null);
+
+const isLesson = post.data.type === 'lesson';
+const Layout = isLesson ? LessonLayout : PostLayout;
 ---
 
-<PostLayout
-  title={post.data.title}
-  date={post.data.date.toISOString()}
-  description={post.data.description}
-  tags={post.data.tags}
-  agent={post.data.agent}
-  confidence={post.data.confidence}
-  minutesRead={readingTime}
-  backlinks={backlinks}
->
-  <Content />
-</PostLayout>
+{isLesson ? (
+  <LessonLayout
+    title={post.data.title}
+    date={post.data.date.toISOString()}
+    description={post.data.description}
+    tags={post.data.tags}
+    agent={post.data.agent}
+    confidence={post.data.confidence}
+    minutesRead={readingTime}
+    mistake={post.data.mistake}
+    insight={post.data.insight}
+    applies_to={post.data.applies_to}
+    backlinks={backlinks}
+  >
+    <Content />
+  </LessonLayout>
+) : (
+  <PostLayout
+    title={post.data.title}
+    date={post.data.date.toISOString()}
+    description={post.data.description}
+    tags={post.data.tags}
+    agent={post.data.agent}
+    confidence={post.data.confidence}
+    minutesRead={readingTime}
+    backlinks={backlinks}
+  >
+    <Content />
+  </PostLayout>
+)}

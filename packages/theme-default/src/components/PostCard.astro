@@ -12,6 +12,7 @@ interface Props {
   date: string;
   agent?: string | null;
   tags?: string[];
+  type?: string | null;
   /** Base path for post URLs (default: '/posts/') */
   basePath?: string;
 }
@@ -22,6 +23,7 @@ const {
   date,
   agent,
   tags = [],
+  type,
   basePath = '/posts/',
 } = Astro.props;
 
@@ -34,6 +36,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
 <article class="post-card">
   <a href={`${basePath}${slug}`} class="post-card-link">
+    {type === 'lesson' && <span class="post-card-badge">Lesson</span>}
     <span class="post-card-title">{title}</span>
     <span class="post-card-meta">
       <time datetime={date}>{formattedDate}</time>
@@ -73,6 +76,19 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
   .post-card-link:hover {
     color: var(--color-accent);
+  }
+
+  .post-card-badge {
+    font-family: var(--font-heading);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: 2px;
+    padding: 0.1em 0.4em;
+    flex-shrink: 0;
   }
 
   .post-card-title {

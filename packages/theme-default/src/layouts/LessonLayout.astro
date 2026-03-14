@@ -1,0 +1,273 @@
+---
+/**
+ * LessonLayout — Layout for "Lessons Learned" posts.
+ *
+ * Visually distinct from regular posts: amber left border accent,
+ * structured mistake/insight callout at the top, and a
+ * "applies to" section linking to related concepts.
+ *
+ * Lessons are first-class graph nodes. They prevent repeat mistakes
+ * and sometimes — the smell of innovation.
+ */
+import BaseLayout from './BaseLayout.astro';
+import TagList from '../components/TagList.astro';
+import BacklinksPanel from '../components/BacklinksPanel.astro';
+
+interface BacklinkRef {
+  slug: string;
+  title: string;
+}
+
+interface Props {
+  title: string;
+  date: string;
+  description?: string;
+  tags?: string[];
+  agent?: string | null;
+  confidence?: number | null;
+  minutesRead?: number | null;
+  mistake?: string | null;
+  insight?: string | null;
+  applies_to?: string[];
+  backlinks?: BacklinkRef[];
+  ogImage?: string;
+}
+
+const {
+  title,
+  date,
+  description,
+  tags = [],
+  agent,
+  confidence,
+  minutesRead,
+  mistake,
+  insight,
+  applies_to = [],
+  backlinks = [],
+  ogImage,
+} = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const confidenceLabel = confidence != null
+  ? `${Math.round(confidence * 100)}% confidence`
+  : null;
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <article class="lesson">
+    <header class="lesson-header">
+      <span class="lesson-badge">Lesson Learned</span>
+      <h1 class="lesson-title">{title}</h1>
+
+      <div class="lesson-meta">
+        <time datetime={date}>{formattedDate}</time>
+        {minutesRead && (
+          <>
+            <span class="lesson-meta-sep" aria-hidden="true">&middot;</span>
+            <span>{minutesRead} min read</span>
+          </>
+        )}
+        {agent && (
+          <>
+            <span class="lesson-meta-sep" aria-hidden="true">&middot;</span>
+            <span class="lesson-agent">{agent}</span>
+          </>
+        )}
+        {confidenceLabel && (
+          <>
+            <span class="lesson-meta-sep" aria-hidden="true">&middot;</span>
+            <span class="lesson-confidence">{confidenceLabel}</span>
+          </>
+        )}
+      </div>
+    </header>
+
+    {(mistake || insight) && (
+      <div class="lesson-callout">
+        {mistake && (
+          <div class="lesson-callout-item lesson-callout-mistake">
+            <span class="lesson-callout-label">The Mistake</span>
+            <p>{mistake}</p>
+          </div>
+        )}
+        {insight && (
+          <div class="lesson-callout-item lesson-callout-insight">
+            <span class="lesson-callout-label">The Insight</span>
+            <p>{insight}</p>
+          </div>
+        )}
+      </div>
+    )}
+
+    <div class="prose lesson-content">
+      <slot />
+    </div>
+
+    {applies_to.length > 0 && (
+      <div class="lesson-applies">
+        <span class="lesson-applies-label">Applies to</span>
+        <div class="lesson-applies-links">
+          {applies_to.map((slug) => (
+            <a href={`/posts/${slug}`} data-wikilink>{slug}</a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <footer class="lesson-footer">
+      <TagList tags={tags} variant="pill" />
+    </footer>
+
+    <BacklinksPanel backlinks={backlinks} />
+  </article>
+
+  <style>
+    .lesson {
+      max-width: 42rem;
+      margin-inline: auto;
+    }
+
+    /* ─── Header ─── */
+
+    .lesson-header {
+      margin-block-end: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .lesson-badge {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      border: 1.5px solid var(--color-accent);
+      border-radius: 3px;
+      padding: 0.2em 0.6em;
+      margin-block-end: 0.75rem;
+    }
+
+    .lesson-title {
+      font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-block-end: 0.75rem;
+    }
+
+    .lesson-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      font-family: var(--font-heading);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .lesson-meta-sep {
+      margin-inline: 0.5rem;
+      color: var(--color-text-tertiary);
+    }
+
+    .lesson-agent {
+      font-weight: 500;
+    }
+
+    .lesson-confidence {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── Callout (mistake + insight at a glance) ─── */
+
+    .lesson-callout {
+      margin-block-end: 2rem;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .lesson-callout-item {
+      padding: 1rem 1.25rem;
+    }
+
+    .lesson-callout-item + .lesson-callout-item {
+      border-block-start: 1px solid var(--color-border);
+    }
+
+    .lesson-callout-label {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-block-end: 0.35rem;
+    }
+
+    .lesson-callout-mistake .lesson-callout-label {
+      color: oklch(0.65 0.15 25);
+    }
+
+    .lesson-callout-insight .lesson-callout-label {
+      color: oklch(0.65 0.15 145);
+    }
+
+    .lesson-callout-item p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    /* ─── Content ─── */
+
+    .lesson-content {
+      margin-block-end: 2.5rem;
+    }
+
+    /* ─── Applies To ─── */
+
+    .lesson-applies {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-block-end: 1.5rem;
+      padding-block: 1rem;
+      border-block-start: 1px solid var(--color-border);
+    }
+
+    .lesson-applies-label {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+    }
+
+    .lesson-applies-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .lesson-applies-links a {
+      font-size: 0.9rem;
+    }
+
+    /* ─── Footer ─── */
+
+    .lesson-footer {
+      padding-block-start: 1.5rem;
+      border-block-start: 1px solid var(--color-border);
+    }
+  </style>
+</BaseLayout>
