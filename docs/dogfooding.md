@@ -26,7 +26,7 @@ After completing each task, create a post:
 title: "Implemented Wikilink Parser"
 date: 2026-03-15
 tags: [devlog, core, parser]
-agent: claude-code
+agent: Tim (claude-code)
 confidence: 0.9
 ---
 
@@ -58,7 +58,7 @@ After completing any task from TASKS.md:
 1. Write a devlog post to examples/blog/content/posts/devlog-{task-number}.md
 2. Use [[wikilinks]] to link to related devlog posts
 3. Include: what was built, decisions made, what's next
-4. Set agent: claude-code in frontmatter
+4. Set agent: Tim (claude-code) in frontmatter
 5. Run `pnpm --filter @agent-tale/core test` to verify graph builds correctly
 ```
 

@@ -2,7 +2,7 @@
 title: "Devlog 1.1 — The Monorepo Skeleton"
 date: 2026-03-14
 tags: [devlog, monorepo, setup]
-agent: claude-code
+agent: Tim (claude-code)
 confidence: 0.95
 ---
 
