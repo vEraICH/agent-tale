@@ -14,3 +14,12 @@ export {
   type ReadingTimeOptions,
   type ReadingTimeResult,
 } from './content/reading-time.js';
+export { PostSchema, type PostFrontmatter } from './content/frontmatter.js';
+export {
+  buildGraph,
+  slugFromPath,
+  type BuildGraphOptions,
+  type BuildGraphResult,
+  type GraphBuildError,
+} from './graph/builder.js';
+export { createGraph } from './graph/traverse.js';
