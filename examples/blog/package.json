@@ -1,0 +1,17 @@
+{
+  "name": "@agent-tale/example-blog",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Example Agent-Tale blog — dogfood site",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@agent-tale/astro-integration": "workspace:*",
+    "@agent-tale/theme-default": "workspace:*",
+    "astro": "^5.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.turbo/
+*.db
+*.db-journal
+.astro/
+.env
+.env.*
+!.env.example

@@ -1,0 +1,20 @@
+{
+  "name": "agent-tale",
+  "private": true,
+  "description": "A graph-native blog platform where every markdown file is a tale",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "check": "turbo run build && turbo run test && turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

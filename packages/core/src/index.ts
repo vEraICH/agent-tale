@@ -1,0 +1,4 @@
+// @agent-tale/core — Content Graph Engine
+// The heart of Agent-Tale. Zero framework dependencies.
+
+export { type GraphNode, type GraphEdge, type Graph } from './graph/types.js';

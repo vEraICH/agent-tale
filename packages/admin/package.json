@@ -1,0 +1,29 @@
+{
+  "name": "@agent-tale/admin",
+  "version": "0.0.1",
+  "description": "Admin UI — browser-based editor, file tree, graph explorer",
+  "type": "module",
+  "exports": {
+    "./pages/*": "./src/pages/*",
+    "./components/*": "./src/components/*"
+  },
+  "scripts": {
+    "build": "echo 'Astro components — no build step needed'"
+  },
+  "dependencies": {
+    "@agent-tale/astro-integration": "workspace:*"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "astro": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  }
+}

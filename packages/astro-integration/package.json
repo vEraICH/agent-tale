@@ -1,0 +1,29 @@
+{
+  "name": "@agent-tale/astro-integration",
+  "version": "0.0.1",
+  "description": "Wire Agent-Tale's graph engine into Astro's build pipeline",
+  "type": "module",
+  "main": "dist/integration.js",
+  "types": "dist/integration.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/integration.d.ts",
+      "import": "./dist/integration.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@agent-tale/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "astro": "^5.0.0",
+    "vitest": "^3.0.0",
+    "typescript": "^5.7.0"
+  }
+}

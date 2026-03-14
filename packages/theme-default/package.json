@@ -1,0 +1,27 @@
+{
+  "name": "@agent-tale/theme-default",
+  "version": "0.0.1",
+  "description": "Default blog theme for Agent-Tale",
+  "type": "module",
+  "exports": {
+    "./layouts/*": "./src/layouts/*",
+    "./components/*": "./src/components/*",
+    "./pages/*": "./src/pages/*",
+    "./styles/*": "./src/styles/*"
+  },
+  "scripts": {
+    "build": "echo 'Astro components — no build step needed'"
+  },
+  "dependencies": {
+    "@agent-tale/astro-integration": "workspace:*"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "astro": "^5.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}
