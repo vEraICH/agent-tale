@@ -38,9 +38,9 @@ mcp-server ──→ core
 - **`verbatimModuleSyntax: true`** — forces explicit `type` imports. No ambiguity.
 - **Test fixtures** in `fixtures/content/` with a known graph structure: A→B, A→C, B→A, C→D, D (orphan), E (broken link). This is the standard test graph for [[core-test-suite]].
 
-## Blockers
+## Blockers (Resolved)
 
-`better-sqlite3` failed to compile on Windows — missing ClangCL toolset. Installed with `--ignore-scripts` for now. Will need to resolve when [[graph-builder]] task starts. Options: install ClangCL, or switch to `sql.js` (pure JS, no native build).
+`better-sqlite3` initially failed to compile on Windows — the VS 2019 Build Tools tried to use the ClangCL platform toolset which wasn't installed. Fixed by installing VS 2022 Build Tools and rebuilding with `npx node-gyp rebuild --release`. Turns out MSBuild then fell back to the standard MSVC toolset and compiled fine. The ClangCL requirement was a stale config issue, not a real dependency. SQLite is now fully available for the graph index cache.
 
 ## What's Next
 
