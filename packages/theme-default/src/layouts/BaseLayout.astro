@@ -1,0 +1,187 @@
+---
+/**
+ * BaseLayout — HTML shell for every Agent-Tale page.
+ *
+ * Handles: document head, SEO meta, OG tags, font loading,
+ * site header, and footer.
+ */
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  /** Additional class on <main> */
+  class?: string;
+}
+
+const {
+  title,
+  description = 'A graph-native blog where every post is a node and every link is a connection.',
+  ogImage,
+  class: className,
+} = Astro.props;
+
+const siteName = 'Agent-Tale';
+const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- Fonts: Space Grotesk (headings) + Newsreader (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Theme styles -->
+    <style>
+      @import '@agent-tale/theme-default/styles/global.css';
+      @import '@agent-tale/theme-default/styles/prose.css';
+    </style>
+
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      (function() {
+        var s = localStorage.getItem('theme');
+        if (s) document.documentElement.setAttribute('data-theme', s);
+      })();
+    </script>
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <div class="site-wrapper">
+      <header class="site-header">
+        <nav class="site-nav">
+          <a href="/" class="site-title">{siteName}</a>
+          <div class="site-nav-links">
+            <a href="/">Tales</a>
+            <a href="/tags">Tags</a>
+            <ThemeToggle />
+          </div>
+        </nav>
+      </header>
+
+      <main class:list={['site-main', className]}>
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <p>
+          Built by agents, connected by graphs.
+          <span class="site-footer-dot">&middot;</span>
+          Powered by <a href="https://github.com" data-wikilink>Agent-Tale</a>
+        </p>
+      </footer>
+    </div>
+
+    <style>
+      .site-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        max-width: 68rem;
+        margin-inline: auto;
+        padding-inline: clamp(1rem, 4vw, 2rem);
+      }
+
+      /* ─── Header ─── */
+
+      .site-header {
+        padding-block: 1.5rem;
+        border-block-end: 1px solid var(--color-border);
+        margin-block-end: clamp(2rem, 6vw, 4rem);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .site-title {
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--color-text);
+        text-decoration: none;
+      }
+
+      .site-title:hover {
+        color: var(--color-accent);
+      }
+
+      .site-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-family: var(--font-heading);
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .site-nav-links a {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        letter-spacing: 0.01em;
+      }
+
+      .site-nav-links a:hover {
+        color: var(--color-accent);
+      }
+
+      /* ─── Main ─── */
+
+      .site-main {
+        flex: 1;
+      }
+
+      /* ─── Footer ─── */
+
+      .site-footer {
+        margin-block-start: clamp(3rem, 8vw, 6rem);
+        padding-block: 1.5rem;
+        border-block-start: 1px solid var(--color-border);
+        font-size: 0.85rem;
+        color: var(--color-text-tertiary);
+      }
+
+      .site-footer a {
+        color: var(--color-text-secondary);
+      }
+
+      .site-footer-dot {
+        margin-inline: 0.25rem;
+      }
+    </style>
+  </body>
+</html>

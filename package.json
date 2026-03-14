@@ -10,6 +10,7 @@
     "check": "turbo run build && turbo run test && turbo run lint"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
     "turbo": "^2.4.0",
     "typescript": "^5.7.0"
   },

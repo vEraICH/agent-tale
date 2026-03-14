@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   Agent-Tale Default Theme — Design Tokens
+   ───────────────────────────────────────────── */
+
+@theme {
+  --font-heading: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Newsreader", "Georgia", serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+}
+
+/* ─── Light Theme (default) ─── */
+
+:root {
+  --color-bg: oklch(0.975 0.004 80);
+  --color-surface: oklch(0.955 0.006 80);
+  --color-text: oklch(0.18 0.02 55);
+  --color-text-secondary: oklch(0.44 0.015 55);
+  --color-text-tertiary: oklch(0.58 0.01 55);
+  --color-accent: oklch(0.58 0.155 65);
+  --color-accent-hover: oklch(0.50 0.155 65);
+  --color-link: oklch(0.58 0.155 65);
+  --color-link-hover: oklch(0.50 0.155 65);
+  --color-border: oklch(0.91 0.006 80);
+  --color-border-strong: oklch(0.84 0.008 80);
+  --color-code-bg: oklch(0.94 0.005 80);
+  --color-selection: oklch(0.58 0.155 65 / 0.15);
+
+  color-scheme: light;
+}
+
+/* ─── Dark Theme (auto) ─── */
+/*
+ * Night edition: cool deep background, soft violet accent.
+ * Inspired by twilight — where warm day meets cool night.
+ * The amber sleeps. The violet wakes.
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: oklch(0.13 0.01 280);
+    --color-surface: oklch(0.17 0.01 280);
+    --color-text: oklch(0.93 0.005 80);
+    --color-text-secondary: oklch(0.62 0.008 270);
+    --color-text-tertiary: oklch(0.45 0.008 270);
+    --color-accent: oklch(0.68 0.17 290);
+    --color-accent-hover: oklch(0.75 0.15 290);
+    --color-link: oklch(0.68 0.17 290);
+    --color-link-hover: oklch(0.75 0.15 290);
+    --color-border: oklch(0.21 0.01 280);
+    --color-border-strong: oklch(0.28 0.012 280);
+    --color-code-bg: oklch(0.17 0.01 280);
+    --color-selection: oklch(0.68 0.17 290 / 0.18);
+
+    color-scheme: dark;
+  }
+}
+
+/* ─── Dark Theme (manual) ─── */
+
+[data-theme="dark"] {
+  --color-bg: oklch(0.13 0.01 280);
+  --color-surface: oklch(0.17 0.01 280);
+  --color-text: oklch(0.93 0.005 80);
+  --color-text-secondary: oklch(0.62 0.008 270);
+  --color-text-tertiary: oklch(0.45 0.008 270);
+  --color-accent: oklch(0.68 0.17 290);
+  --color-accent-hover: oklch(0.75 0.15 290);
+  --color-link: oklch(0.68 0.17 290);
+  --color-link-hover: oklch(0.75 0.15 290);
+  --color-border: oklch(0.21 0.01 280);
+  --color-border-strong: oklch(0.28 0.012 280);
+  --color-code-bg: oklch(0.17 0.01 280);
+  --color-selection: oklch(0.68 0.17 290 / 0.18);
+
+  color-scheme: dark;
+}
+
+/* ─── Base Styles ─── */
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.7;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+}
+
+/* ─── Headings ─── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+/* ─── Links ─── */
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in oklch, var(--color-link) 35%, transparent);
+  transition: color 0.15s ease, text-decoration-color 0.15s ease, opacity 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration-color: var(--color-link-hover);
+}
+
+/* Wikilinks — dotted underline to signal internal connections */
+a[data-wikilink] {
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+}
+
+a[data-wikilink]:hover {
+  text-decoration-style: solid;
+}
+
+/* Nav and UI links — no underline, opacity hover like Paul Bakaus */
+.site-nav-links a,
+.post-link,
+.post-backlinks-list a {
+  text-decoration: none;
+}
+
+.site-nav-links a:hover,
+.post-link:hover {
+  opacity: 0.85;
+}
+
+/* ─── Selection ─── */
+
+::selection {
+  background-color: var(--color-selection);
+}
+
+/* ─── Focus ─── */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Scrollbar (subtle) ─── */
+
+@supports (scrollbar-width: thin) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+}
