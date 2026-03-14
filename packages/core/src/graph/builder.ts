@@ -146,16 +146,17 @@ export function buildGraph(options: BuildGraphOptions): BuildGraphResult {
 
     // Extract wikilinks via remark
     const collectedLinks: WikilinkData[] = [];
-    const processor = unified()
-      .use(remarkParse)
-      .use(remarkWikilinks, {
-        onWikilink: (data) => collectedLinks.push(data),
-      })
-      .use(remarkReadingTime);
-
     try {
+      const processor = unified()
+        .use(remarkParse)
+        .use(remarkWikilinks, {
+          onWikilink: (data: WikilinkData) => collectedLinks.push(data),
+        })
+        .use(remarkReadingTime);
+
       const tree = processor.parse(parsed.content);
-      processor.runSync(tree);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (processor as any).runSync(tree);
     } catch (err) {
       errors.push({
         file: relative(contentDir, filePath),
