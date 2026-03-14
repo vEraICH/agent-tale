@@ -6,6 +6,8 @@
  * tag list, and backlinks panel. Ships zero JavaScript.
  */
 import BaseLayout from './BaseLayout.astro';
+import TagList from '../components/TagList.astro';
+import BacklinksPanel from '../components/BacklinksPanel.astro';
 
 interface BacklinkRef {
   slug: string;
@@ -79,30 +81,11 @@ const confidenceLabel = confidence != null
       <slot />
     </div>
 
-    {tags.length > 0 && (
-      <footer class="post-tags">
-        {tags.map((tag) => (
-          <a href={`/tags/${tag}`} class="post-tag">
-            {tag}
-          </a>
-        ))}
-      </footer>
-    )}
+    <footer class="post-footer">
+      <TagList tags={tags} variant="pill" />
+    </footer>
 
-    {backlinks.length > 0 && (
-      <aside class="post-backlinks" aria-label="Backlinks">
-        <h2 class="post-backlinks-title">Linked from</h2>
-        <ul class="post-backlinks-list">
-          {backlinks.map((link) => (
-            <li>
-              <a href={`/posts/${link.slug}`} data-wikilink>
-                {link.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </aside>
-    )}
+    <BacklinksPanel backlinks={backlinks} />
   </article>
 
   <style>
@@ -110,8 +93,6 @@ const confidenceLabel = confidence != null
       max-width: 42rem;
       margin-inline: auto;
     }
-
-    /* ─── Header ─── */
 
     .post-header {
       margin-block-end: clamp(2rem, 5vw, 3rem);
@@ -148,76 +129,13 @@ const confidenceLabel = confidence != null
       font-variant-numeric: tabular-nums;
     }
 
-    /* ─── Content ─── */
-
     .post-content {
       margin-block-end: 2.5rem;
     }
 
-    /* ─── Tags ─── */
-
-    .post-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    .post-footer {
       padding-block-start: 1.5rem;
       border-block-start: 1px solid var(--color-border);
-    }
-
-    .post-tag {
-      display: inline-block;
-      padding: 0.2em 0.7em;
-      font-family: var(--font-heading);
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--color-text-secondary);
-      background-color: var(--color-surface);
-      border-radius: 3px;
-      text-decoration: none;
-      letter-spacing: 0.01em;
-      transition: color 0.15s ease, background-color 0.15s ease;
-    }
-
-    .post-tag:hover {
-      color: var(--color-accent);
-      background-color: var(--color-code-bg);
-    }
-
-    /* ─── Backlinks ─── */
-
-    .post-backlinks {
-      margin-block-start: 2.5rem;
-      padding-block-start: 2rem;
-      border-block-start: 1px solid var(--color-border);
-    }
-
-    .post-backlinks-title {
-      font-family: var(--font-heading);
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--color-text-tertiary);
-      margin-block-end: 0.75rem;
-    }
-
-    .post-backlinks-list {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .post-backlinks-list a {
-      font-size: 0.95rem;
-      text-decoration-style: dotted;
-    }
-
-    .post-backlinks-list a::before {
-      content: '\2190\00a0';
-      color: var(--color-text-tertiary);
-      font-size: 0.85em;
     }
   </style>
 </BaseLayout>

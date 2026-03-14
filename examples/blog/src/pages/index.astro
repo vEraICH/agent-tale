@@ -2,10 +2,11 @@
 /**
  * Home page — lists all tales, newest first.
  *
- * Imports the graph virtual module to get post data,
- * then renders each post as a card using BaseLayout.
+ * Pulls post data from the graph virtual module,
+ * renders using theme components.
  */
 import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
+import PostList from '@agent-tale/theme-default/components/PostList.astro';
 import { nodes } from 'agent-tale:graph';
 
 const posts = nodes
@@ -25,44 +26,7 @@ const posts = nodes
 
     <section class="home-posts">
       <h2 class="home-section-title">Recent Tales</h2>
-
-      {posts.length === 0 && (
-        <p class="home-empty">No tales yet. The graph is empty — for now.</p>
-      )}
-
-      <ul class="post-list">
-        {posts.map((post) => {
-          const date = new Date(post.date!).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          });
-
-          return (
-            <li class="post-list-item">
-              <a href={`/posts/${post.slug}`} class="post-link">
-                <span class="post-link-title">{post.title}</span>
-                <span class="post-link-meta">
-                  <time datetime={post.date!}>{date}</time>
-                  {post.agent && (
-                    <>
-                      <span class="post-link-sep" aria-hidden="true">&middot;</span>
-                      <span>{post.agent}</span>
-                    </>
-                  )}
-                </span>
-              </a>
-              {post.tags.length > 0 && (
-                <div class="post-link-tags">
-                  {post.tags.map((tag) => (
-                    <span class="post-link-tag" aria-label={`Tag: ${tag}`}>{tag}</span>
-                  ))}
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+      <PostList posts={posts} />
     </section>
   </div>
 
@@ -71,8 +35,6 @@ const posts = nodes
       max-width: 42rem;
       margin-inline: auto;
     }
-
-    /* ─── Intro ─── */
 
     .home-intro {
       margin-block-end: clamp(2.5rem, 6vw, 4rem);
@@ -93,8 +55,6 @@ const posts = nodes
       max-width: 36rem;
     }
 
-    /* ─── Section ─── */
-
     .home-section-title {
       font-family: var(--font-heading);
       font-size: 0.85rem;
@@ -105,89 +65,6 @@ const posts = nodes
       margin-block-end: 1.25rem;
       padding-block-end: 0.75rem;
       border-block-end: 1px solid var(--color-border);
-    }
-
-    .home-empty {
-      color: var(--color-text-tertiary);
-      font-style: italic;
-    }
-
-    /* ─── Post List ─── */
-
-    .post-list {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .post-list-item {
-      padding-block: 1rem;
-      border-block-end: 1px solid var(--color-border);
-    }
-
-    .post-list-item:first-child {
-      padding-block-start: 0;
-    }
-
-    .post-link {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 0.5rem 1rem;
-      text-decoration: none;
-      color: var(--color-text);
-      transition: color 0.15s ease, opacity 0.15s ease;
-    }
-
-    .post-link:hover {
-      color: var(--color-accent);
-      opacity: 1;
-    }
-
-    .post-link-title {
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 1.05rem;
-      letter-spacing: -0.01em;
-    }
-
-    .post-link-meta {
-      font-family: var(--font-heading);
-      font-size: 0.8rem;
-      color: var(--color-text-tertiary);
-      white-space: nowrap;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .post-link-sep {
-      margin-inline: 0.35rem;
-    }
-
-    .post-link-tags {
-      display: flex;
-      gap: 0.35rem;
-      margin-block-start: 0.35rem;
-    }
-
-    .post-link-tag {
-      font-family: var(--font-heading);
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--color-text-tertiary);
-      padding: 0.1em 0;
-      letter-spacing: 0.01em;
-    }
-
-    .post-link-tag::before {
-      content: '#';
-      opacity: 0.5;
-    }
-
-    .post-link-tag + .post-link-tag::before {
-      margin-inline-start: 0.5rem;
     }
   </style>
 </BaseLayout>

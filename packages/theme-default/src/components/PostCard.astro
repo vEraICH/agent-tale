@@ -1,0 +1,126 @@
+---
+/**
+ * PostCard — a single post entry in a list.
+ *
+ * Minimal: title, date, optional agent, optional tags.
+ * No box, no card — just clean typography in a row.
+ */
+
+interface Props {
+  title: string;
+  slug: string;
+  date: string;
+  agent?: string | null;
+  tags?: string[];
+  /** Base path for post URLs (default: '/posts/') */
+  basePath?: string;
+}
+
+const {
+  title,
+  slug,
+  date,
+  agent,
+  tags = [],
+  basePath = '/posts/',
+} = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<article class="post-card">
+  <a href={`${basePath}${slug}`} class="post-card-link">
+    <span class="post-card-title">{title}</span>
+    <span class="post-card-meta">
+      <time datetime={date}>{formattedDate}</time>
+      {agent && (
+        <>
+          <span class="post-card-sep" aria-hidden="true">&middot;</span>
+          <span>{agent}</span>
+        </>
+      )}
+    </span>
+  </a>
+  {tags.length > 0 && (
+    <div class="post-card-tags">
+      {tags.map((tag) => (
+        <a href={`/tags/${tag}`} class="post-card-tag" aria-label={`Tag: ${tag}`}>{tag}</a>
+      ))}
+    </div>
+  )}
+</article>
+
+<style>
+  .post-card {
+    padding-block: 1rem;
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .post-card-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color 0.15s ease, opacity 0.15s ease;
+  }
+
+  .post-card-link:hover {
+    color: var(--color-accent);
+  }
+
+  .post-card-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+
+  .post-card-meta {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-card-sep {
+    margin-inline: 0.35rem;
+  }
+
+  .post-card-tags {
+    display: flex;
+    gap: 0.35rem;
+    margin-block-start: 0.35rem;
+  }
+
+  .post-card-tag {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    padding: 0.1em 0;
+    letter-spacing: 0.01em;
+    transition: color 0.15s ease;
+  }
+
+  .post-card-tag::before {
+    content: '#';
+    opacity: 0.5;
+  }
+
+  .post-card-tag + .post-card-tag::before {
+    margin-inline-start: 0.5rem;
+  }
+
+  .post-card-tag:hover {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,0 +1,63 @@
+---
+/**
+ * PostList — renders a list of PostCards.
+ *
+ * Pass an array of posts. Handles empty state.
+ */
+import PostCard from './PostCard.astro';
+
+interface PostData {
+  title: string;
+  slug: string;
+  date: string;
+  agent?: string | null;
+  tags?: string[];
+}
+
+interface Props {
+  posts: PostData[];
+  /** Message shown when list is empty */
+  emptyMessage?: string;
+}
+
+const {
+  posts,
+  emptyMessage = 'No tales yet. The graph is empty — for now.',
+} = Astro.props;
+---
+
+{posts.length === 0 ? (
+  <p class="post-list-empty">{emptyMessage}</p>
+) : (
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <PostCard
+          title={post.title}
+          slug={post.slug}
+          date={post.date}
+          agent={post.agent}
+          tags={post.tags}
+        />
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-list > li:first-child :global(.post-card) {
+    padding-block-start: 0;
+  }
+
+  .post-list-empty {
+    color: var(--color-text-tertiary);
+    font-style: italic;
+  }
+</style>

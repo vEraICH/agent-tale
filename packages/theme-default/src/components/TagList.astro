@@ -1,0 +1,84 @@
+---
+/**
+ * TagList — renders tags as inline links.
+ *
+ * Two variants: 'pill' (with background) for post footers,
+ * 'bare' (just #text) for compact lists.
+ */
+
+interface Props {
+  tags: string[];
+  variant?: 'pill' | 'bare';
+}
+
+const { tags, variant = 'pill' } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <div class:list={['tag-list', `tag-list--${variant}`]}>
+    {tags.map((tag) => (
+      <a href={`/tags/${tag}`} class="tag-list-item" aria-label={`Tag: ${tag}`}>
+        {tag}
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* ─── Pill variant (post footers) ─── */
+
+  .tag-list--pill .tag-list-item {
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background-color: var(--color-surface);
+    border-radius: 3px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .tag-list--pill .tag-list-item:hover {
+    color: var(--color-accent);
+    background-color: var(--color-code-bg);
+  }
+
+  /* ─── Bare variant (compact lists) ─── */
+
+  .tag-list--bare {
+    gap: 0.35rem;
+  }
+
+  .tag-list--bare .tag-list-item {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    padding: 0.1em 0;
+    letter-spacing: 0.01em;
+    transition: color 0.15s ease;
+  }
+
+  .tag-list--bare .tag-list-item::before {
+    content: '#';
+    opacity: 0.5;
+  }
+
+  .tag-list--bare .tag-list-item + .tag-list-item::before {
+    margin-inline-start: 0.5rem;
+  }
+
+  .tag-list--bare .tag-list-item:hover {
+    color: var(--color-accent);
+  }
+</style>
