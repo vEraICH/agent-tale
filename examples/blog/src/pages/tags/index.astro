@@ -1,0 +1,81 @@
+---
+/**
+ * Tags index — lists all tags with post counts.
+ */
+import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
+import { nodes } from 'agent-tale:graph';
+
+// Collect all tags with counts
+const tagCounts = new Map<string, number>();
+for (const node of nodes) {
+  for (const tag of node.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+
+// Sort alphabetically
+const tags = Array.from(tagCounts.entries()).sort((a, b) =>
+  a[0].localeCompare(b[0]),
+);
+---
+
+<BaseLayout title="Tags">
+  <div class="tags-page">
+    <h1 class="tags-title">Tags</h1>
+
+    <div class="tags-grid">
+      {tags.map(([tag, count]) => (
+        <a href={`/tags/${tag}`} class="tag-entry">
+          <span class="tag-name">{tag}</span>
+          <span class="tag-count">{count}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .tags-page {
+      max-width: 42rem;
+      margin-inline: auto;
+    }
+
+    .tags-title {
+      font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-block-end: clamp(2rem, 5vw, 3rem);
+    }
+
+    .tags-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag-entry {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35em 0.8em;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      background-color: var(--color-surface);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .tag-entry:hover {
+      color: var(--color-accent);
+      background-color: var(--color-code-bg);
+    }
+
+    .tag-count {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</BaseLayout>

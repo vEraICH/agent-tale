@@ -5,6 +5,7 @@
  * 1. Scan content directory for .md/.mdx files
  * 2. Build the content graph (nodes + edges)
  * 3. Inject a Vite plugin that provides `agent-tale:graph` virtual module
+ * 4. Inject remark plugins (wikilinks + reading time) into Astro's markdown pipeline
  *
  * Usage in astro.config.mjs:
  *   import agentTale from '@agent-tale/astro-integration';
@@ -14,7 +15,12 @@
  */
 
 import type { AstroIntegration } from 'astro';
-import { buildGraph, createGraph } from '@agent-tale/core';
+import {
+  buildGraph,
+  createGraph,
+  remarkWikilinks,
+  remarkReadingTime,
+} from '@agent-tale/core';
 import { agentTaleVitePlugin } from './vite-plugin.js';
 
 export interface AgentTaleOptions {
@@ -22,6 +28,8 @@ export interface AgentTaleOptions {
   contentDir?: string;
   /** Collection name. Defaults to 'posts' */
   collection?: string;
+  /** Base path for post URLs. Defaults to '/posts/' */
+  basePath?: string;
 }
 
 export default function agentTaleIntegration(
@@ -30,6 +38,7 @@ export default function agentTaleIntegration(
   const {
     contentDir = './src/content/posts',
     collection = 'posts',
+    basePath = '/posts/',
   } = options;
 
   return {
@@ -66,10 +75,22 @@ export default function agentTaleIntegration(
           `Graph built: ${stats.nodeCount} nodes, ${stats.edgeCount} edges, ${stats.orphanCount} orphans, ${stats.clusters} clusters`,
         );
 
-        // Inject Vite plugin for virtual module
+        // Build slug → path map for wikilink resolution
+        const slugToPath = new Map<string, string>();
+        for (const node of graph.nodes.values()) {
+          slugToPath.set(node.slug, `${basePath}${node.slug}`);
+        }
+
+        // Inject Vite plugin + remark plugins
         updateConfig({
           vite: {
             plugins: [agentTaleVitePlugin({ graph })],
+          },
+          markdown: {
+            remarkPlugins: [
+              [remarkWikilinks, { slugToPath, basePath }],
+              [remarkReadingTime, {}],
+            ],
           },
         });
       },

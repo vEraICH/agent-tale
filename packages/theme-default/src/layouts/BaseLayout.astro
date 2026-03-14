@@ -58,8 +58,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       rel="stylesheet"
     />
 
-    <!-- Theme styles -->
-    <style>
+    <!-- Theme styles (global — must apply to slotted/rendered markdown content) -->
+    <style is:global>
       @import '@agent-tale/theme-default/styles/global.css';
       @import '@agent-tale/theme-default/styles/prose.css';
     </style>
