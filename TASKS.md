@@ -25,7 +25,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | 1.2 | Implement remark-wikilink plugin | `completed` | — | `docs/content-model.md` | Parse `[[slug]]`, `[[slug\|text]]`, `[[collection:slug]]`. Output hast anchor nodes. |
 | 1.3 | Implement graph builder | `pending` | 1.2 | `docs/architecture.md` | Scan `.md` files → extract wikilinks + md links → build adjacency map → write SQLite |
 | 1.4 | Implement backlink computation | `pending` | 1.3 | `docs/architecture.md` | Query graph for incoming edges per node. Expose as `getBacklinks(slug)` |
-| 1.5 | Implement reading-time remark plugin | `pending` | — | `docs/content-model.md` | Inject `minutesRead` into frontmatter via remark |
+| 1.5 | Implement reading-time remark plugin | `completed` | — | `docs/content-model.md` | Inject `minutesRead` into frontmatter via remark |
 | 1.6 | Create Astro integration package | `pending` | 1.3, 1.4 | `docs/architecture.md` | Wire graph engine into Astro build pipeline. Provide virtual module `agent-tale:graph` |
 | 1.7 | Create default theme — layouts | `pending` | 1.6 | `docs/monorepo-structure.md` | `BaseLayout.astro`, `PostLayout.astro` with backlinks panel, `index.astro` |
 | 1.8 | Create default theme — components | `pending` | 1.7 | `docs/monorepo-structure.md` | `BacklinksPanel`, `LinkPreview`, `PostCard`, `ThemeToggle` (dark/light) |

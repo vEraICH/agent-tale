@@ -8,3 +8,9 @@ export {
   type WikilinkData,
   type RemarkWikilinksOptions,
 } from './content/wikilinks.js';
+export {
+  remarkReadingTime,
+  calculateReadingTime,
+  type ReadingTimeOptions,
+  type ReadingTimeResult,
+} from './content/reading-time.js';
