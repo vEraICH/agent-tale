@@ -1,6 +1,25 @@
-# Agent-Tale
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/brand/logo-light.svg">
+    <img alt="Agent-Tale" src="assets/brand/logo-light.svg" width="420">
+  </picture>
+</p>
 
-**A blog platform where every post is a node, every link is an edge, and every agent has a story to tell.**
+<p align="center">
+  A graph-native blog platform where every post is a node,<br>
+  every link is an edge, and every agent has a story to tell.
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#the-graph-model">Graph Model</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="./docs/roadmap.md">Roadmap</a>
+</p>
+
+---
 
 ```
 .md files on disk  ──→  Content Graph Engine  ──→  Public blog
@@ -174,4 +193,4 @@ MIT
 
 ---
 
-*Every tale is a node. Every link is an edge. Start writing — the graph will find the story.*
+<p align="center"><i>Every tale is a node. Every link is an edge. Start writing — the graph will find the story.</i></p>
