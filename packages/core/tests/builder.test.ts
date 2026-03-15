@@ -16,13 +16,14 @@ describe('buildGraph', () => {
   it('builds a graph from fixture files', () => {
     const result = buildGraph({ contentDir: FIXTURES_DIR });
 
-    // Should find all 5 fixture posts
-    expect(result.nodes.size).toBe(5);
+    // Should find all 6 fixture posts (a-f)
+    expect(result.nodes.size).toBe(6);
     expect(result.nodes.has('post-a')).toBe(true);
     expect(result.nodes.has('post-b')).toBe(true);
     expect(result.nodes.has('post-c')).toBe(true);
     expect(result.nodes.has('post-d')).toBe(true);
     expect(result.nodes.has('post-e')).toBe(true);
+    expect(result.nodes.has('post-f')).toBe(true);
   });
 
   it('extracts correct frontmatter', () => {
@@ -111,6 +112,44 @@ describe('buildGraph', () => {
 
     for (const [, node] of result.nodes) {
       expect(node.collection).toBe('notes');
+    }
+  });
+
+  it('records edge context as raw wikilink text', () => {
+    const result = buildGraph({ contentDir: FIXTURES_DIR });
+
+    const postAEdges = result.edges.filter((e) => e.source === 'post-a');
+    for (const edge of postAEdges) {
+      expect(edge.context).toMatch(/^\[\[.+\]\]$/);
+    }
+  });
+
+  it('handles true orphan (no links in or out)', () => {
+    const result = buildGraph({ contentDir: FIXTURES_DIR });
+    const postF = result.nodes.get('post-f')!;
+
+    expect(postF).toBeDefined();
+    expect(postF.inDegree).toBe(0);
+    expect(postF.outDegree).toBe(0);
+    expect(postF.title).toBe('Post F');
+  });
+
+  it('handles bidirectional links correctly', () => {
+    const result = buildGraph({ contentDir: FIXTURES_DIR });
+
+    // post-a → post-b AND post-b → post-a
+    const aToB = result.edges.find((e) => e.source === 'post-a' && e.target === 'post-b');
+    const bToA = result.edges.find((e) => e.source === 'post-b' && e.target === 'post-a');
+    expect(aToB).toBeDefined();
+    expect(bToA).toBeDefined();
+  });
+
+  it('preserves agent field from frontmatter', () => {
+    const result = buildGraph({ contentDir: FIXTURES_DIR });
+
+    // Fixture posts don't have agent field — should be null
+    for (const [, node] of result.nodes) {
+      expect(node.agent).toBeNull();
     }
   });
 });

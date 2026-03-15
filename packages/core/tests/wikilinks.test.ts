@@ -227,4 +227,56 @@ describe('remarkWikilinks plugin', () => {
 
     expect(links).toHaveLength(0);
   });
+
+  it('ignores wikilinks inside fenced code blocks', async () => {
+    const md = 'Before\n\n```\n[[not-a-link]]\n```\n\nAfter [[real-link]].';
+    const tree = await processMarkdown(md);
+    const links = findLinks(tree);
+
+    expect(links).toHaveLength(1);
+    expect(links[0]!.url).toBe('/posts/real-link');
+  });
+
+  it('ignores wikilinks inside inline code', async () => {
+    const md = 'Use `[[not-a-link]]` syntax to link. See [[real-link]].';
+    const tree = await processMarkdown(md);
+    const links = findLinks(tree);
+
+    expect(links).toHaveLength(1);
+    expect(links[0]!.url).toBe('/posts/real-link');
+  });
+
+  it('handles wikilinks adjacent to punctuation', async () => {
+    const md = 'See [[post-a]], [[post-b]]. Also ([[post-c]]) and [[post-d]]!';
+    const tree = await processMarkdown(md);
+    const links = findLinks(tree);
+
+    expect(links).toHaveLength(4);
+    expect(links.map((l) => l.url)).toEqual([
+      '/posts/post-a',
+      '/posts/post-b',
+      '/posts/post-c',
+      '/posts/post-d',
+    ]);
+  });
+
+  it('handles wikilinks at start and end of text', async () => {
+    const md = '[[start-link]] middle text [[end-link]]';
+    const tree = await processMarkdown(md);
+    const links = findLinks(tree);
+
+    expect(links).toHaveLength(2);
+    expect(links[0]!.url).toBe('/posts/start-link');
+    expect(links[1]!.url).toBe('/posts/end-link');
+  });
+
+  it('handles empty wikilink gracefully', async () => {
+    const md = 'Empty [[]] should not crash. Real [[post-a]] works.';
+    const tree = await processMarkdown(md);
+    const links = findLinks(tree);
+
+    // [[]] may or may not parse — just verify no crash and real link works
+    const realLinks = links.filter((l) => l.url === '/posts/post-a');
+    expect(realLinks).toHaveLength(1);
+  });
 });
