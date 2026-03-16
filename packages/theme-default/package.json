@@ -10,7 +10,9 @@
     "./styles/*": "./src/styles/*"
   },
   "scripts": {
-    "build": "echo 'Astro components — no build step needed'"
+    "build": "echo 'Astro components — no build step needed'",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@agent-tale/astro-integration": "workspace:*"
@@ -29,6 +31,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   }
 }

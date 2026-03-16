@@ -4,24 +4,27 @@
 > It's a snapshot, not a log. Overwrite entirely each session.
 
 ## Current focus
-Completed tasks 1.12 (seed content) and 1.13 (core test suite) in one session. Phase 1 has one task left.
+Task 2.12 (Obsidian-grade graph view) is complete. Phase 2 is underway.
 
 ## Completed this session
-- Task 1.12: 8 concept posts (architecture, file-first, graph-as-product, wikilink-syntax, digital-gardens, agent-memory, backlinks-are-context, building-in-public) + devlog-1-12
-- Task 1.13: 17 new tests (63 total, all green, 519ms). Added post-f.md fixture (true orphan). Coverage: wikilink edge cases, builder completeness, traversal depth. + devlog-1-13
+- Task 2.12: Full graph rewrite — 10 modules, starfield rendering, camera system, neighborhood focus, filters, search, keyboard shortcuts, touch support, 55 new tests
+- Full-viewport immersive graph page with glassmorphism overlays
+- Background stars fixed to screen-space with parallax wrapping
 
 ## Blockers / open questions
-- None
+- Touch support untested on real devices
+- Light mode works but lacks the drama of dark mode starfield
+- WebGL migration path needed eventually (500+ nodes)
 
 ## Next session should start with
-- Task 1.11: create-agent-tale CLI — the last Phase 1 task
-- This is the `npx create-agent-tale my-blog` scaffolding experience
-- Read `docs/monorepo-structure.md` for context
-- After 1.11, Phase 1 is complete. Phase 2 begins.
+- Pick next Phase 2 task: 2.5 (MCP server core tools) or 2.1 (Admin UI API routes)
+- Both unlock downstream tasks. MCP server is the AI differentiator. Admin UI is the human differentiator.
+- Graph polish (edge particles, node breathing) can wait
 
 ## Important context for next Tim
-- 18 posts total now (8 devlogs + 1 lesson + 8 concept + 1 devlog-1-13 = 18)
-- 63 tests across 4 files, all passing
-- Fixture graph: 6 nodes (a-f), 5 edges, 1 broken link, 1 orphan, 3 clusters
-- Blog build: 2.69s for 47+ pages, clean
-- The graph has two layers: devlogs (temporal) + concepts (structural)
+- 20 posts total (19 + devlog-1-14)
+- 128 tests across 9 files (core: 63, create: 10, theme graph: 55), all passing
+- Graph module lives at `packages/theme-default/src/components/graph/` (10 files)
+- GraphView.tsx is now a re-export shim — don't edit it directly
+- graph.astro uses `position: fixed` + `:has()` selectors to go full-viewport
+- Build time: 1.75s for 55 pages
