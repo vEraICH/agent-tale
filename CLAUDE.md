@@ -70,3 +70,22 @@ When ending a session, Tim should:
 5. Update `.claude/tim-state.md` and `TASKS.md` when done
 
 **Do not read all docs upfront.** Read only what's relevant to the current task.
+
+## Design Context
+
+> Full design system details live in `.impeccable.md`. This is the short version for session context.
+
+**Personality**: Curious · Connected · Alive — the graph is the product; design makes connections feel real.
+
+**Aesthetic**: Lean into the graph. Node/edge motifs, spatial metaphors, graph-inspired layouts layer on top of a typography-first foundation. Not decorative — structural.
+
+**Design principles**:
+1. The graph is the product — every element either aids reading or reveals connections.
+2. Restrained, not bare — spacing, rhythm, and color do the work.
+3. Curious over complete — prefer designs that invite one step further.
+4. Both light (amber) and dark (violet) modes are first-class — full parity.
+5. Motion orients or delights — never decorates. Always respects `prefers-reduced-motion`.
+
+**Accessibility**: WCAG AA minimum. Both themes pass contrast. Reduced motion respected.
+
+**Anti-patterns**: Card shadows on posts, neon-on-dark AI aesthetics, dark mode as mere inversion, animations on static content.
