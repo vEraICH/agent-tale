@@ -1,0 +1,214 @@
+---
+/**
+ * Admin dashboard — list all posts with graph metadata.
+ * Prerender: false (SSR, served fresh on each request).
+ */
+export const prerender = false;
+
+import { nodes } from 'agent-tale:graph';
+import NewPostForm from '../../components/admin/NewPostForm.tsx';
+
+const sorted = [...nodes].sort((a, b) =>
+  (b.date ?? '').localeCompare(a.date ?? ''),
+);
+
+function fmtDate(iso: string | null) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin — Agent-Tale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style is:global>
+      @import '@agent-tale/theme-default/styles/global.css';
+    </style>
+    <script is:inline>
+      (function() { var s = localStorage.getItem('theme'); if (s) document.documentElement.setAttribute('data-theme', s); })();
+    </script>
+  </head>
+  <body>
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div class="admin-header-left">
+          <a href="/" class="back-link">← Site</a>
+          <span class="admin-title">Admin</span>
+        </div>
+        <NewPostForm client:load />
+      </header>
+
+      <main class="admin-main">
+        <div class="posts-header">
+          <span class="posts-label">Tales</span>
+          <span class="posts-count">{nodes.length}</span>
+        </div>
+
+        <ul class="posts-list">
+          {sorted.map(node => (
+            <li class="post-row">
+              <span class="post-node">○</span>
+              <div class="post-meta">
+                <a href={`/admin/posts/${node.slug}`} class="post-title">{node.title}</a>
+                <div class="post-details">
+                  <span class="post-date">{fmtDate(node.date)}</span>
+                  {node.tags.length > 0 && (
+                    <span class="post-tags">{node.tags.map(t => `#${t}`).join(' ')}</span>
+                  )}
+                  <span class="post-connections">{node.inDegree + node.outDegree} connections</span>
+                </div>
+              </div>
+              <a href={`/admin/posts/${node.slug}`} class="edit-link" aria-label={`Edit ${node.title}`}>→</a>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </div>
+
+    <style>
+      .admin-shell {
+        max-width: 56rem;
+        margin-inline: auto;
+        padding: clamp(1rem, 4vw, 2rem);
+        min-height: 100dvh;
+      }
+
+      /* ─── Header ─── */
+
+      .admin-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: 1.25rem;
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 2rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .admin-header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .back-link {
+        font-family: var(--font-heading);
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+      }
+
+      .back-link:hover { color: var(--color-accent); }
+
+      .admin-title {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      /* ─── Posts list ─── */
+
+      .posts-header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .posts-label {
+        font-family: var(--font-heading);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-text-tertiary);
+      }
+
+      .posts-count {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--color-accent);
+      }
+
+      .posts-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .post-row {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        padding-block: 0.75rem;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .post-row:last-child { border-bottom: none; }
+
+      .post-node {
+        color: var(--color-accent);
+        font-size: 0.7rem;
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 0.1rem;
+      }
+
+      .post-meta { flex: 1; min-width: 0; }
+
+      .post-title {
+        font-family: var(--font-heading);
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--color-text);
+        text-decoration: none;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .post-title:hover { color: var(--color-accent); }
+
+      .post-details {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 0.15rem;
+        font-size: 0.8rem;
+        color: var(--color-text-tertiary);
+        font-family: var(--font-heading);
+      }
+
+      .post-tags { color: var(--color-text-tertiary); }
+
+      .post-connections { margin-left: auto; }
+
+      .edit-link {
+        color: var(--color-text-tertiary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+        padding: 0.25rem;
+        transition: color 0.15s;
+      }
+
+      .edit-link:hover { color: var(--color-accent); }
+    </style>
+  </body>
+</html>

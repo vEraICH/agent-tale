@@ -41,7 +41,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
 | 2.1 | Admin UI — API routes | `completed` | 1.6 | `docs/architecture.md` | Astro API routes at `/api/posts`, `/api/graph`, `/api/media`. CRUD for `.md` files |
-| 2.2 | Admin UI — markdown editor | `pending` | 2.1 | `docs/monorepo-structure.md` | React island. CodeMirror with markdown + wikilink autocomplete |
+| 2.2 | Admin UI — markdown editor | `completed` | 2.1 | `docs/monorepo-structure.md` | React island. CodeMirror with markdown + wikilink autocomplete |
 | 2.3 | Admin UI — file browser | `pending` | 2.1 | `docs/monorepo-structure.md` | Tree view of content directory. Create/rename/delete |
 | 2.4 | Admin UI — graph explorer | `pending` | 2.1, 1.10 | `docs/monorepo-structure.md` | Interactive graph with orphan highlighting, click-to-navigate |
 | 2.5 | MCP server — core tools | `pending` | 1.3 | `docs/mcp-server.md` | `write_post`, `read_post`, `search`, `get_backlinks`, `get_recent` |

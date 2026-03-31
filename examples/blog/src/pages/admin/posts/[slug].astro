@@ -1,0 +1,74 @@
+---
+/**
+ * Admin post editor page — reads post from disk, renders PostEditor island.
+ * Prerender: false (SSR — always reads fresh content from file).
+ */
+export const prerender = false;
+
+import { readPost } from '../../../lib/content-fs.js';
+import { nodes } from 'agent-tale:graph';
+import PostEditor from '../../../components/admin/PostEditor.tsx';
+
+const { slug } = Astro.params;
+
+if (!slug) return Astro.redirect('/admin');
+
+const post = readPost(slug);
+if (!post) return Astro.redirect('/admin');
+
+// Normalize Date objects → YYYY-MM-DD strings for JSON serialization
+const frontmatter: Record<string, unknown> = {
+  ...post.frontmatter,
+  date: post.frontmatter.date instanceof Date
+    ? (post.frontmatter.date as Date).toISOString().slice(0, 10)
+    : String(post.frontmatter.date ?? ''),
+  updated: post.frontmatter.updated instanceof Date
+    ? (post.frontmatter.updated as Date).toISOString().slice(0, 10)
+    : (post.frontmatter.updated ?? undefined),
+};
+
+// Node metadata for connection count display
+const graphNode = nodes.find(n => n.slug === slug);
+const inDegree = graphNode?.inDegree ?? 0;
+const outDegree = graphNode?.outDegree ?? 0;
+
+// Pass node list for wikilink autocomplete (title + slug only)
+const nodeRefs = nodes.map(n => ({ slug: n.slug, title: n.title }));
+
+const adminConfigured = Boolean(import.meta.env.ADMIN_SECRET);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{String(frontmatter.title ?? slug)} — Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style is:global>
+      @import '@agent-tale/theme-default/styles/global.css';
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { overflow: hidden; }
+    </style>
+    <script is:inline>
+      (function() { var s = localStorage.getItem('theme'); if (s) document.documentElement.setAttribute('data-theme', s); })();
+    </script>
+  </head>
+  <body>
+    <PostEditor
+      client:load
+      slug={slug}
+      frontmatter={frontmatter}
+      content={post.content}
+      inDegree={inDegree}
+      outDegree={outDegree}
+      nodes={nodeRefs}
+      adminConfigured={adminConfigured}
+    />
+  </body>
+</html>
