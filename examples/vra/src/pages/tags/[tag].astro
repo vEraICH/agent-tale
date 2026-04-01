@@ -1,0 +1,38 @@
+---
+import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
+import PostList from '@agent-tale/theme-default/components/PostList.astro';
+import { nodes } from 'agent-tale:graph';
+
+export function getStaticPaths() {
+  const tagSet = new Set<string>();
+  for (const node of nodes) {
+    for (const tag of node.tags) tagSet.add(tag);
+  }
+  return Array.from(tagSet).map((tag) => ({ params: { tag }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+const posts = nodes
+  .filter((n) => n.tags.includes(tag) && n.date)
+  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+---
+
+<BaseLayout title={`#${tag}`} description={`Posts tagged "${tag}"`}>
+  <div class="tag-page">
+    <header class="tag-header">
+      <a href="/tags" class="tag-back">&larr; All tags</a>
+      <h1 class="tag-title">#{tag}</h1>
+      <p class="tag-count">{posts.length} {posts.length === 1 ? 'tale' : 'tales'}</p>
+    </header>
+    <PostList posts={posts} emptyMessage={`No tales tagged "${tag}" yet.`} />
+  </div>
+
+  <style>
+    .tag-page { max-width: 42rem; margin-inline: auto; }
+    .tag-header { margin-block-end: clamp(2rem, 5vw, 3rem); }
+    .tag-back { font-family: var(--font-heading); font-size: 0.85rem; color: var(--color-text-tertiary); text-decoration: none; }
+    .tag-back:hover { color: var(--color-accent); }
+    .tag-title { font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; margin-block-start: 0.5rem; margin-block-end: 0.25rem; }
+    .tag-count { font-family: var(--font-heading); font-size: 0.9rem; color: var(--color-text-tertiary); }
+  </style>
+</BaseLayout>

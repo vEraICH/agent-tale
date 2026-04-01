@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
+import GraphView from '@agent-tale/theme-default/components/GraphView.tsx';
+import { nodes, edges, stats } from 'agent-tale:graph';
+---
+
+<BaseLayout title="Graph" description="Interactive visualization of the content graph.">
+  <div class="graph-immersive">
+    <header class="graph-overlay-header">
+      <div class="graph-overlay-title">The Graph</div>
+      <div class="graph-overlay-stats">
+        <span>{stats.nodeCount} nodes</span>
+        <span class="sep">&middot;</span>
+        <span>{stats.edgeCount} edges</span>
+        <span class="sep">&middot;</span>
+        <span>{stats.clusters} {stats.clusters === 1 ? 'cluster' : 'clusters'}</span>
+      </div>
+    </header>
+    <div class="graph-viewport">
+      <GraphView client:visible nodes={nodes} edges={edges} />
+    </div>
+  </div>
+
+  <style is:global>
+    body:has(.graph-immersive) .site-wrapper { max-width: none; padding-inline: 0; min-height: 0; }
+    body:has(.graph-immersive) .site-header { display: none; }
+    body:has(.graph-immersive) .site-footer { display: none; }
+    body:has(.graph-immersive) .site-main { flex: none; }
+    body:has(.graph-immersive) { overflow: hidden; }
+  </style>
+
+  <style>
+    .graph-immersive { position: fixed; inset: 0; overflow: hidden; z-index: 50; }
+    .graph-viewport { width: 100%; height: 100%; }
+    .graph-overlay-header { position: absolute; top: 0.75rem; left: 50%; transform: translateX(-50%); z-index: 10; text-align: center; pointer-events: none; }
+    .graph-overlay-title { font-family: var(--font-heading); font-size: clamp(1rem, 0.8rem + 0.8vw, 1.5rem); font-weight: 700; letter-spacing: -0.025em; color: var(--color-text); opacity: 0.7; }
+    .graph-overlay-stats { font-family: var(--font-heading); font-size: 0.75rem; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; opacity: 0.6; }
+    .graph-overlay-stats .sep { margin-inline: 0.3rem; }
+  </style>
+</BaseLayout>

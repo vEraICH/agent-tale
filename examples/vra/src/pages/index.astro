@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
+import PostList from '@agent-tale/theme-default/components/PostList.astro';
+import { nodes } from 'agent-tale:graph';
+
+const posts = nodes
+  .filter((n) => n.date)
+  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+---
+
+<BaseLayout title="VRA">
+  <div class="home">
+    <section class="home-intro">
+      <h1 class="home-title">VRA</h1>
+      <p class="home-subtitle">
+        A personal knowledge graph. Every post is a node, every link is a connection.
+      </p>
+    </section>
+
+    <section class="home-posts">
+      <h2 class="home-section-title">Tales</h2>
+      <PostList posts={posts} />
+    </section>
+  </div>
+
+  <style>
+    .home {
+      max-width: 42rem;
+      margin-inline: auto;
+    }
+
+    .home-intro {
+      margin-block-end: clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .home-title {
+      font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-block-end: 0.75rem;
+    }
+
+    .home-subtitle {
+      font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 36rem;
+    }
+
+    .home-section-title {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-tertiary);
+      margin-block-end: 1.25rem;
+      padding-block-end: 0.75rem;
+      border-block-end: 1px solid var(--color-border);
+    }
+  </style>
+</BaseLayout>

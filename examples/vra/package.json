@@ -1,0 +1,27 @@
+{
+  "name": "@agent-tale/example-vra",
+  "private": true,
+  "version": "0.0.1",
+  "description": "VRA — personal blog powered by Agent-Tale",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@agent-tale/astro-integration": "workspace:*",
+    "@agent-tale/theme-default": "workspace:*",
+    "@astrojs/react": "^5.0.0",
+    "@codemirror/autocomplete": "^6.0.0",
+    "@codemirror/commands": "^6.0.0",
+    "@codemirror/lang-markdown": "^6.0.0",
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
+    "astro": "^5.0.0",
+    "codemirror": "^6.0.0",
+    "gray-matter": "^4.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
