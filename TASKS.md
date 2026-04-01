@@ -52,7 +52,7 @@ These tasks produce: `npx create-agent-tale` → working blog with wikilinks + b
 | 2.10 | `agent-tale check` CLI command | `pending` | 1.3 | `docs/conventions.md` | Validate content: broken wikilinks, missing frontmatter, orphan detection |
 | 2.11 | Integration test suite | `pending` | 2.5 | `docs/testing.md` | End-to-end: write via MCP → verify graph → verify rendered HTML |
 | 2.12 | Obsidian-grade graph view | `completed` | 1.10 | `docs/architecture.md` | Elevate graph to Obsidian Graph View level. Starfield feel at scale — thousands of nodes as constellations. Zoom, pan, local graph (neighborhood view), filters (by tag/agent/type), search-to-highlight, fade distant nodes. The graph IS the differentiation — digital garden users will compare this to Obsidian. Make them feel at home, then go further. Essential features only; Agent-Tale flavor, not a copy. |
-| 2.13 | Railway deployment | `pending` | 2.1 | `docs/architecture.md` | Add `@astrojs/node` adapter (hybrid mode), `railway.toml` with pnpm build/start, SQLite persistent volume path, `PUBLIC_SITE_URL` env var support |
+| 2.13 | Railway deployment | `completed` | 2.1 | `docs/architecture.md` | Add `@astrojs/node` adapter (hybrid mode), `railway.toml` with pnpm build/start, SQLite persistent volume path, `PUBLIC_SITE_URL` env var support |
 
 ## Phase 3 — Growth (Roadmap)
 

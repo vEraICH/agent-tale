@@ -18,72 +18,32 @@ Railway runs the blog as a Node.js server (required for the admin UI and API rou
 
 ---
 
-## Step 1 — Add the Node.js adapter (code change)
+## Step 1 — Add the Node.js adapter ✅ Done
 
-Railway needs an adapter to run Astro as a Node.js server. This is **task 2.13** in TASKS.md — do this before deploying.
+This step is already implemented and committed. Here's what was done for reference:
 
-**1.1** Add the adapter dependency to `examples/vra-lab/package.json`:
+| File | Change |
+|---|---|
+| `examples/vra-lab/package.json` | Added `@astrojs/node: ^9.0.0` dependency |
+| `examples/vra-lab/astro.config.mjs` | Added `adapter: node({ mode: 'standalone' })` |
+| `examples/vra-lab/railway.toml` | Created with `startCommand = "node dist/server/entry.mjs"` |
+| `railway.toml` (repo root) | Created with full monorepo build command |
+
+The build was verified locally:
+
+```
+astro build  →  succeeded (static pages ▶ + SSR routes λ)
+PORT=4400 node dist/server/entry.mjs  →  / 200, /posts/welcome 200, /admin 200
+```
+
+**Push to GitHub before continuing:**
 
 ```powershell
 cd D:\Source\github\agent-tale
-pnpm add --filter @agent-tale/example-vra-lab @astrojs/node
-```
-
-**1.2** Update `examples/vra-lab/astro.config.mjs`:
-
-```js
-import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
-import react from '@astrojs/react';
-import node from '@astrojs/node';
-import agentTale from '@agent-tale/astro-integration';
-
-export default defineConfig({
-  site: 'https://blog.vra-lab.tech',
-  adapter: node({ mode: 'standalone' }),
-  integrations: [
-    react(),
-    agentTale({ contentDir: './content' }),
-  ],
-  vite: {
-    plugins: [tailwindcss()],
-  },
-});
-```
-
-**1.3** Add a `railway.toml` at the **repo root** (`D:\Source\github\agent-tale\railway.toml`):
-
-```toml
-[build]
-builder = "nixpacks"
-buildCommand = "pnpm install --ignore-scripts && pnpm --filter @agent-tale/core exec tsc && pnpm --filter @agent-tale/astro-integration exec tsc && pnpm --filter @agent-tale/example-vra-lab run build"
-
-[deploy]
-startCommand = "node examples/vra-lab/dist/server/entry.mjs"
-healthcheckPath = "/"
-healthcheckTimeout = 30
-restartPolicyType = "on_failure"
-```
-
-**1.4** Add a `railway.toml` inside `examples/vra-lab/` as well for Railway's root directory detection:
-
-```toml
-# examples/vra-lab/railway.toml
-[build]
-builder = "nixpacks"
-
-[deploy]
-startCommand = "node dist/server/entry.mjs"
-```
-
-**1.5** Commit everything:
-
-```powershell
-cd D:\Source\github\agent-tale
-git add examples/vra-lab/ railway.toml
-git commit -m "Task 2.13: Add @astrojs/node adapter for Railway deployment"
 git push origin develop
 ```
+
+Railway will pull from this branch, so the changes need to be on GitHub first.
 
 ---
 
