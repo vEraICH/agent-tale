@@ -55,6 +55,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       @import '@agent-tale/theme-default/styles/prose.css';
     </style>
 
+    <link rel="icon" href="/brand/vra-lab-icon.svg" type="image/svg+xml" />
+
     <slot name="head" />
   </head>
 
@@ -62,7 +64,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
     <div class="site-wrapper">
       <header class="site-header">
         <nav class="site-nav">
-          <a href="/" class="site-title">{siteName}</a>
+          <a href="/" class="site-logo" aria-label="VRA Lab home">
+            <img src="/brand/vra-lab-nav.svg" alt="VRA Lab" height="32" />
+          </a>
           <div class="site-nav-links">
             <a href="/">Posts</a>
             <a href="/tags">Tags</a>
@@ -108,17 +112,22 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
         flex-wrap: wrap;
       }
 
-      .site-title {
-        font-family: var(--font-heading);
-        font-size: 1.25rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        color: var(--color-text);
+      .site-logo {
+        display: flex;
+        align-items: center;
         text-decoration: none;
+        opacity: 1;
+        transition: opacity 0.15s ease;
       }
 
-      .site-title:hover {
-        color: var(--color-accent);
+      .site-logo:hover {
+        opacity: 0.75;
+      }
+
+      .site-logo img {
+        display: block;
+        height: 32px;
+        width: auto;
       }
 
       .site-nav-links {
