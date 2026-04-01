@@ -14,8 +14,8 @@
 }
 
 :root {
-  --color-bg: oklch(0.168 0.005 88);
-  --color-surface: oklch(0.205 0.006 85);
+  --color-bg: oklch(0.268 0.003 102);
+  --color-surface: oklch(0.300 0.004 98);
   --color-text: oklch(0.920 0.010 72);
   --color-text-secondary: oklch(0.62 0.010 62);
   --color-text-tertiary: oklch(0.45 0.008 58);
@@ -23,9 +23,9 @@
   --color-accent-hover: oklch(0.722 0.125 32);
   --color-link: oklch(0.655 0.135 32);
   --color-link-hover: oklch(0.722 0.125 32);
-  --color-border: oklch(0.255 0.008 82);
-  --color-border-strong: oklch(0.320 0.010 80);
-  --color-code-bg: oklch(0.205 0.006 85);
+  --color-border: oklch(0.338 0.005 95);
+  --color-border-strong: oklch(0.390 0.006 92);
+  --color-code-bg: oklch(0.300 0.004 98);
   --color-selection: oklch(0.655 0.135 32 / 0.20);
 
   color-scheme: dark;
@@ -44,6 +44,7 @@ html {
 }
 
 body {
+  background-color: transparent;
   min-height: 100dvh;
   line-height: 1.7;
   font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);

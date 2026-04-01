@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./layouts/*": "./src/layouts/*",
+    "./components/*": "./src/components/*",
     "./styles/*": "./src/styles/*"
   },
   "dependencies": {
