@@ -12,6 +12,7 @@
   "dependencies": {
     "@agent-tale/astro-integration": "workspace:*",
     "@agent-tale/theme-default": "workspace:*",
+    "@agent-tale/theme-vra-lab": "workspace:*",
     "@astrojs/node": "^9.0.0",
     "@astrojs/react": "^5.0.0",
     "@codemirror/autocomplete": "^6.0.0",

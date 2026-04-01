@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   VRA Lab Theme — Design Tokens
+   Palette: claude.ai-inspired — warm coral,
+   cream canvas, deep brown-black dark mode.
+   Font: Plus Jakarta Sans throughout.
+   ───────────────────────────────────────────── */
+
+@theme {
+  --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+}
+
+/* ─── Light Mode ─── */
+
+:root {
+  --color-bg: oklch(0.968 0.008 75);
+  --color-surface: oklch(0.945 0.010 75);
+  --color-text: oklch(0.175 0.018 55);
+  --color-text-secondary: oklch(0.42 0.012 55);
+  --color-text-tertiary: oklch(0.57 0.008 55);
+  --color-accent: oklch(0.638 0.138 32);
+  --color-accent-hover: oklch(0.57 0.14 32);
+  --color-link: oklch(0.638 0.138 32);
+  --color-link-hover: oklch(0.57 0.14 32);
+  --color-border: oklch(0.910 0.008 75);
+  --color-border-strong: oklch(0.855 0.010 75);
+  --color-code-bg: oklch(0.945 0.010 75);
+  --color-selection: oklch(0.638 0.138 32 / 0.15);
+
+  color-scheme: light;
+}
+
+/* ─── Dark Mode (auto) ─── */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: oklch(0.157 0.010 55);
+    --color-surface: oklch(0.195 0.012 55);
+    --color-text: oklch(0.920 0.008 75);
+    --color-text-secondary: oklch(0.62 0.008 60);
+    --color-text-tertiary: oklch(0.45 0.006 55);
+    --color-accent: oklch(0.655 0.135 32);
+    --color-accent-hover: oklch(0.72 0.125 32);
+    --color-link: oklch(0.655 0.135 32);
+    --color-link-hover: oklch(0.72 0.125 32);
+    --color-border: oklch(0.220 0.012 55);
+    --color-border-strong: oklch(0.285 0.014 55);
+    --color-code-bg: oklch(0.195 0.012 55);
+    --color-selection: oklch(0.655 0.135 32 / 0.18);
+
+    color-scheme: dark;
+  }
+}
+
+/* ─── Dark Mode (manual) ─── */
+
+[data-theme="dark"] {
+  --color-bg: oklch(0.157 0.010 55);
+  --color-surface: oklch(0.195 0.012 55);
+  --color-text: oklch(0.920 0.008 75);
+  --color-text-secondary: oklch(0.62 0.008 60);
+  --color-text-tertiary: oklch(0.45 0.006 55);
+  --color-accent: oklch(0.655 0.135 32);
+  --color-accent-hover: oklch(0.72 0.125 32);
+  --color-link: oklch(0.655 0.135 32);
+  --color-link-hover: oklch(0.72 0.125 32);
+  --color-border: oklch(0.220 0.012 55);
+  --color-border-strong: oklch(0.285 0.014 55);
+  --color-code-bg: oklch(0.195 0.012 55);
+  --color-selection: oklch(0.655 0.135 32 / 0.18);
+
+  color-scheme: dark;
+}
+
+/* ─── Base ─── */
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.7;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+}
+
+/* ─── Headings ─── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+/* ─── Links ─── */
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in oklch, var(--color-link) 35%, transparent);
+  transition: color 0.15s ease, text-decoration-color 0.15s ease, opacity 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration-color: var(--color-link-hover);
+}
+
+a[data-wikilink] {
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.18em;
+}
+
+a[data-wikilink]:hover {
+  text-decoration-style: solid;
+}
+
+.site-nav-links a,
+.post-link,
+.post-backlinks-list a {
+  text-decoration: none;
+}
+
+.site-nav-links a:hover,
+.post-link:hover {
+  opacity: 0.85;
+}
+
+/* ─── Selection ─── */
+
+::selection {
+  background-color: var(--color-selection);
+}
+
+/* ─── Focus ─── */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Scrollbar ─── */
+
+@supports (scrollbar-width: thin) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+}

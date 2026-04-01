@@ -1,0 +1,17 @@
+{
+  "name": "@agent-tale/theme-vra-lab",
+  "version": "0.0.1",
+  "description": "VRA Lab personal theme — claude.ai-inspired palette, Plus Jakarta Sans",
+  "type": "module",
+  "exports": {
+    "./layouts/*": "./src/layouts/*",
+    "./styles/*": "./src/styles/*"
+  },
+  "dependencies": {
+    "@agent-tale/theme-default": "workspace:*"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}
