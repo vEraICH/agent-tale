@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
 import { nodes } from 'agent-tale:graph';
 
-const SITE = 'https://vra.example.com';
-const TITLE = 'VRA';
+const SITE = 'https://vra-lab.com';
+const TITLE = 'VRA Lab';
 const DESCRIPTION = 'A personal knowledge graph. Every post is a node, every link is a connection.';
 
 export const GET: APIRoute = () => {

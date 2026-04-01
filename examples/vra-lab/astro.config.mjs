@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import agentTale from '@agent-tale/astro-integration';
 
 export default defineConfig({
-  site: 'https://vra.example.com',
+  site: 'https://vra-lab.com',
   integrations: [
     react(),
     agentTale({ contentDir: './content' }),

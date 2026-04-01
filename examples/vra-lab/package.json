@@ -1,8 +1,8 @@
 {
-  "name": "@agent-tale/example-vra",
+  "name": "@agent-tale/example-vra-lab",
   "private": true,
   "version": "0.0.1",
-  "description": "VRA — personal blog powered by Agent-Tale",
+  "description": "VRA Lab — personal blog powered by Agent-Tale",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
