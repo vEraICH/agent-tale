@@ -31,6 +31,24 @@
   color-scheme: dark;
 }
 
+[data-theme="light"] {
+  --color-bg: oklch(0.965 0.008 72);
+  --color-surface: oklch(0.940 0.010 72);
+  --color-text: oklch(0.18 0.008 62);
+  --color-text-secondary: oklch(0.38 0.008 62);
+  --color-text-tertiary: oklch(0.55 0.008 62);
+  --color-accent: oklch(0.56 0.150 32);
+  --color-accent-hover: oklch(0.50 0.160 32);
+  --color-link: oklch(0.56 0.150 32);
+  --color-link-hover: oklch(0.50 0.160 32);
+  --color-border: oklch(0.870 0.010 72);
+  --color-border-strong: oklch(0.820 0.012 72);
+  --color-code-bg: oklch(0.940 0.010 72);
+  --color-selection: oklch(0.56 0.150 32 / 0.15);
+
+  color-scheme: light;
+}
+
 /* ─── Base ─── */
 
 html {

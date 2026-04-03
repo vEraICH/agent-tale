@@ -3,50 +3,179 @@ import BaseLayout from '@agent-tale/theme-vra-lab/layouts/BaseLayout.astro';
 import PostList from '@agent-tale/theme-default/components/PostList.astro';
 import { nodes } from 'agent-tale:graph';
 
-const posts = nodes
+const allPosts = nodes
   .filter((n) => n.date)
   .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+const posts = allPosts.slice(0, 10);
+const hasMore = allPosts.length > 10;
 ---
 
 <BaseLayout title="VRA Lab">
   <div class="home">
-    <section class="home-intro">
-      <img src="/brand/vra-lab-logo-full.svg" alt="VRA Lab" class="home-logo" />
-      <p class="home-subtitle">
-        A personal knowledge graph. Every post is a node, every link is a connection.
-      </p>
+
+    <!-- Hero -->
+    <section class="home-hero">
+      <svg class="home-hero-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" aria-hidden="true">
+        <style>
+          @keyframes globe-spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+          }
+          @keyframes node-pulse {
+            0%   { transform: scale(1); }
+            10%  { transform: scale(2); }
+            20%  { transform: scale(1); }
+            100% { transform: scale(1); }
+          }
+          .globe-rings {
+            transform-origin: 0px 0px;
+            animation: globe-spin 24s linear infinite;
+          }
+          .node-outer {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: node-pulse 7s ease-in-out infinite;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .globe-rings, .node-outer { animation: none; }
+          }
+        </style>
+        <g transform="translate(100, 100)">
+          <circle cx="0" cy="0" r="75" fill="none" stroke="#b8a88a" stroke-width="1.2" opacity="0.35"/>
+          <g class="globe-rings">
+            <ellipse cx="0" cy="0" rx="75" ry="20" fill="none" stroke="#b8a88a" stroke-width="0.6" opacity="0.15"/>
+            <ellipse cx="0" cy="0" rx="20" ry="75" fill="none" stroke="#b8a88a" stroke-width="0.6" opacity="0.15"/>
+          </g>
+          <line x1="0" y1="-72" x2="-68" y2="62" stroke="#b8a88a" stroke-width="1.3" opacity="0.5"/>
+          <line x1="0" y1="-72" x2="68" y2="62" stroke="#b8a88a" stroke-width="1.3" opacity="0.5"/>
+          <line x1="0" y1="-72" x2="0" y2="62" stroke="#d4c8b0" stroke-width="1.3" opacity="0.45"/>
+          <line x1="0" y1="-20" x2="40" y2="-20" stroke="#b8a88a" stroke-width="1.3" opacity="0.5"/>
+          <line x1="40" y1="-20" x2="40" y2="8" stroke="#b8a88a" stroke-width="1.3" opacity="0.5"/>
+          <line x1="40" y1="8" x2="0" y2="8" stroke="#b8a88a" stroke-width="1.3" opacity="0.5"/>
+          <line x1="40" y1="8" x2="58" y2="45" stroke="#b8a88a" stroke-width="1.3" opacity="0.5"/>
+          <g class="node-outer" style="animation-delay:0s"><circle cx="0" cy="-72" r="6.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.6"/><circle cx="0" cy="-72" r="3" fill="#d4c8b0"/></g>
+          <g class="node-outer" style="animation-delay:1s"><circle cx="-68" cy="62" r="5.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.4"/><circle cx="-68" cy="62" r="2.5" fill="#d4c8b0"/></g>
+          <g class="node-outer" style="animation-delay:2s"><circle cx="68" cy="62" r="5.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.4"/><circle cx="68" cy="62" r="2.5" fill="#d4c8b0"/></g>
+          <g class="node-outer" style="animation-delay:3s"><circle cx="0" cy="62" r="5.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.4"/><circle cx="0" cy="62" r="2.5" fill="#d4c8b0"/></g>
+          <g class="node-outer" style="animation-delay:4s"><circle cx="40" cy="-20" r="5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.3"/><circle cx="40" cy="-20" r="2.2" fill="#d4c8b0"/></g>
+          <g class="node-outer" style="animation-delay:5s"><circle cx="40" cy="8" r="5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.3"/><circle cx="40" cy="8" r="2.2" fill="#d4c8b0"/></g>
+          <g class="node-outer" style="animation-delay:6s"><circle cx="58" cy="45" r="5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="1.3"/><circle cx="58" cy="45" r="2.2" fill="#d4c8b0"/></g>
+        </g>
+      </svg>
+      <p class="home-greeting">Welcome to VRA-Lab.</p>
+      <h1 class="home-title">AI + Human + Society</h1>
+      <p class="home-tagline">CRAFTED BY HUMAN, HANDED BY AGENT</p>
     </section>
 
+    <!-- Currently Building -->
+    <section class="home-building">
+      <h2 class="home-section-title">Working On</h2>
+      <ul class="building-list">
+        <li class="building-item">
+          <div class="building-header">
+            <span class="building-name">Agent-Tale</span>
+            <a href="https://github.com/vEraICH/agent-tale" class="building-link">GitHub →</a>
+          </div>
+          <p class="building-desc">A graph-native blog platform where every markdown file is a tale, every wikilink is a connection, and AI agents use it as persistent memory.</p>
+        </li>
+        <li class="building-item">
+          <div class="building-header">
+            <span class="building-name">Veil</span>
+            <span class="building-wip">soon</span>
+          </div>
+          <p class="building-desc">A minimal visual canvas for mapping ideas as graphs. Offline-first, keyboard-driven, no accounts required.</p>
+        </li>
+        <li class="building-item">
+          <div class="building-header">
+            <span class="building-name">Threadline</span>
+            <span class="building-wip">soon</span>
+          </div>
+          <p class="building-desc">Turn a chain of AI conversations into structured knowledge — automatically surfacing decisions, insights, and open questions.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Posts -->
     <section class="home-posts">
       <h2 class="home-section-title">Tales</h2>
       <PostList posts={posts} />
+      {hasMore && <a href="/tags" class="view-all-link">View all tales →</a>}
     </section>
+
   </div>
 
   <style>
     .home {
-      max-width: 42rem;
+      max-width: 60rem;
       margin-inline: auto;
     }
 
-    .home-intro {
-      margin-block-end: clamp(2.5rem, 6vw, 4rem);
+    /* ── Hero ── */
+    .home-hero {
+      position: relative;
+      margin-block-end: clamp(3rem, 7vw, 5rem);
+      perspective: 600px;
+      background-image:
+        linear-gradient(color-mix(in oklch, var(--color-border) 40%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in oklch, var(--color-border) 40%, transparent) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: center center;
+      border-radius: 6px;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      padding-inline-end: clamp(160px, 24vw, 280px);
     }
 
-    .home-logo {
-      display: block;
-      width: min(260px, 60vw);
+    @keyframes constellation-3d {
+      0%   { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    .home-hero-icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: clamp(135px, 20vw, 225px);
       height: auto;
-      margin-block-end: 1.5rem;
+      opacity: 0.37;
+      pointer-events: none;
+      user-select: none;
+      animation: constellation-3d 24s linear infinite;
+      transform-style: preserve-3d;
     }
 
-    .home-subtitle {
-      font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
-      color: var(--color-text-secondary);
-      line-height: 1.6;
-      max-width: 36rem;
+    @media (prefers-reduced-motion: reduce) {
+      .home-hero-icon { animation: none; }
     }
 
+    .home-greeting {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--color-accent);
+      margin: 0 0 0.6rem;
+    }
+
+    .home-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 2rem + 2vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--color-text);
+      margin: 0 0 0.75rem;
+    }
+
+    .home-tagline {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--color-text-tertiary);
+      margin: 0;
+    }
+
+    /* ── Section header (shared) ── */
     .home-section-title {
       font-family: var(--font-heading);
       font-size: 0.85rem;
@@ -57,6 +186,96 @@ const posts = nodes
       margin-block-end: 1.25rem;
       padding-block-end: 0.75rem;
       border-block-end: 1px solid var(--color-border);
+    }
+
+    /* ── Working On ── */
+    .home-building {
+      margin-block-end: clamp(3rem, 7vw, 5rem);
+    }
+
+    .building-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: var(--color-border);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .building-item {
+      padding: 1.25rem 1.5rem;
+      background-color: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .building-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .building-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--color-accent);
+    }
+
+    .building-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .building-link:hover {
+      color: var(--color-accent);
+    }
+
+    .building-wip {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      padding: 0.1em 0.45em;
+    }
+
+    .building-desc {
+      font-size: 0.925rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Posts ── */
+    .home-posts {
+      margin-block-end: clamp(2rem, 5vw, 3rem);
+    }
+
+    .view-all-link {
+      display: inline-block;
+      margin-block-start: 1.5rem;
+      font-family: var(--font-heading);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .view-all-link:hover {
+      color: var(--color-accent);
     }
   </style>
 </BaseLayout>

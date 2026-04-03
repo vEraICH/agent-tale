@@ -79,7 +79,7 @@
   </g>
 
   <!-- Wordmark -->
-  <text x="220" y="370" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#d4c8b0" letter-spacing="3">VRA Lab</text>
+  <text x="220" y="370" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="#d4c8b0" letter-spacing="3">VRA-Lab</text>
 
   <!-- Tagline -->
   <text x="220" y="400" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#b8a88a" letter-spacing="3">CRAFTED BY HUMAN, HANDED BY AGENT</text>
