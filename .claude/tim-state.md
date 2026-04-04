@@ -4,42 +4,47 @@
 > It's a snapshot, not a log. Overwrite entirely each session.
 
 ## Current focus
-VRA-Lab home page redesign — V.2 sub-tasks completed.
+VRA-Lab V.3 — personalization in progress, V.1 and V.2 completed.
 
 ## Completed this session
-- Removed Stardust Veil shader entirely (ShaderBackground.astro + stardust-veil.js deleted)
-- Restored plain hero section (text-only, no logo image)
-- Added ThemeToggle back to nav + fixed light theme CSS variables (was dark-only)
-- Fixed theme init script (prevents flash of wrong theme)
-- Home page redesign inspired by paulbakaus.com:
-  - V.2.a: Personal hero — "Welcome to VRA-Lab / AI + Human + Society / CRAFTED BY HUMAN, HANDED BY AGENT"
-  - V.2.b: "Working On" section — 3-column grid boxes (Agent-Tale + Veil + Threadline)
-  - V.2.c: Posts capped at 10 + "View all tales →" link
-  - V.2.d: Footer social links — GitHub + X icons, swapped layout
-- Animated vra-lab-icon.svg inline in hero: globe rings spin (24s), nodes pulse in sequence (7s cycle, 1s stagger via inline style)
-- 3D rotation on hero icon: rotateY 24s, perspective 600px on hero container
-- Subtle grid background on hero section (color-mix 40% opacity border lines)
-- Nav logo moved to right side (first item before Posts), nav justify-content: flex-end
-- Generated 3 sample posts: threadline.md, the-third-collaborator.md, slow-reading-in-a-fast-model-world.md
-- Fixed stale dist/.astro cache (deleted after logo file removal caused ENOENT error)
-- Fixed vra-lab-nav.svg not updating (was in assets/ not public/)
+- Nav logo moved to left side with solid circle background (theme-aware)
+- Light theme nav logo: black circle, white icon via CSS filter
+- Hero constellation: static by default, continuous rotation on hover, bounce-back to origin on hover-out (spring physics JS)
+- Inner SVG animations (globe-spin, node-pulse) use animation-play-state: paused/running
+- Hero grid: pulse on hover (A) + radial cursor reveal (B) via CSS mask + mousemove
+- Responsive nav: hamburger menu at 640px breakpoint, morphs to X
+- Hamburger is 33px circle twin to nav logo, same styling
+- ThemeToggle pulled out of hamburger — always visible
+- Mobile: burger swaps to left (thumb reach), logo to right (order CSS)
+- Nav links right-aligned on desktop (margin-inline-start: auto)
+- Mobile home: constellation hidden, full-width hero text, flat grid, 1-col Working On
+- Consistent 60rem max-width across PostLayout, LessonLayout, tags pages
+- About page (/about) with VRA Lab intro, Agent-Tale section, author bio
+- About link added to desktop nav + mobile hamburger
+- Custom favicon: white logo on black circle, used in BaseLayout + both admin pages
+- New blog post: "Building a Bounce" — CSS animation techniques with code examples
+- Updated welcome.md via admin UI
+- TASKS.md: V.1 and V.2 marked completed
 
 ## Blockers / open questions
-- VRA-Lab is Vashira's startup company — not just a blog name
-- Mock projects (Veil, Threadline) are placeholders — update when real projects are ready
+- Favicon SVG transform positioning may need fine-tuning (user said not readable first attempt, switched to high-contrast black/white)
 - X handle set to x.com/vEraICH — confirm if correct
-- Light theme not tested thoroughly after CSS fix
+- Light theme not tested thoroughly beyond nav logo
 
 ## Next session should start with
-- V.3: Personalize VRA Lab content (About page, author bio, update welcome post)
+- V.3 remaining: author bio component on post pages (if wanted), further content personalization
 - V.4: First deploy to blog.vra-lab.tech (follow private-docs/deployment/vra-lab-railway.md)
-- Consider: post pages styling review (prose width may feel narrow vs new 60rem container)
+- Post page styling review — code blocks, typography, prose width now at 60rem (may want narrower prose with wider container)
 
 ## Important context for next Tim
-- Home container: 60rem (up from 42rem)
-- Hero has inline SVG (not <img>) for animation to work
-- Nav: all items right-aligned (justify-content: flex-end), logo is first item in .site-nav-links
-- Footer: social icons left, "Powered by Agent-Tale" right
-- Theme toggle works — light mode palette defined in [data-theme="light"] in global.css
-- assets/brand/ = source files, public/brand/ = served files (must copy between them)
-- 4 posts total: welcome.md, threadline.md, the-third-collaborator.md, slow-reading-in-a-fast-model-world.md
+- Home container: 60rem, site wrapper: 68rem
+- All page layouts now 60rem (PostLayout, LessonLayout, tags)
+- Hero has inline SVG (not <img>) for CSS animation-play-state to work
+- Outer 3D rotation uses JS (requestAnimationFrame) for bounce-back — CSS animation-play-state can't return to origin
+- Grid radial reveal: CSS custom properties --grid-x/--grid-y updated via mousemove, drives mask-image
+- Nav structure: logo | nav-links | ThemeToggle | burger — on mobile, burger order:-1 (left), logo order:1 (right)
+- Mobile menu: .nav-mobile-menu with is-open class toggle via JS
+- Favicon: /brand/vra-lab-favicon.svg (black circle, white logo) — admin pages have own <head>, not BaseLayout
+- About page: /about — standalone Astro page, not a markdown post
+- 5 posts total: welcome.md, threadline.md, the-third-collaborator.md, slow-reading-in-a-fast-model-world.md, building-a-bounce.md
+- Vashira Ravipanich (raQuiam) — product/engineering leader in Thailand, GIS Co., cross-domain background (web → mobile → GIS → product)
