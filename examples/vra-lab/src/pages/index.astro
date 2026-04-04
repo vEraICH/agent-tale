@@ -302,6 +302,31 @@ const hasMore = allPosts.length > 10;
     .view-all-link:hover {
       color: var(--color-accent);
     }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .home-hero {
+        padding-inline-end: clamp(1.5rem, 4vw, 2.5rem);
+      }
+
+      .home-hero-icon {
+        display: none;
+      }
+
+      .home-hero::before {
+        mask-image: none;
+        -webkit-mask-image: none;
+        opacity: 0.3;
+      }
+
+      .home-hero:hover::before {
+        opacity: 0.3;
+      }
+
+      .building-list {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 
   <script>

@@ -26,7 +26,7 @@ const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b
   </div>
 
   <style>
-    .tags-page { max-width: 42rem; margin-inline: auto; }
+    .tags-page { max-width: 60rem; margin-inline: auto; }
     .tags-title { font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; margin-block-end: clamp(2rem, 5vw, 3rem); }
     .tags-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .tag-entry { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35em 0.8em; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 500; color: var(--color-text-secondary); background-color: var(--color-surface); border-radius: 4px; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease; }
