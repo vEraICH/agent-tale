@@ -21,10 +21,10 @@ Personal blog setup for `blog.vra-lab.tech`. These tasks run in parallel with Ph
 
 | # | Task | Status | Depends | Notes |
 |---|---|---|---|---|
-| V.1 | `@agent-tale/theme-vra-lab` — custom theme (claude.ai palette) | `pending` | — | New workspace package. OKLCH tokens, sans-serif typography, light/dark parity. See palette proposal in task notes. |
-| V.2 | Wire vra-lab blog to use `theme-vra-lab` | `in-progress` | V.1 | Replace `@agent-tale/theme-default` import in `examples/vra-lab` with new theme |
-| V.2.a | Home: personal hero section | `completed` | V.2 | "Hi, I'm Vashira. / Engineer. Builder. Human." + tagline |
-| V.2.b | Home: "Currently Building" section | `completed` | V.2 | Agent-Tale + 2 placeholder projects (Veil, Threadline) |
+| V.1 | `@agent-tale/theme-vra-lab` — custom theme (claude.ai palette) | `completed` | — | OKLCH tokens, sans-serif typography, light/dark parity |
+| V.2 | Wire vra-lab blog to use `theme-vra-lab` | `completed` | V.1 | Theme wired, responsive nav (hamburger at 640px), hero hover animations, consistent 60rem containers |
+| V.2.a | Home: personal hero section | `completed` | V.2 | Animated constellation SVG, hover-to-spin with bounce-back |
+| V.2.b | Home: "Currently Building" section | `completed` | V.2 | 3-col grid (1-col on mobile), Agent-Tale + Veil + Threadline |
 | V.2.c | Home: cap posts at 10 + "View all" | `completed` | V.2 | Sliced to 10, "View all tales →" link when >10 posts |
 | V.2.d | Footer: GitHub + X social links | `completed` | V.2 | Inline SVG icons, hover to accent color |
 | V.3 | Personalize VRA Lab content | `pending` | V.2 | About page, author bio, update welcome post |

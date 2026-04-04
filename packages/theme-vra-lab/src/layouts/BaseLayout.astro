@@ -57,7 +57,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       @import '@agent-tale/theme-default/styles/prose.css';
     </style>
 
-    <link rel="icon" href="/brand/vra-lab-icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/brand/vra-lab-favicon.svg" type="image/svg+xml" />
 
     <slot name="head" />
 
@@ -83,6 +83,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
             <a href="/">Posts</a>
             <a href="/tags">Tags</a>
             <a href="/graph">Graph</a>
+            <a href="/about">About</a>
           </div>
           <ThemeToggle />
           <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false">
@@ -95,6 +96,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
           <a href="/">Posts</a>
           <a href="/tags">Tags</a>
           <a href="/graph">Graph</a>
+          <a href="/about">About</a>
         </div>
       </header>
 
