@@ -1,32 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
-  <g transform="translate(25, 25) scale(0.16)">
-    <!-- Earth circle -->
-    <circle cx="0" cy="0" r="75" fill="none" stroke="#b8a88a" stroke-width="2" opacity="0.35"/>
-    <ellipse cx="0" cy="0" rx="75" ry="20" fill="none" stroke="#b8a88a" stroke-width="1" opacity="0.15"/>
-    <ellipse cx="0" cy="0" rx="20" ry="75" fill="none" stroke="#b8a88a" stroke-width="1" opacity="0.15"/>
-
-    <!-- V arms -->
-    <line x1="0" y1="-72" x2="-68" y2="62" stroke="#b8a88a" stroke-width="2" opacity="0.5"/>
-    <line x1="0" y1="-72" x2="68" y2="62" stroke="#b8a88a" stroke-width="2" opacity="0.5"/>
-
-    <!-- Spine -->
-    <line x1="0" y1="-72" x2="0" y2="62" stroke="#d4c8b0" stroke-width="2" opacity="0.45"/>
-
-    <!-- R bump -->
-    <line x1="0" y1="-20" x2="40" y2="-20" stroke="#b8a88a" stroke-width="2" opacity="0.5"/>
-    <line x1="40" y1="-20" x2="40" y2="8" stroke="#b8a88a" stroke-width="2" opacity="0.5"/>
-    <line x1="40" y1="8" x2="0" y2="8" stroke="#b8a88a" stroke-width="2" opacity="0.5"/>
-
-    <!-- R leg -->
-    <line x1="40" y1="8" x2="58" y2="45" stroke="#b8a88a" stroke-width="2" opacity="0.5"/>
-
-    <!-- Nodes -->
-    <circle cx="0" cy="-72" r="10" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2.8"/><circle cx="0" cy="-72" r="4.5" fill="#d4c8b0"/>
-    <circle cx="-68" cy="62" r="8.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2.5"/><circle cx="-68" cy="62" r="3.8" fill="#d4c8b0"/>
-    <circle cx="68" cy="62" r="8.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2.5"/><circle cx="68" cy="62" r="3.8" fill="#d4c8b0"/>
-    <circle cx="0" cy="62" r="8.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2.5"/><circle cx="0" cy="62" r="3.8" fill="#d4c8b0"/>
-    <circle cx="40" cy="-20" r="7.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2"/><circle cx="40" cy="-20" r="3.2" fill="#d4c8b0"/>
-    <circle cx="40" cy="8" r="7.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2"/><circle cx="40" cy="8" r="3.2" fill="#d4c8b0"/>
-    <circle cx="58" cy="45" r="7.5" fill="#2a2a24" stroke="#d4c8b0" stroke-width="2"/><circle cx="58" cy="45" r="3.2" fill="#d4c8b0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 268" width="32" height="43">
+  <g transform="translate(0,268) scale(0.05036,-0.05036)" fill="#d4c8b0" stroke="none">
+    <path d="M2090 3710 c-480 -61 -779 -648 -780 -1532 0 -266 5 -253 -135 -337
+-75 -45 -78 -41 -148 174 -153 468 -229 773 -263 1050 -13 109 -26 17 -28
+-190 -1 -249 50 -505 183 -916 68 -208 69 -200 -24 -243 -119 -55 -99 -80 42
+-54 81 15 70 28 163 -204 114 -284 360 -830 386 -858 41 -43 43 215 5 560 -22
+202 -41 455 -41 555 0 86 5 89 163 76 393 -32 764 -341 1057 -881 73 -133 100
+-166 149 -180 48 -13 64 -13 86 4 18 13 14 13 -29 9 -96 -11 -110 5 -274 332
+-261 519 -589 779 -999 793 -189 6 -192 13 -48 117 315 228 724 688 902 1013
+139 252 118 617 -39 698 -38 20 -222 28 -328 14z m328 -85 c81 -91 71 -343
+-20 -517 -135 -260 -539 -730 -851 -990 -103 -85 -100 -91 -94 215 13 644 213
+1103 553 1273 134 67 361 77 412 19z m-1112 -1847 c4 -6 13 -84 20 -172 8 -89
+21 -215 29 -281 28 -208 28 -215 18 -215 -23 0 -237 560 -231 603 6 41 145 96
+164 65z"/>
   </g>
+  <circle cx="148" cy="158" r="3" fill="#d4c8b0"/>
 </svg>

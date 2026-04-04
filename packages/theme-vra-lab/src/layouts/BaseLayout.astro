@@ -76,10 +76,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
     <div class="site-wrapper">
       <header class="site-header">
         <nav class="site-nav">
+          <a href="/" class="site-logo" aria-label="VRA Lab home">
+            <img src="/brand/vra-lab-nav.svg" alt="VRA Lab" height="32" />
+          </a>
           <div class="site-nav-links">
-            <a href="/" class="site-logo" aria-label="VRA Lab home">
-              <img src="/brand/vra-lab-nav.svg" alt="VRA Lab" height="32" />
-            </a>
             <a href="/">Posts</a>
             <a href="/tags">Tags</a>
             <a href="/graph">Graph</a>
@@ -132,7 +132,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       .site-nav {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
         gap: 1.5rem;
         flex-wrap: wrap;
       }
@@ -140,18 +140,22 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       .site-logo {
         display: flex;
         align-items: center;
+        justify-content: center;
+        width: 33px;
+        height: 33px;
+        background-color: var(--color-surface);
+        border-radius: 50%;
         text-decoration: none;
-        opacity: 1;
-        transition: opacity 0.15s ease;
+        transition: background-color 0.15s ease;
       }
 
       .site-logo:hover {
-        opacity: 0.75;
+        background-color: var(--color-border-strong);
       }
 
       .site-logo img {
         display: block;
-        height: 32px;
+        height: 18px;
         width: auto;
       }
 

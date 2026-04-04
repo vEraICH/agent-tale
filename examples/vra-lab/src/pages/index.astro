@@ -30,11 +30,17 @@ const hasMore = allPosts.length > 10;
           .globe-rings {
             transform-origin: 0px 0px;
             animation: globe-spin 24s linear infinite;
+            animation-play-state: paused;
           }
           .node-outer {
             transform-box: fill-box;
             transform-origin: center;
             animation: node-pulse 7s ease-in-out infinite;
+            animation-play-state: paused;
+          }
+          .home-hero:hover .globe-rings,
+          .home-hero:hover .node-outer {
+            animation-play-state: running;
           }
           @media (prefers-reduced-motion: reduce) {
             .globe-rings, .node-outer { animation: none; }
@@ -139,12 +145,19 @@ const hasMore = allPosts.length > 10;
       opacity: 0.37;
       pointer-events: none;
       user-select: none;
-      animation: constellation-3d 24s linear infinite;
       transform-style: preserve-3d;
+      animation: constellation-3d 24s linear infinite;
+      animation-play-state: paused;
+      transition: opacity 0.4s ease;
+    }
+
+    .home-hero:hover .home-hero-icon {
+      animation-play-state: running;
+      opacity: 0.55;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .home-hero-icon { animation: none; }
+      .home-hero-icon { animation: none; transition: none; }
     }
 
     .home-greeting {
