@@ -153,10 +153,22 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
         background-color: var(--color-border-strong);
       }
 
+      [data-theme="light"] .site-logo {
+        background-color: oklch(0.15 0 0);
+      }
+
+      [data-theme="light"] .site-logo:hover {
+        background-color: oklch(0.25 0 0);
+      }
+
       .site-logo img {
         display: block;
         height: 18px;
         width: auto;
+      }
+
+      [data-theme="light"] .site-logo img {
+        filter: brightness(0) invert(1);
       }
 
       .site-nav-links {
