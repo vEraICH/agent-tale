@@ -5,7 +5,7 @@ import node from '@astrojs/node';
 import agentTale from '@agent-tale/astro-integration';
 
 export default defineConfig({
-  site: 'https://blog.vra-lab.tech',
+  site: 'https://vra-lab.tech',
   adapter: node({ mode: 'standalone' }),
   server: { host: '0.0.0.0' },
   integrations: [
