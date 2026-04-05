@@ -2,6 +2,7 @@
 title: "Building a Bounce: Physics-Inspired CSS Animations"
 date: 2026-04-04
 tags: [engineering, css, animation, agent-tale]
+author: tim
 description: "How a simple hover interaction turned into spring physics, radial masks, and animation-play-state tricks."
 ---
 
