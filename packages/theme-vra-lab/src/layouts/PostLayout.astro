@@ -33,6 +33,7 @@ interface Props {
   ogImage?: string;
   postNav?: { prev: PostNavLink | null; next: PostNavLink | null };
   headings?: Heading[];
+  slug?: string;
 }
 
 const {
@@ -48,10 +49,29 @@ const {
   ogImage,
   postNav,
   headings = [],
+  slug,
 } = Astro.props;
 
 const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 const showToc = tocHeadings.length >= 3;
+
+const isoDate = new Date(date).toISOString();
+const authorName = agent ?? author ?? 'VRA Lab';
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  ...(description && { description }),
+  datePublished: isoDate,
+  author: {
+    '@type': agent ? 'Thing' : 'Person',
+    name: agent === 'tim' ? 'Tim' : (author === 'tim' ? 'Tim' : (authorName === 'VRA Lab' ? 'Vashira Ravipanich' : authorName)),
+  },
+  ...(tags.length > 0 && { keywords: tags.join(', ') }),
+  ...(minutesRead && { timeRequired: `PT${minutesRead}M` }),
+  ...(ogImage && { image: ogImage }),
+});
 
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
@@ -65,6 +85,7 @@ const confidenceLabel = confidence != null
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
+  <script slot="head" type="application/ld+json" set:html={jsonLd} />
   <div class="reading-progress" aria-hidden="true"></div>
   <div class={`post-layout ${showToc ? 'post-layout--has-toc' : ''}`}>
     <article class="post">
@@ -73,6 +94,12 @@ const confidenceLabel = confidence != null
 
         <div class="post-meta">
           <time datetime={date}>{formattedDate}</time>
+          {slug && (
+            <>
+              <span class="post-meta-sep" aria-hidden="true">&middot;</span>
+              <a href={`/posts/${slug}.md`} class="post-llm-link" title="View as Markdown (LLM-friendly)">md</a>
+            </>
+          )}
           {minutesRead && (
             <>
               <span class="post-meta-sep" aria-hidden="true">&middot;</span>
@@ -146,7 +173,7 @@ const confidenceLabel = confidence != null
       left: 0;
       width: 0%;
       height: 2px;
-      background: var(--color-accent);
+      background: var(--color-accent, oklch(0.655 0.135 32));
       z-index: 100;
       transition: width 50ms linear;
       pointer-events: none;
@@ -202,6 +229,23 @@ const confidenceLabel = confidence != null
 
     .post-confidence {
       font-variant-numeric: tabular-nums;
+    }
+
+    .post-llm-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      text-decoration: none;
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      padding: 0.1em 0.35em;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .post-llm-link:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
     }
 
     /* ── Table of contents — sidebar ── */
@@ -444,6 +488,15 @@ const confidenceLabel = confidence != null
     const progressBar = document.querySelector('.reading-progress') as HTMLElement | null;
     const article = document.querySelector('.post-content') as HTMLElement | null;
     if (progressBar && article) {
+      // Sync color with computed accent (fixes CSS load order issues)
+      function syncColor() {
+        const accent = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim();
+        if (accent) progressBar!.style.background = accent;
+      }
+      syncColor();
+      const observer = new MutationObserver(syncColor);
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
       function updateProgress() {
         const rect = article!.getBoundingClientRect();
         const start = rect.top + window.scrollY;

@@ -65,6 +65,8 @@ const postNav = {
     backlinks={backlinks}
     postNav={postNav}
     headings={headings}
+    ogImage={`${Astro.site ?? ''}og/${post.id}.png`}
+    slug={post.id}
   >
     <Content />
   </PostLayout>

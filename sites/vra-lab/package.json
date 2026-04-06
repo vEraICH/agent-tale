@@ -20,10 +20,12 @@
     "@codemirror/lang-markdown": "^6.0.0",
     "@codemirror/state": "^6.0.0",
     "@codemirror/view": "^6.0.0",
+    "@resvg/resvg-js": "^2.6.2",
     "astro": "^5.0.0",
     "codemirror": "^6.0.0",
     "gray-matter": "^4.0.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "satori": "^0.26.0"
   }
 }

@@ -40,19 +40,27 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
-| vra-1 | Copy code button on all `<pre>` blocks | `pending` | — | `docs/research/gap-analysis.md` | One-click copy, visual feedback. Table-stakes for dev blogs. |
-| vra-2 | Next/previous post navigation | `pending` | — | `docs/research/gap-analysis.md` | Date-ordered prev/next links at bottom of every post. Biggest engagement lever. |
-| vra-3 | Shiki dual theme (light + dark code blocks) | `pending` | — | `docs/research/gap-analysis.md` | Use Astro's `markdown.shikiConfig.themes` for theme-aware syntax highlighting. |
-| vra-4 | Reading progress indicator | `pending` | — | `docs/research/gap-analysis.md` | Thin accent bar at viewport top, tracks scroll through post content. |
-| vra-5 | Table of contents for long posts | `pending` | — | `docs/research/gap-analysis.md` | Auto-generated from headings. Show on posts with 3+ headings. Sticky sidebar or collapsible top. |
+| vra-1 | Copy code button on all `<pre>` blocks | `completed` | — | `docs/research/gap-analysis.md` | One-click copy, visual feedback. Table-stakes for dev blogs. |
+| vra-2 | Next/previous post navigation | `completed` | — | `docs/research/gap-analysis.md` | Date-ordered prev/next links at bottom of every post. Biggest engagement lever. |
+| vra-3 | Shiki dual theme (light + dark code blocks) | `completed` | — | `docs/research/gap-analysis.md` | Use Astro's `markdown.shikiConfig.themes` for theme-aware syntax highlighting. |
+| vra-4 | Reading progress indicator | `completed` | — | `docs/research/gap-analysis.md` | Thin accent bar at viewport top, tracks scroll through post content. |
+| vra-5 | Table of contents for long posts | `completed` | — | `docs/research/gap-analysis.md` | Auto-generated from headings. Show on posts with 3+ headings. Sticky sidebar or collapsible top. |
 
 ### Sprint 2 — SEO & Discoverability
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
-| vra-6 | JSON-LD structured data (BlogPosting) | `pending` | — | `docs/research/gap-analysis.md` | Schema.org BlogPosting on every post page. Title, date, author, description. |
-| vra-7 | Dynamic OG image generation | `pending` | — | `docs/research/gap-analysis.md` | Satori/resvg at build time. Branded image with post title + date. Every post gets one. |
+| vra-6 | JSON-LD structured data (BlogPosting) | `completed` | — | `docs/research/gap-analysis.md` | Schema.org BlogPosting on every post page. Title, date, author, description. |
+| vra-7 | Dynamic OG image generation | `completed` | — | `docs/research/gap-analysis.md` | Satori/resvg at build time. Branded image with post title + date. Every post gets one. |
 | vra-8 | Search (site-wide) | `pending` | — | `docs/research/gap-analysis.md` | Pagefind or similar. Search by title, tags, content. Accessible from nav. |
+
+### Sprint 2.5 — LLM-Friendly Content (differentiator, low effort)
+
+| # | Task | Status | Depends | Context Doc | Notes |
+|---|---|---|---|---|---|
+| vra-15 | `/llms.txt` — auto-generated site index | `completed` | — | `docs/research/gap-analysis.md` | Markdown index of all posts with titles, descriptions, tags, connection counts. Auto-generated at build time. |
+| vra-16 | `/posts/{slug}.md` — raw markdown endpoint | `completed` | — | `docs/research/gap-analysis.md` | Serve raw markdown for any post. We're file-first — just expose what we already have. |
+| vra-17 | "LLM" button on post pages | `completed` | vra-16 | `docs/research/gap-analysis.md` | Small button linking to the `.md` version. DatoCMS-style but minimal. |
 
 ### Sprint 3 — Digital Garden Identity (differentiator)
 
