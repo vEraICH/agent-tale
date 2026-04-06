@@ -18,6 +18,14 @@ const {
 const siteName = 'VRA Lab';
 const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321');
+const path = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/', label: 'Posts', match: (p: string) => p === '/' || p.startsWith('/posts') },
+  { href: '/tags', label: 'Tags', match: (p: string) => p.startsWith('/tags') },
+  { href: '/graph', label: 'Graph', match: (p: string) => p.startsWith('/graph') },
+  { href: '/about', label: 'About', match: (p: string) => p.startsWith('/about') },
+];
 ---
 
 <!doctype html>
@@ -58,6 +66,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
     </style>
 
     <link rel="icon" href="/brand/vra-lab-favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="VRA Lab" href="/rss.xml" />
 
     <slot name="head" />
 
@@ -80,23 +89,21 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
             <img src="/brand/vra-lab-nav.svg" alt="VRA Lab" height="32" />
           </a>
           <div class="site-nav-links">
-            <a href="/">Posts</a>
-            <a href="/tags">Tags</a>
-            <a href="/graph">Graph</a>
-            <a href="/about">About</a>
+            {navLinks.map((link) => (
+              <a href={link.href} aria-current={link.match(path) ? 'page' : undefined}>{link.label}</a>
+            ))}
           </div>
           <ThemeToggle />
-          <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false">
+          <button class="nav-burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
             <span class="burger-line"></span>
             <span class="burger-line"></span>
             <span class="burger-line"></span>
           </button>
         </nav>
-        <div class="nav-mobile-menu">
-          <a href="/">Posts</a>
-          <a href="/tags">Tags</a>
-          <a href="/graph">Graph</a>
-          <a href="/about">About</a>
+        <div class="nav-mobile-menu" id="mobile-nav">
+          {navLinks.map((link) => (
+            <a href={link.href} aria-current={link.match(path) ? 'page' : undefined}>{link.label}</a>
+          ))}
         </div>
       </header>
 
@@ -202,6 +209,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
         color: var(--color-accent);
       }
 
+      .site-nav-links a[aria-current="page"] {
+        color: var(--color-text);
+      }
+
       /* ── Hamburger button ── */
       .nav-burger {
         display: none;
@@ -287,6 +298,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
         color: var(--color-accent);
       }
 
+      .nav-mobile-menu a[aria-current="page"] {
+        color: var(--color-text);
+      }
+
       .nav-mobile-menu.is-open {
         max-height: 300px;
         opacity: 1;
@@ -327,8 +342,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       .site-footer-inner {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
+        gap: 1.5rem;
         flex-wrap: wrap;
       }
 

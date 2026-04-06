@@ -171,6 +171,7 @@ export function buildGraph(options: BuildGraphOptions): BuildGraphResult {
     const node: GraphNode = {
       slug,
       title: frontmatter.title,
+      description: frontmatter.description ?? null,
       collection,
       filePath: relative(contentDir, filePath),
       contentHash: hash,

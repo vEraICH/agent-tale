@@ -10,6 +10,7 @@
 @theme {
   --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-prose: Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
 }
 
@@ -37,10 +38,10 @@
   --color-text: oklch(0.18 0.008 62);
   --color-text-secondary: oklch(0.38 0.008 62);
   --color-text-tertiary: oklch(0.55 0.008 62);
-  --color-accent: oklch(0.56 0.150 32);
-  --color-accent-hover: oklch(0.50 0.160 32);
-  --color-link: oklch(0.56 0.150 32);
-  --color-link-hover: oklch(0.50 0.160 32);
+  --color-accent: oklch(0.50 0.150 32);
+  --color-accent-hover: oklch(0.44 0.160 32);
+  --color-link: oklch(0.50 0.150 32);
+  --color-link-hover: oklch(0.44 0.160 32);
   --color-border: oklch(0.870 0.010 72);
   --color-border-strong: oklch(0.820 0.012 72);
   --color-code-bg: oklch(0.940 0.010 72);
@@ -113,6 +114,21 @@ a[data-wikilink]:hover {
 .site-nav-links a:hover,
 .post-link:hover {
   opacity: 0.85;
+}
+
+/* ─── Prose serif layer ─── */
+
+.prose {
+  font-family: var(--font-prose);
+  line-height: 1.8;
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading);
+}
+
+.prose :is(th) {
+  font-family: var(--font-heading);
 }
 
 /* ─── Selection ─── */

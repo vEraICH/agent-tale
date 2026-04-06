@@ -5,7 +5,7 @@ tags:
   - meta
   - agent-tale
 description: 'What this place is, how it works, and why everything is a graph.'
-draft: false
+draft: true
 ---
 
 Just say

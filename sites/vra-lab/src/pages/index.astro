@@ -77,7 +77,7 @@ const hasMore = allPosts.length > 10;
     <section class="home-building">
       <h2 class="home-section-title">Working On</h2>
       <ul class="building-list">
-        <li class="building-item">
+        <li class="building-item building-item--primary">
           <div class="building-header">
             <span class="building-name">Agent-Tale</span>
             <a href="https://github.com/vEraICH/agent-tale" class="building-link">GitHub →</a>
@@ -276,9 +276,22 @@ const hasMore = allPosts.length > 10;
       padding: 0.1em 0.45em;
     }
 
+    .building-item--primary {
+      border-inline-start: 2px solid var(--color-accent);
+    }
+
+    .building-item--primary .building-name {
+      font-size: 1.05rem;
+      color: var(--color-text);
+    }
+
+    .building-item--primary .building-desc {
+      color: var(--color-text-secondary);
+    }
+
     .building-desc {
       font-size: 0.925rem;
-      color: var(--color-text-secondary);
+      color: var(--color-text-tertiary);
       line-height: 1.6;
       margin: 0;
     }

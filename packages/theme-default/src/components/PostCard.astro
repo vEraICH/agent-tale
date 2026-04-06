@@ -10,6 +10,7 @@ interface Props {
   title: string;
   slug: string;
   date: string;
+  description?: string | null;
   agent?: string | null;
   tags?: string[];
   type?: string | null;
@@ -21,6 +22,7 @@ const {
   title,
   slug,
   date,
+  description,
   agent,
   tags = [],
   type,
@@ -48,6 +50,9 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
       )}
     </span>
   </a>
+  {description && (
+    <p class="post-card-desc">{description}</p>
+  )}
   {tags.length > 0 && (
     <div class="post-card-tags">
       {tags.map((tag) => (
@@ -108,6 +113,13 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
   .post-card-sep {
     margin-inline: 0.35rem;
+  }
+
+  .post-card-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0.3rem 0 0;
   }
 
   .post-card-tags {

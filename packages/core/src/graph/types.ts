@@ -1,6 +1,7 @@
 export interface GraphNode {
   slug: string;
   title: string;
+  description: string | null;
   collection: string;
   filePath: string;
   contentHash: string;

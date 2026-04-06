@@ -9,15 +9,29 @@ for (const node of nodes) {
   }
 }
 
-const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+// Sort by count descending — reveals content shape
+const tags = Array.from(tagCounts.entries()).sort((a, b) => b[1] - a[1]);
+const maxCount = Math.max(...tags.map(([, c]) => c));
+const totalPosts = nodes.filter((n) => n.date).length;
+
+// Map count to a tier: 0 (rare) → 2 (dominant)
+function tier(count: number): number {
+  const ratio = count / maxCount;
+  if (ratio >= 0.7) return 2;
+  if (ratio >= 0.35) return 1;
+  return 0;
+}
 ---
 
 <BaseLayout title="Tags">
   <div class="tags-page">
-    <h1 class="tags-title">Tags</h1>
-    <div class="tags-grid">
+    <header class="tags-header">
+      <h1 class="tags-title">Tags</h1>
+      <p class="tags-summary">{tags.length} tags across {totalPosts} tales</p>
+    </header>
+    <div class="tags-cloud">
       {tags.map(([tag, count]) => (
-        <a href={`/tags/${tag}`} class="tag-entry">
+        <a href={`/tags/${tag}`} class="tag-entry" data-tier={tier(count)}>
           <span class="tag-name">{tag}</span>
           <span class="tag-count">{count}</span>
         </a>
@@ -26,11 +40,90 @@ const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b
   </div>
 
   <style>
-    .tags-page { max-width: 60rem; margin-inline: auto; }
-    .tags-title { font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; margin-block-end: clamp(2rem, 5vw, 3rem); }
-    .tags-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .tag-entry { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35em 0.8em; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 500; color: var(--color-text-secondary); background-color: var(--color-surface); border-radius: 4px; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease; }
-    .tag-entry:hover { color: var(--color-accent); background-color: var(--color-code-bg); }
-    .tag-count { font-size: 0.75rem; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+    .tags-page {
+      max-width: 60rem;
+      margin-inline: auto;
+    }
+
+    .tags-header {
+      margin-block-end: clamp(2rem, 5vw, 3rem);
+    }
+
+    .tags-title {
+      font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-block-end: 0.5rem;
+    }
+
+    .tags-summary {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.01em;
+      margin: 0;
+    }
+
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.6rem 0.8rem;
+    }
+
+    .tag-entry {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.3em;
+      font-family: var(--font-heading);
+      text-decoration: none;
+      transition: color 0.15s ease;
+      line-height: 1.4;
+    }
+
+    .tag-entry:hover {
+      color: var(--color-accent);
+    }
+
+    .tag-count {
+      font-variant-numeric: tabular-nums;
+      opacity: 0.5;
+    }
+
+    /* ── Tier 0: Rare — small, quiet ── */
+    .tag-entry[data-tier="0"] {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--color-text-tertiary);
+    }
+
+    .tag-entry[data-tier="0"] .tag-count {
+      font-size: 0.7rem;
+    }
+
+    /* ── Tier 1: Mid — medium, present ── */
+    .tag-entry[data-tier="1"] {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .tag-entry[data-tier="1"] .tag-count {
+      font-size: 0.75rem;
+    }
+
+    /* ── Tier 2: Dominant — large, prominent ── */
+    .tag-entry[data-tier="2"] {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+    }
+
+    .tag-entry[data-tier="2"] .tag-count {
+      font-size: 0.8rem;
+      color: var(--color-accent);
+      opacity: 0.7;
+    }
   </style>
 </BaseLayout>
