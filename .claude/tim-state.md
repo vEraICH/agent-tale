@@ -4,47 +4,46 @@
 > It's a snapshot, not a log. Overwrite entirely each session.
 
 ## Current focus
-VRA-Lab V.3 — personalization in progress, V.1 and V.2 completed.
+VRA-Lab V.3 and V.4 completed. Site is live at www.vra-lab.tech.
 
 ## Completed this session
-- Nav logo moved to left side with solid circle background (theme-aware)
-- Light theme nav logo: black circle, white icon via CSS filter
-- Hero constellation: static by default, continuous rotation on hover, bounce-back to origin on hover-out (spring physics JS)
-- Inner SVG animations (globe-spin, node-pulse) use animation-play-state: paused/running
-- Hero grid: pulse on hover (A) + radial cursor reveal (B) via CSS mask + mousemove
-- Responsive nav: hamburger menu at 640px breakpoint, morphs to X
-- Hamburger is 33px circle twin to nav logo, same styling
-- ThemeToggle pulled out of hamburger — always visible
-- Mobile: burger swaps to left (thumb reach), logo to right (order CSS)
-- Nav links right-aligned on desktop (margin-inline-start: auto)
-- Mobile home: constellation hidden, full-width hero text, flat grid, 1-col Working On
-- Consistent 60rem max-width across PostLayout, LessonLayout, tags pages
-- About page (/about) with VRA Lab intro, Agent-Tale section, author bio
-- About link added to desktop nav + mobile hamburger
-- Custom favicon: white logo on black circle, used in BaseLayout + both admin pages
-- New blog post: "Building a Bounce" — CSS animation techniques with code examples
-- Updated welcome.md via admin UI
-- TASKS.md: V.1 and V.2 marked completed
+- About page redesigned: book-style layout (Georgia serif, drop caps, fleurons, small caps, 36rem column)
+- Tim added as co-author on About page with equal presence
+- Tim's avatar: constellation SVG (amber nodes on violet field) — `/images/tim-avatar.svg`
+- AuthorBio component: human/agent variants, shown at bottom of every post
+- `author` field added to content schema (`content.config.ts`) and PostLayout
+- `building-a-bounce.md` tagged with `author: tim`
+- Footer X link updated from vEraICH to raQuiam
+- Astro config: `server: { host: '0.0.0.0' }` for Railway healthcheck
+- Site URL changed to `https://www.vra-lab.tech`
+- Deployed to Railway — live and verified
+- GoDaddy DNS: CNAME (www → Railway), TXT verification, root domain forwarding to www
+- `private-docs/` added to .gitignore, untracked from git
+- Deployment guide updated with full Railway + GoDaddy walkthrough
+- Devlog post: "Equal Footing"
 
 ## Blockers / open questions
-- Favicon SVG transform positioning may need fine-tuning (user said not readable first attempt, switched to high-contrast black/white)
-- X handle set to x.com/vEraICH — confirm if correct
-- Light theme not tested thoroughly beyond nav logo
+- GoDaddy root domain forwarding (vra-lab.tech → www.vra-lab.tech) — set up but may take hours for SSL
+- Light theme not tested thoroughly on production
+- Railway filesystem is ephemeral — admin UI posts lost on redeploy
 
 ## Next session should start with
-- V.3 remaining: author bio component on post pages (if wanted), further content personalization
-- V.4: First deploy to blog.vra-lab.tech (follow private-docs/deployment/vra-lab-railway.md)
-- Post page styling review — code blocks, typography, prose width now at 60rem (may want narrower prose with wider container)
+- Verify root domain forwarding works (vra-lab.tech → www.vra-lab.tech)
+- Post page styling review — code blocks, typography, prose width (60rem container may want narrower prose)
+- Phase 2 tasks: Admin UI file browser (2.3), MCP server (2.5), or other priorities
+- Consider adding `author` field to remaining posts
 
 ## Important context for next Tim
-- Home container: 60rem, site wrapper: 68rem
-- All page layouts now 60rem (PostLayout, LessonLayout, tags)
-- Hero has inline SVG (not <img>) for CSS animation-play-state to work
-- Outer 3D rotation uses JS (requestAnimationFrame) for bounce-back — CSS animation-play-state can't return to origin
-- Grid radial reveal: CSS custom properties --grid-x/--grid-y updated via mousemove, drives mask-image
-- Nav structure: logo | nav-links | ThemeToggle | burger — on mobile, burger order:-1 (left), logo order:1 (right)
-- Mobile menu: .nav-mobile-menu with is-open class toggle via JS
-- Favicon: /brand/vra-lab-favicon.svg (black circle, white logo) — admin pages have own <head>, not BaseLayout
-- About page: /about — standalone Astro page, not a markdown post
-- 5 posts total: welcome.md, threadline.md, the-third-collaborator.md, slow-reading-in-a-fast-model-world.md, building-a-bounce.md
-- Vashira Ravipanich (raQuiam) — product/engineering leader in Thailand, GIS Co., cross-domain background (web → mobile → GIS → product)
+- Site live at: https://www.vra-lab.tech
+- Railway service: @agent-tale/theme-vra-lab (name is misleading — it's the full vra-lab site)
+- Deploy branch: release/vra-lab
+- Root railway.toml has full monorepo build command (core → integration → vra-lab)
+- Railway auto-deploys on push to release/vra-lab
+- GoDaddy domain: vra-lab.tech, DNS managed at godaddy.com
+- CNAME: www → eub2mcnn.up.railway.app
+- private-docs/ is gitignored — deployment guide lives locally only
+- AuthorBio component: packages/theme-vra-lab/src/components/AuthorBio.astro
+- Tim's avatar: examples/vra-lab/public/images/tim-avatar.svg
+- Vashira's avatar: examples/vra-lab/public/images/author-avatar.jpg (from X @raQuiam)
+- 6 posts total (5 original + devlog-equal-footing.md)
+- Vashira is in Thailand, X handle is @raQuiam

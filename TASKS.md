@@ -27,8 +27,8 @@ Personal blog setup for `blog.vra-lab.tech`. These tasks run in parallel with Ph
 | V.2.b | Home: "Currently Building" section | `completed` | V.2 | 3-col grid (1-col on mobile), Agent-Tale + Veil + Threadline |
 | V.2.c | Home: cap posts at 10 + "View all" | `completed` | V.2 | Sliced to 10, "View all tales →" link when >10 posts |
 | V.2.d | Footer: GitHub + X social links | `completed` | V.2 | Inline SVG icons, hover to accent color |
-| V.3 | Personalize VRA Lab content | `pending` | V.2 | About page, author bio, update welcome post |
-| V.4 | First deploy to `blog.vra-lab.tech` | `pending` | V.2, 2.13 | Follow `private-docs/deployment/vra-lab-railway.md` Steps 2–9 |
+| V.3 | Personalize VRA Lab content | `completed` | V.2 | Book-style About page (both authors), AuthorBio component, Tim's constellation avatar, footer X link updated |
+| V.4 | First deploy to `www.vra-lab.tech` | `completed` | V.2, 2.13 | Railway + GoDaddy DNS. Root domain forwards to www. Live and verified. |
 
 ---
 
