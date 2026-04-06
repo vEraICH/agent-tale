@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { nodes } from 'agent-tale:graph';
 
-const SITE = 'https://blog.vra-lab.tech';
+const SITE = 'https://www.vra-lab.tech';
 
 export const GET: APIRoute = () => {
   const posts = nodes.filter((n) => n.date);

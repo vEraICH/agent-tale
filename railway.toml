@@ -1,9 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm install --ignore-scripts && cd packages/core && ../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc && cd ../astro-integration && ../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc && cd ../../examples/vra-lab && ../../node_modules/.pnpm/node_modules/.bin/astro build"
+buildCommand = "pnpm install --ignore-scripts && cd packages/core && ../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc && cd ../astro-integration && ../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc && cd ../../sites/vra-lab && ../../node_modules/.pnpm/node_modules/.bin/astro build"
 
 [deploy]
-startCommand = "node examples/vra-lab/dist/server/entry.mjs"
+startCommand = "node sites/vra-lab/dist/server/entry.mjs"
 healthcheckPath = "/"
 healthcheckTimeout = 60
 restartPolicyType = "on_failure"

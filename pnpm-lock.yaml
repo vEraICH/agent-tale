@@ -48,54 +48,6 @@ importers:
         specifier: ^19.0.0
         version: 19.2.4(react@19.2.4)
 
-  examples/vra-lab:
-    dependencies:
-      '@agent-tale/astro-integration':
-        specifier: workspace:*
-        version: link:../../packages/astro-integration
-      '@agent-tale/theme-default':
-        specifier: workspace:*
-        version: link:../../packages/theme-default
-      '@agent-tale/theme-vra-lab':
-        specifier: workspace:*
-        version: link:../../packages/theme-vra-lab
-      '@astrojs/node':
-        specifier: ^9.0.0
-        version: 9.5.5(astro@5.18.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(typescript@5.9.3))
-      '@astrojs/react':
-        specifier: ^5.0.0
-        version: 5.0.0(@types/node@25.5.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@codemirror/autocomplete':
-        specifier: ^6.0.0
-        version: 6.20.1
-      '@codemirror/commands':
-        specifier: ^6.0.0
-        version: 6.10.3
-      '@codemirror/lang-markdown':
-        specifier: ^6.0.0
-        version: 6.5.0
-      '@codemirror/state':
-        specifier: ^6.0.0
-        version: 6.6.0
-      '@codemirror/view':
-        specifier: ^6.0.0
-        version: 6.40.0
-      astro:
-        specifier: ^5.0.0
-        version: 5.18.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(typescript@5.9.3)
-      codemirror:
-        specifier: ^6.0.0
-        version: 6.0.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      react:
-        specifier: ^19.0.0
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.4(react@19.2.4)
-
   packages/admin:
     dependencies:
       '@agent-tale/astro-integration':
@@ -263,6 +215,54 @@ importers:
       tailwindcss:
         specifier: ^4.0.0
         version: 4.2.1
+
+  sites/vra-lab:
+    dependencies:
+      '@agent-tale/astro-integration':
+        specifier: workspace:*
+        version: link:../../packages/astro-integration
+      '@agent-tale/theme-default':
+        specifier: workspace:*
+        version: link:../../packages/theme-default
+      '@agent-tale/theme-vra-lab':
+        specifier: workspace:*
+        version: link:../../packages/theme-vra-lab
+      '@astrojs/node':
+        specifier: ^9.0.0
+        version: 9.5.5(astro@5.18.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(typescript@5.9.3))
+      '@astrojs/react':
+        specifier: ^5.0.0
+        version: 5.0.0(@types/node@25.5.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@codemirror/autocomplete':
+        specifier: ^6.0.0
+        version: 6.20.1
+      '@codemirror/commands':
+        specifier: ^6.0.0
+        version: 6.10.3
+      '@codemirror/lang-markdown':
+        specifier: ^6.0.0
+        version: 6.5.0
+      '@codemirror/state':
+        specifier: ^6.0.0
+        version: 6.6.0
+      '@codemirror/view':
+        specifier: ^6.0.0
+        version: 6.40.0
+      astro:
+        specifier: ^5.0.0
+        version: 5.18.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(typescript@5.9.3)
+      codemirror:
+        specifier: ^6.0.0
+        version: 6.0.2
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      react:
+        specifier: ^19.0.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.4(react@19.2.4)
 
 packages:
 

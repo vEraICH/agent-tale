@@ -17,7 +17,7 @@
 
 ## Set-up-VRA-Lab — High Priority
 
-Personal blog setup for `blog.vra-lab.tech`. These tasks run in parallel with Phase 2 work.
+Personal blog setup for `www.vra-lab.tech`. These tasks run in parallel with Phase 2 work.
 
 | # | Task | Status | Depends | Notes |
 |---|---|---|---|---|
