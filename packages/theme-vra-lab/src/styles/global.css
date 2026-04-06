@@ -116,6 +116,24 @@ a[data-wikilink]:hover {
   opacity: 0.85;
 }
 
+/* ─── Shiki dual theme ─── */
+
+:root .astro-code,
+:root .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+[data-theme="light"] .astro-code,
+[data-theme="light"] .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+}
+
+.astro-code {
+  background-color: var(--color-code-bg) !important;
+}
+
 /* ─── Prose serif layer ─── */
 
 .prose {

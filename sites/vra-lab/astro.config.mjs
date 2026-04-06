@@ -8,6 +8,15 @@ export default defineConfig({
   site: 'https://www.vra-lab.tech',
   adapter: node({ mode: 'standalone' }),
   server: { host: '0.0.0.0' },
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+      defaultColor: false,
+    },
+  },
   integrations: [
     react(),
     agentTale({ contentDir: './content' }),

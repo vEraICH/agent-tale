@@ -13,13 +13,27 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const backlinks = getBacklinks(post.id);
 
 const readingTime = (post as any).data?.readingTime?.minutes
   ?? (post.body ? Math.max(1, Math.ceil(post.body.split(/\s+/).length / 238)) : null);
 
 const isLesson = post.data.type === 'lesson';
+
+// Compute prev/next by date
+const allPosts = (await getCollection('posts'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const currentIndex = allPosts.findIndex((p) => p.id === post.id);
+const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+
+const postNav = {
+  prev: prevPost ? { slug: prevPost.id, title: prevPost.data.title } : null,
+  next: nextPost ? { slug: nextPost.id, title: nextPost.data.title } : null,
+};
 ---
 
 {isLesson ? (
@@ -49,6 +63,8 @@ const isLesson = post.data.type === 'lesson';
     confidence={post.data.confidence}
     minutesRead={readingTime}
     backlinks={backlinks}
+    postNav={postNav}
+    headings={headings}
   >
     <Content />
   </PostLayout>

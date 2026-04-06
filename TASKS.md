@@ -32,6 +32,46 @@ Personal blog setup for `www.vra-lab.tech`. These tasks run in parallel with Pha
 
 ---
 
+## VRA-Lab Building — Make It Outstanding
+
+Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/research/gap-analysis.md`
+
+### Sprint 1 — Reading Experience (quick wins)
+
+| # | Task | Status | Depends | Context Doc | Notes |
+|---|---|---|---|---|---|
+| vra-1 | Copy code button on all `<pre>` blocks | `pending` | — | `docs/research/gap-analysis.md` | One-click copy, visual feedback. Table-stakes for dev blogs. |
+| vra-2 | Next/previous post navigation | `pending` | — | `docs/research/gap-analysis.md` | Date-ordered prev/next links at bottom of every post. Biggest engagement lever. |
+| vra-3 | Shiki dual theme (light + dark code blocks) | `pending` | — | `docs/research/gap-analysis.md` | Use Astro's `markdown.shikiConfig.themes` for theme-aware syntax highlighting. |
+| vra-4 | Reading progress indicator | `pending` | — | `docs/research/gap-analysis.md` | Thin accent bar at viewport top, tracks scroll through post content. |
+| vra-5 | Table of contents for long posts | `pending` | — | `docs/research/gap-analysis.md` | Auto-generated from headings. Show on posts with 3+ headings. Sticky sidebar or collapsible top. |
+
+### Sprint 2 — SEO & Discoverability
+
+| # | Task | Status | Depends | Context Doc | Notes |
+|---|---|---|---|---|---|
+| vra-6 | JSON-LD structured data (BlogPosting) | `pending` | — | `docs/research/gap-analysis.md` | Schema.org BlogPosting on every post page. Title, date, author, description. |
+| vra-7 | Dynamic OG image generation | `pending` | — | `docs/research/gap-analysis.md` | Satori/resvg at build time. Branded image with post title + date. Every post gets one. |
+| vra-8 | Search (site-wide) | `pending` | — | `docs/research/gap-analysis.md` | Pagefind or similar. Search by title, tags, content. Accessible from nav. |
+
+### Sprint 3 — Digital Garden Identity (differentiator)
+
+| # | Task | Status | Depends | Context Doc | Notes |
+|---|---|---|---|---|---|
+| vra-9 | Wikilink hover previews | `pending` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~100 words. THE digital garden feature. |
+| vra-10 | Connection indicators on post cards | `pending` | — | `docs/research/gap-analysis.md` | Show connection count on PostCard for posts with 2+ links. |
+| vra-11 | Post neighborhood mini-graph | `pending` | vra-9 | `docs/research/gap-analysis.md` | Small force-directed graph on each post showing local neighborhood (depth 1-2). |
+| vra-12 | Related posts by graph proximity | `pending` | vra-10 | `docs/research/gap-analysis.md` | "Connected tales" section: 3-5 closest posts by graph distance, not just tags. |
+
+### Sprint 4 — Engagement & Content
+
+| # | Task | Status | Depends | Context Doc | Notes |
+|---|---|---|---|---|---|
+| vra-13 | Newsletter signup (Buttondown or Resend) | `pending` | — | `docs/research/gap-analysis.md` | Simple email form in footer or post footer. |
+| vra-14 | Post series / collections | `pending` | — | `docs/research/gap-analysis.md` | Frontmatter `series` + `seriesOrder`. Series nav at top of post. |
+
+---
+
 ## Phase 1 — Core Loop (MVP Weekend)
 
 These tasks produce: `npx create-agent-tale` → working blog with wikilinks + backlinks + graph.
