@@ -54,6 +54,12 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 | vra-7 | Dynamic OG image generation | `completed` | — | `docs/research/gap-analysis.md` | Satori/resvg at build time. Branded image with post title + date. Every post gets one. |
 | vra-8 | Search (site-wide) | `pending` | — | `docs/research/gap-analysis.md` | Pagefind or similar. Search by title, tags, content. Accessible from nav. |
 
+### Infra — Root Domain SSL
+
+| # | Task | Status | Depends | Notes |
+|---|---|---|---|---|
+| vra-18 | Fix `vra-lab.tech` root domain HTTPS | `pending` | — | GoDaddy forwarding doesn't support SSL. Migrate to Cloudflare (recommended) or add root domain to Railway with redirect. |
+
 ### Sprint 2.5 — LLM-Friendly Content (differentiator, low effort)
 
 | # | Task | Status | Depends | Context Doc | Notes |

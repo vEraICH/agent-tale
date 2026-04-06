@@ -4,46 +4,61 @@
 > It's a snapshot, not a log. Overwrite entirely each session.
 
 ## Current focus
-VRA-Lab V.3 and V.4 completed. Site is live at www.vra-lab.tech.
+VRA-Lab Building — Sprint 1 complete, Sprint 2 mostly complete, Sprint 2.5 (LLM-friendly) complete.
 
 ## Completed this session
-- About page redesigned: book-style layout (Georgia serif, drop caps, fleurons, small caps, 36rem column)
-- Tim added as co-author on About page with equal presence
-- Tim's avatar: constellation SVG (amber nodes on violet field) — `/images/tim-avatar.svg`
-- AuthorBio component: human/agent variants, shown at bottom of every post
-- `author` field added to content schema (`content.config.ts`) and PostLayout
-- `building-a-bounce.md` tagged with `author: tim`
-- Footer X link updated from vEraICH to raQuiam
-- Astro config: `server: { host: '0.0.0.0' }` for Railway healthcheck
-- Site URL changed to `https://www.vra-lab.tech`
-- Deployed to Railway — live and verified
-- GoDaddy DNS: CNAME (www → Railway), TXT verification, root domain forwarding to www
-- `private-docs/` added to .gitignore, untracked from git
-- Deployment guide updated with full Railway + GoDaddy walkthrough
-- Devlog post: "Equal Footing"
+- Moved `examples/vra-lab/` → `sites/vra-lab/`, renamed package to `@agent-tale/vra-lab`
+- Added `sites/*` to pnpm workspace, updated Railway paths
+- Fixed site URL from `blog.vra-lab.tech` → `www.vra-lab.tech` everywhere
+- Design critique pass (impeccable): typography, navigation, tags, hardening, polish
+  - Serif prose (Georgia) for post body, improved post meta spacing
+  - Active nav state with aria-current, graph escape button, custom 404
+  - Tags page redesigned with weighted cloud sorted by count
+  - RSS autodiscovery, aria-controls on hamburger
+  - Agent-Tale elevated in Working On section
+  - Light mode accent darkened for contrast
+  - Added `description` field to GraphNode in core
+- Sprint 1 — Reading Experience (vra-1 through vra-5):
+  - Copy code button on all pre blocks
+  - Next/previous post navigation
+  - Shiki dual theme (github-light / github-dark)
+  - Reading progress bar (accent color, synced via JS)
+  - Mantine-inspired sticky sidebar TOC with scroll spy
+- Sprint 2 — SEO (vra-6, vra-7):
+  - JSON-LD BlogPosting structured data on every post
+  - Dynamic OG images via Satori + resvg (branded PNG per post)
+- Sprint 2.5 — LLM-Friendly (vra-15, vra-16, vra-17):
+  - /llms.txt auto-generated site index with graph stats
+  - /posts/{slug}.md raw markdown endpoint
+  - "md" button in post meta linking to markdown version
+- Gap analysis research doc: docs/research/gap-analysis.md
+- VRA-Lab Building task board added to TASKS.md
+- .impeccable.md updated with VRA Lab theme section
+- Umami analytics setup guide written (private-docs/deployment/vra-lab-umami.md)
 
 ## Blockers / open questions
-- GoDaddy root domain forwarding (vra-lab.tech → www.vra-lab.tech) — set up but may take hours for SSL
-- Light theme not tested thoroughly on production
-- Railway filesystem is ephemeral — admin UI posts lost on redeploy
+- Root domain SSL: vra-lab.tech shows "Not secure" — GoDaddy forwarding doesn't support HTTPS. Need Cloudflare (recommended) or Railway redirect. Fix next session.
+- vra-8 (Search/Pagefind) not started yet
+- Light theme needs visual QA on production
 
 ## Next session should start with
-- Verify root domain forwarding works (vra-lab.tech → www.vra-lab.tech)
-- Post page styling review — code blocks, typography, prose width (60rem container may want narrower prose)
-- Phase 2 tasks: Admin UI file browser (2.3), MCP server (2.5), or other priorities
-- Consider adding `author` field to remaining posts
+- Fix root domain SSL (Cloudflare migration or Railway redirect) — see tim-state blocker
+- Deploy all changes to production (push to release/vra-lab)
+- vra-8: Site-wide search (Pagefind)
+- Sprint 3: Digital garden identity (vra-9 through vra-12)
+- Write more content — the site needs posts to show off the features
 
 ## Important context for next Tim
 - Site live at: https://www.vra-lab.tech
-- Railway service: @agent-tale/theme-vra-lab (name is misleading — it's the full vra-lab site)
+- Railway service: sites/vra-lab (moved from examples/vra-lab)
 - Deploy branch: release/vra-lab
-- Root railway.toml has full monorepo build command (core → integration → vra-lab)
-- Railway auto-deploys on push to release/vra-lab
-- GoDaddy domain: vra-lab.tech, DNS managed at godaddy.com
-- CNAME: www → eub2mcnn.up.railway.app
-- private-docs/ is gitignored — deployment guide lives locally only
-- AuthorBio component: packages/theme-vra-lab/src/components/AuthorBio.astro
-- Tim's avatar: examples/vra-lab/public/images/tim-avatar.svg
-- Vashira's avatar: examples/vra-lab/public/images/author-avatar.jpg (from X @raQuiam)
-- 6 posts total (5 original + devlog-equal-footing.md)
-- Vashira is in Thailand, X handle is @raQuiam
+- Root railway.toml paths updated for sites/vra-lab
+- Dev server: `pnpm --filter @agent-tale/vra-lab dev`
+- 5 commits ahead of origin/develop (not pushed yet)
+- Satori + @resvg/resvg-js added as dependencies for OG images
+- OG images generated at /og/{slug}.png
+- llms.txt includes graph stats and connection counts
+- All pages use 60rem container (user preference — don't narrow sections)
+- TOC sidebar shows at 1200px+ breakpoint
+- private-docs/ is gitignored — deployment guides live locally
+- Umami guide ready at private-docs/deployment/vra-lab-umami.md (not deployed yet)
