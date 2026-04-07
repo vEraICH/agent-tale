@@ -12,7 +12,7 @@ const posts = defineCollection({
     agent: z.string().optional(),
     confidence: z.number().min(0).max(1).optional(),
     draft: z.boolean().default(false),
-    type: z.enum(['post', 'lesson', 'dialogue', 'knowledge']).default('post'),
+    type: z.enum(['post', 'lesson', 'dialogue', 'knowledge', 'devlog']).default('post'),
     // bi-temporal memory fields (mem-2)
     valid_until: z.coerce.date().optional(),
     superseded_by: z.string().optional(),
