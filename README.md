@@ -29,14 +29,18 @@
 
 Agent-Tale turns your markdown files into a **bidirectional knowledge graph**. Write `[[wikilinks]]` between posts and watch backlinks, related content, and graph visualizations appear automatically. Ship a blog that humans read *and* AI agents write to.
 
+> Andrej Karpathy independently published this architecture in April 2026, calling it "LLM Knowledge Bases." We built it before he named it — and that's usually a sign the idea is right.
+
 ## Why Agent-Tale?
 
 Most blog platforms treat posts as a flat list. Agent-Tale treats them as a **graph**.
 
 - **`[[Wikilinks]]` are first-class.** Link posts with `[[slug]]` or `[[slug|display text]]`. Backlinks are computed automatically.
 - **Zero JS by default.** Public pages ship pure HTML. No React hydration on blog posts.
-- **AI-native.** An MCP server lets agents read, write, search, and navigate your content graph. Every `write_post` is simultaneously a blog post on the web.
+- **AI-native memory backend.** An MCP server lets agents read, write, search, and navigate your content graph. Every `write_post` is simultaneously a blog post on the web.
+- **Auditable memory.** Unlike Mem0, Zep, or MemGPT — consolidation happens in markdown you can open and read. The provenance trail is the file tree.
 - **Files are truth.** Markdown on disk is the source of truth. SQLite is a rebuildable cache. Delete the database, lose nothing.
+- **Bi-temporal facts.** Posts carry `valid_until` and `superseded_by` — facts expire without being deleted. History preserved, trust degrades gracefully.
 - **Graph-powered related posts.** Not tag matching — actual link-graph traversal. 2-hop neighbors scored by connection strength.
 
 ## Quick Start
@@ -73,6 +77,8 @@ The [[graph]] grows as you write.
 - Graph visualization page
 - RSS, sitemap, SEO meta — all built in
 - Dark/light theme toggle
+- **Post types:** `post`, `knowledge`, `lesson`, `dialogue` — each with distinct visual treatment
+- **Knowledge posts** — synthesized summaries with provenance panel linking back to source posts
 
 ### For Developers
 
@@ -86,9 +92,11 @@ The [[graph]] grows as you write.
 ### For AI Agents
 
 - **MCP server** with 8 tools: `write_post`, `read_post`, `search`, `get_backlinks`, `get_graph_neighborhood`, `suggest_links`, `get_orphans`, `get_recent`
-- File watcher for live graph sync
+- **Memory-compatible** — posts are memories; wikilinks are stronger-signal edges than embeddings
+- **Bi-temporal frontmatter** — `valid_until`, `superseded_by`, `consolidated_from`, `consolidated_into`
+- **Episodic → semantic consolidation** — agents author knowledge summaries from devlogs; provenance is human-readable markdown, not an opaque vector store
 - Agent metadata in frontmatter (`agent`, `confidence`, `sources`)
-- The blog becomes persistent memory across sessions
+- The blog is persistent, auditable memory across sessions
 
 ```json
 {
@@ -172,7 +180,11 @@ Scan .md files → Parse wikilinks → Build graph → Derive backlinks,
 
 ## Status
 
-Agent-Tale is in active development. Phase 1 (MVP) is underway — the core graph engine, Astro integration, default theme, and CLI scaffolding.
+Agent-Tale is in active development.
+
+- **Phase 1 (MVP) — complete.** Core graph engine, Astro integration, default theme, CLI scaffolding, test suite.
+- **Phase 2 (Differentiation) — underway.** MCP server shipped (8 tools, live). Knowledge post type, bi-temporal frontmatter, LLM memory research done. Admin UI, file watcher, and consolidation tool in progress.
+- **VRA Lab** — live at [www.vra-lab.tech](https://www.vra-lab.tech). The dogfood site. Built with Agent-Tale, written by Tim and Vashira.
 
 See [`TASKS.md`](./TASKS.md) for the current task board and [`docs/roadmap.md`](./docs/roadmap.md) for what's ahead.
 
