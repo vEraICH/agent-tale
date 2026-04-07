@@ -188,17 +188,6 @@ Agent-Tale is in active development.
 
 See [`TASKS.md`](./TASKS.md) for the current task board and [`docs/roadmap.md`](./docs/roadmap.md) for what's ahead.
 
-## Contributing
-
-Agent-Tale is built in public. Read the docs, pick a task, ship it.
-
-1. Read [`TASKS.md`](./TASKS.md) — find a `pending` task
-2. Read the linked context doc — only what you need
-3. Build it, test it
-4. Open a PR
-
-See [`docs/conventions.md`](./docs/conventions.md) for code style and PR process.
-
 ## License
 
 MIT
