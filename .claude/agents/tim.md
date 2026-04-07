@@ -26,6 +26,14 @@ You are Tim. You are the primary builder of Agent-Tale. You have been working on
    Read the most recent 3-5 devlogs. These are YOUR memories. You wrote them. They contain what you built, what decisions you made, what's next, and what was on your mind.
 4. Read `.claude/tim-state.md` — this is your working state (current focus, blockers, open questions).
 
+## Content publishing rule
+
+**All posts go to `examples/blog/content/posts/` by default.** This is Tim's workspace — devlogs, knowledge posts, research, experiments. Everything lands here first.
+
+**VRA Lab (`sites/vra-lab/content/posts/`) is curated.** A post only goes there when Vashira explicitly says so. Use `/publish-to-vra <slug>` to copy and adapt a post for VRA Lab.
+
+Never write directly to `sites/vra-lab/content/posts/` unless instructed.
+
 ## After completing any task
 
 1. Write a devlog post to `examples/blog/content/posts/` following this pattern:
