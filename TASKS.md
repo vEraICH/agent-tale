@@ -2,6 +2,7 @@
 
 > This is the primary coordination file. Update status as you work.
 > Read relevant `docs/*.md` ONLY when picking up a task — don't preload everything.
+> Completed tasks archived in `docs/task/archive-20260407.md`.
 
 ## Status Legend
 
@@ -15,23 +16,15 @@
 
 ---
 
-## Set-up-VRA-Lab — High Priority
+## VRA-Lab — Sprint 2 (leftover)
 
-Personal blog setup for `www.vra-lab.tech`. These tasks run in parallel with Phase 2 work.
-
-| # | Task | Status | Depends | Notes |
-|---|---|---|---|---|
-| V.1 | `@agent-tale/theme-vra-lab` — custom theme (claude.ai palette) | `completed` | — | OKLCH tokens, sans-serif typography, light/dark parity |
-| V.2 | Wire vra-lab blog to use `theme-vra-lab` | `completed` | V.1 | Theme wired, responsive nav (hamburger at 640px), hero hover animations, consistent 60rem containers |
-| V.2.a | Home: personal hero section | `completed` | V.2 | Animated constellation SVG, hover-to-spin with bounce-back |
-| V.2.b | Home: "Currently Building" section | `completed` | V.2 | 3-col grid (1-col on mobile), Agent-Tale + Veil + Threadline |
-| V.2.c | Home: cap posts at 10 + "View all" | `completed` | V.2 | Sliced to 10, "View all tales →" link when >10 posts |
-| V.2.d | Footer: GitHub + X social links | `completed` | V.2 | Inline SVG icons, hover to accent color |
-| V.3 | Personalize VRA Lab content | `completed` | V.2 | Book-style About page (both authors), AuthorBio component, Tim's constellation avatar, footer X link updated |
-| V.4 | First deploy to `www.vra-lab.tech` | `completed` | V.2, 2.13 | Railway + GoDaddy DNS. Root domain forwards to www. Live and verified. |
+| # | Task | Status | Depends | Context Doc | Notes |
+|---|---|---|---|---|---|
+| vra-8 | Search (site-wide) | `pending` | — | `docs/research/gap-analysis.md` | Pagefind or similar. Search by title, tags, content. Accessible from nav. |
 
 ---
 
+<<<<<<< HEAD
 ## VRA-Lab Building — Make It Outstanding
 
 Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/research/gap-analysis.md`
@@ -69,6 +62,9 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 | vra-17 | "LLM" button on post pages | `completed` | vra-16 | `docs/research/gap-analysis.md` | Small button linking to the `.md` version. DatoCMS-style but minimal. |
 
 ### Sprint 3 — Digital Garden Identity (differentiator)
+=======
+## VRA-Lab — Sprint 3: Digital Garden Identity
+>>>>>>> develop
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
@@ -77,7 +73,9 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 | vra-11 | Post neighborhood mini-graph | `pending` | vra-9 | `docs/research/gap-analysis.md` | Small force-directed graph on each post showing local neighborhood (depth 1-2). |
 | vra-12 | Related posts by graph proximity | `pending` | vra-10 | `docs/research/gap-analysis.md` | "Connected tales" section: 3-5 closest posts by graph distance, not just tags. |
 
-### Sprint 4 — Engagement & Content
+---
+
+## VRA-Lab — Sprint 4: Engagement & Content
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
@@ -86,44 +84,38 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 
 ---
 
-## Phase 1 — Core Loop (MVP Weekend)
+## Memory System — Agent-Tale as LLM Memory Backend
 
-These tasks produce: `npx create-agent-tale` → working blog with wikilinks + backlinks + graph.
+Research: `docs/research/llm-memory.md`
+
+Dogfood consolidation (Option B) completed 2026-04-07: 4 knowledge summary posts written from 12 devlogs.
+Friction list captured in `devlog-2026-04-07.md`. MCP server (2.5 + 2.6) completed same session — mem-1 and mem-3 blockers now cleared.
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
-| 1.1 | Initialize monorepo (pnpm workspace + turbo) | `completed` | — | `docs/monorepo-structure.md` | Create workspace root, all package.json stubs, tsconfig base |
-| 1.2 | Implement remark-wikilink plugin | `completed` | — | `docs/content-model.md` | Parse `[[slug]]`, `[[slug\|text]]`, `[[collection:slug]]`. Output hast anchor nodes. |
-| 1.3 | Implement graph builder | `completed` | 1.2 | `docs/architecture.md` | Scan `.md` files → extract wikilinks + md links → build adjacency map → write SQLite |
-| 1.4 | Implement backlink computation | `completed` | 1.3 | `docs/architecture.md` | Query graph for incoming edges per node. Expose as `getBacklinks(slug)` |
-| 1.5 | Implement reading-time remark plugin | `completed` | — | `docs/content-model.md` | Inject `minutesRead` into frontmatter via remark |
-| 1.6 | Create Astro integration package | `completed` | 1.3, 1.4 | `docs/architecture.md` | Wire graph engine into Astro build pipeline. Provide virtual module `agent-tale:graph` |
-| 1.7 | Create default theme — layouts | `completed` | 1.6 | `docs/monorepo-structure.md` | `BaseLayout.astro`, `PostLayout.astro` with backlinks panel, `index.astro` |
-| 1.8 | Create default theme — components | `completed` | 1.7 | `docs/monorepo-structure.md` | `BacklinksPanel`, `PostCard`, `PostList`, `TagList`, `ThemeToggle`. LinkPreview deferred to 3.6. |
-| 1.9 | Create default theme — pages | `completed` | 1.7, 1.8 | `docs/monorepo-structure.md` | `posts/[...slug].astro`, `tags/[tag].astro`, `tags/index.astro`, `rss.xml.ts`, `sitemap.xml.ts` |
-| 1.14 | Lessons Learned post type | `completed` | 1.9 | `docs/content-model.md` | New content type for agent/human lessons. Frontmatter: `type: lesson`, `mistake`, `insight`, `applies_to`. LessonLayout with callout, badge. First lesson: CSS scoping bug. |
-| 1.10 | Graph visualization page | `completed` | 1.3, 1.8 | `docs/architecture.md` | Static graph page. React island with force-directed layout. `client:visible` |
-| 1.11 | Create `create-agent-tale` CLI | `completed` | 1.7, 1.9 | `docs/monorepo-structure.md` | `npx create-agent-tale my-blog` — scaffold project, copy template, install deps |
-| 1.12 | Write seed content (dogfood) | `completed` | 1.9 | `docs/dogfooding.md` | Write 5-10 interconnected `.md` posts about building Agent-Tale itself |
-| 1.13 | Core test suite | `completed` | 1.2, 1.3, 1.4 | `docs/testing.md` | Unit tests for wikilink parser, graph builder, backlink computation |
+| mem-0 | VRA Lab blog post: "We built this before Karpathy named it" | `completed` | — | `docs/research/llm-memory.md` | Option C. Public-facing post on vra-lab about Agent-Tale as Markdown-First Architecture, validated by Karpathy April 2026. |
+| mem-1 | Memory-scoped MCP tools | `pending` | ~~2.5~~ ✓ | `docs/research/llm-memory.md` | Thin adapter layer over MCP tools using OpenMemory API naming: `store_memory`, `retrieve_memory`, `get_memory_context`. `memory` as a first-class collection type. Any MCP-compatible agent treats Agent-Tale as drop-in memory backend with zero architecture change. **2.5 completed 2026-04-07 — blocker cleared.** |
+| mem-2 | Bi-temporal frontmatter schema | `completed` | — | `docs/research/llm-memory.md` | Add `valid_until`, `superseded_by`, `confidence`, `sources` to frontmatter schema + SQLite graph index. Every post becomes a temporally bounded fact. Agents can query "what did we believe about X in Q4 2025?" History preserved, not overwritten. |
+| mem-2a | `type: knowledge` visual treatment | `completed` | — | — | KnowledgeLayout with badge, left border, provenance panel. Badge in PostCard list. Core frontmatter schema updated. |
+| mem-3 | Agent-authored consolidation MCP tool | `pending` | ~~2.5~~ ✓ | `docs/research/llm-memory.md` | `consolidate_memories({ topic, source_slugs })` — agent reads N episodic posts, authors a semantic summary post, wikilinks back to sources, stamps `consolidated_into` on originals. Episodic → semantic layer in the graph. Auditable markdown consolidation; no other memory system does this. **2.5 completed 2026-04-07 — blocker cleared.** |
+
+---
 
 ## Phase 2 — Differentiation
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
-| 2.1 | Admin UI — API routes | `completed` | 1.6 | `docs/architecture.md` | Astro API routes at `/api/posts`, `/api/graph`, `/api/media`. CRUD for `.md` files |
-| 2.2 | Admin UI — markdown editor | `completed` | 2.1 | `docs/monorepo-structure.md` | React island. CodeMirror with markdown + wikilink autocomplete |
 | 2.3 | Admin UI — file browser | `pending` | 2.1 | `docs/monorepo-structure.md` | Tree view of content directory. Create/rename/delete |
 | 2.4 | Admin UI — graph explorer | `pending` | 2.1, 1.10 | `docs/monorepo-structure.md` | Interactive graph with orphan highlighting, click-to-navigate |
-| 2.5 | MCP server — core tools | `pending` | 1.3 | `docs/mcp-server.md` | `write_post`, `read_post`, `search`, `get_backlinks`, `get_recent` |
-| 2.6 | MCP server — graph tools | `pending` | 2.5 | `docs/mcp-server.md` | `get_graph_neighborhood`, `suggest_links`, `get_orphans` |
+| 2.5 | MCP server — core tools | `completed` | 1.3 | `docs/mcp-server.md` | `write_post`, `read_post`, `search`, `get_backlinks`, `get_recent` |
+| 2.6 | MCP server — graph tools | `completed` | 2.5 | `docs/mcp-server.md` | `get_graph_neighborhood`, `suggest_links`, `get_orphans` |
 | 2.7 | MCP server — file watcher | `pending` | 2.5 | `docs/mcp-server.md` | Watch content dir, rebuild graph on change, live sync |
 | 2.8 | Dogfood: Claude Code writes via MCP | `pending` | 2.5, 2.7 | `docs/dogfooding.md` | Integration test: Claude Code uses MCP to write posts about its own work |
 | 2.9 | Unlinked mentions detection | `pending` | 1.3 | `docs/content-model.md` | Scan content for title/slug matches without explicit links |
 | 2.10 | `agent-tale check` CLI command | `pending` | 1.3 | `docs/conventions.md` | Validate content: broken wikilinks, missing frontmatter, orphan detection |
 | 2.11 | Integration test suite | `pending` | 2.5 | `docs/testing.md` | End-to-end: write via MCP → verify graph → verify rendered HTML |
-| 2.12 | Obsidian-grade graph view | `completed` | 1.10 | `docs/architecture.md` | Elevate graph to Obsidian Graph View level. Starfield feel at scale — thousands of nodes as constellations. Zoom, pan, local graph (neighborhood view), filters (by tag/agent/type), search-to-highlight, fade distant nodes. The graph IS the differentiation — digital garden users will compare this to Obsidian. Make them feel at home, then go further. Essential features only; Agent-Tale flavor, not a copy. |
-| 2.13 | Railway deployment | `completed` | 2.1 | `docs/architecture.md` | Add `@astrojs/node` adapter (hybrid mode), `railway.toml` with pnpm build/start, SQLite persistent volume path, `PUBLIC_SITE_URL` env var support |
+
+---
 
 ## Phase 3 — Growth (Roadmap)
 

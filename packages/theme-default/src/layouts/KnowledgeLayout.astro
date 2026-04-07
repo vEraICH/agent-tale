@@ -1,0 +1,272 @@
+---
+/**
+ * KnowledgeLayout — Layout for synthesized knowledge posts.
+ *
+ * Visually distinct from devlogs: a "Knowledge" badge, a "Synthesized from"
+ * provenance section listing source posts, and a graph-node left accent.
+ *
+ * Knowledge posts are the semantic layer — distilled from episodic devlogs
+ * by the LLM librarian. They represent what we currently know, not what
+ * happened. The provenance trail is the trust model.
+ */
+import BaseLayout from './BaseLayout.astro';
+import TagList from '../components/TagList.astro';
+import BacklinksPanel from '../components/BacklinksPanel.astro';
+
+interface BacklinkRef {
+  slug: string;
+  title: string;
+}
+
+interface Props {
+  title: string;
+  date: string;
+  description?: string;
+  tags?: string[];
+  agent?: string | null;
+  confidence?: number | null;
+  minutesRead?: number | null;
+  consolidated_from?: string[];
+  sources?: string[];
+  backlinks?: BacklinkRef[];
+  ogImage?: string;
+}
+
+const {
+  title,
+  date,
+  description,
+  tags = [],
+  agent,
+  confidence,
+  minutesRead,
+  consolidated_from = [],
+  sources = [],
+  backlinks = [],
+  ogImage,
+} = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const confidenceLabel = confidence != null
+  ? `${Math.round(confidence * 100)}% confidence`
+  : null;
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <article class="knowledge">
+    <header class="knowledge-header">
+      <span class="knowledge-badge">Knowledge</span>
+      <h1 class="knowledge-title">{title}</h1>
+
+      <div class="knowledge-meta">
+        <time datetime={date}>{formattedDate}</time>
+        {minutesRead && (
+          <>
+            <span class="knowledge-meta-sep" aria-hidden="true">&middot;</span>
+            <span>{minutesRead} min read</span>
+          </>
+        )}
+        {agent && (
+          <>
+            <span class="knowledge-meta-sep" aria-hidden="true">&middot;</span>
+            <span class="knowledge-agent">{agent}</span>
+          </>
+        )}
+        {confidenceLabel && (
+          <>
+            <span class="knowledge-meta-sep" aria-hidden="true">&middot;</span>
+            <span class="knowledge-confidence">{confidenceLabel}</span>
+          </>
+        )}
+      </div>
+    </header>
+
+    {consolidated_from.length > 0 && (
+      <div class="knowledge-provenance">
+        <span class="knowledge-provenance-label">Synthesized from</span>
+        <div class="knowledge-provenance-links">
+          {consolidated_from.map((slug) => (
+            <a href={`/posts/${slug}`} class="knowledge-provenance-link">{slug}</a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="prose knowledge-content">
+      <slot />
+    </div>
+
+    {sources.length > 0 && (
+      <div class="knowledge-sources">
+        <span class="knowledge-sources-label">Sources</span>
+        <ul class="knowledge-sources-list">
+          {sources.map((src) => (
+            <li><a href={src} target="_blank" rel="noopener noreferrer">{src}</a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <footer class="knowledge-footer">
+      <TagList tags={tags} variant="pill" />
+    </footer>
+
+    <BacklinksPanel backlinks={backlinks} />
+  </article>
+
+  <style>
+    .knowledge {
+      max-width: 42rem;
+      margin-inline: auto;
+    }
+
+    /* ─── Header ─── */
+
+    .knowledge-header {
+      margin-block-end: clamp(1.5rem, 4vw, 2.5rem);
+      padding-inline-start: 1.25rem;
+      border-inline-start: 3px solid var(--knowledge-accent, oklch(0.6 0.18 260));
+    }
+
+    .knowledge-badge {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--knowledge-accent, oklch(0.6 0.18 260));
+      border: 1.5px solid var(--knowledge-accent, oklch(0.6 0.18 260));
+      border-radius: 3px;
+      padding: 0.2em 0.6em;
+      margin-block-end: 0.75rem;
+    }
+
+    .knowledge-title {
+      font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-block-end: 0.75rem;
+    }
+
+    .knowledge-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      font-family: var(--font-heading);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .knowledge-meta-sep {
+      margin-inline: 0.5rem;
+      color: var(--color-text-tertiary);
+    }
+
+    .knowledge-agent {
+      font-weight: 500;
+    }
+
+    .knowledge-confidence {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── Provenance ─── */
+
+    .knowledge-provenance {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      margin-block-end: 2rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in oklch, var(--knowledge-accent, oklch(0.6 0.18 260)) 6%, transparent);
+      border-radius: 6px;
+      border: 1px solid color-mix(in oklch, var(--knowledge-accent, oklch(0.6 0.18 260)) 20%, transparent);
+    }
+
+    .knowledge-provenance-label {
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--knowledge-accent, oklch(0.6 0.18 260));
+      white-space: nowrap;
+    }
+
+    .knowledge-provenance-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
+    }
+
+    .knowledge-provenance-link {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--color-border);
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .knowledge-provenance-link:hover {
+      color: var(--knowledge-accent, oklch(0.6 0.18 260));
+      border-color: var(--knowledge-accent, oklch(0.6 0.18 260));
+    }
+
+    /* ─── Content ─── */
+
+    .knowledge-content {
+      margin-block-end: 2.5rem;
+    }
+
+    /* ─── Sources ─── */
+
+    .knowledge-sources {
+      margin-block-end: 1.5rem;
+      padding-block: 1rem;
+      border-block-start: 1px solid var(--color-border);
+    }
+
+    .knowledge-sources-label {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-tertiary);
+      margin-block-end: 0.5rem;
+    }
+
+    .knowledge-sources-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .knowledge-sources-list a {
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+      word-break: break-all;
+    }
+
+    /* ─── Footer ─── */
+
+    .knowledge-footer {
+      padding-block-start: 1.5rem;
+      border-block-start: 1px solid var(--color-border);
+    }
+  </style>
+</BaseLayout>

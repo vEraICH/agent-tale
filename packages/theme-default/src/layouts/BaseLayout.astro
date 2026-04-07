@@ -79,7 +79,29 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
     <div class="site-wrapper">
       <header class="site-header">
         <nav class="site-nav">
-          <a href="/" class="site-title">{siteName}</a>
+          <a href="/" class="site-title">
+            <svg
+              class="site-logo"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- edges -->
+              <line x1="7" y1="7" x2="21" y2="7"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <line x1="7" y1="7" x2="14" y2="21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <line x1="21" y1="7" x2="14" y2="21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <line x1="7" y1="7" x2="21" y2="21" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+              <!-- nodes -->
+              <circle cx="7"  cy="7"  r="3" fill="currentColor"/>
+              <circle cx="21" cy="7"  r="2.25" fill="currentColor" opacity="0.75"/>
+              <circle cx="14" cy="21" r="2.25" fill="currentColor" opacity="0.75"/>
+              <circle cx="21" cy="21" r="1.5" fill="currentColor" opacity="0.4"/>
+            </svg>
+            {siteName}
+          </a>
           <div class="site-nav-links">
             <a href="/">Tales</a>
             <a href="/tags">Tags</a>
@@ -129,6 +151,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
       }
 
       .site-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         font-family: var(--font-heading);
         font-size: 1.25rem;
         font-weight: 700;
@@ -139,6 +164,15 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost
 
       .site-title:hover {
         color: var(--color-accent);
+      }
+
+      .site-logo {
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+      }
+
+      .site-title:hover .site-logo {
+        transform: rotate(15deg);
       }
 
       .site-nav-links {
