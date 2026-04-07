@@ -15,13 +15,19 @@ export const PostSchema = z.object({
   author: z.string().optional(),
 
   // Post type — determines layout and visual treatment
-  type: z.enum(['post', 'lesson', 'dialogue']).default('post'),
+  type: z.enum(['post', 'lesson', 'dialogue', 'knowledge']).default('post'),
 
   // Agent-Tale-specific
   agent: z.string().optional(),
   confidence: z.number().min(0).max(1).optional(),
   sources: z.array(z.string()).optional(),
   parent: z.string().optional(),
+
+  // Bi-temporal memory fields
+  valid_until: z.coerce.date().optional(),
+  superseded_by: z.string().optional(),
+  consolidated_from: z.array(z.string()).optional(),
+  consolidated_into: z.string().optional(),
 
   // Lesson-specific (only used when type: 'lesson')
   mistake: z.string().optional(),

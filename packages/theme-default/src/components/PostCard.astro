@@ -38,8 +38,11 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
 <article class="post-card">
   <a href={`${basePath}${slug}`} class="post-card-link">
-    {type === 'lesson' && <span class="post-card-badge">Lesson</span>}
-    <span class="post-card-title">{title}</span>
+    <span class="post-card-left">
+      {type === 'lesson' && <span class="post-card-badge">Lesson</span>}
+      {type === 'knowledge' && <span class="post-card-badge post-card-badge--knowledge">Knowledge</span>}
+      <span class="post-card-title">{title}</span>
+    </span>
     <span class="post-card-meta">
       <time datetime={date}>{formattedDate}</time>
       {agent && (
@@ -68,6 +71,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     border-block-end: 1px solid var(--color-border);
   }
 
+
   .post-card-link {
     display: flex;
     flex-wrap: wrap;
@@ -94,6 +98,19 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     border-radius: 2px;
     padding: 0.1em 0.4em;
     flex-shrink: 0;
+  }
+
+  .post-card-badge--knowledge {
+    color: oklch(0.6 0.18 260);
+    border-color: oklch(0.6 0.18 260);
+  }
+
+  .post-card-left {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
   }
 
   .post-card-title {

@@ -178,6 +178,7 @@ export function buildGraph(options: BuildGraphOptions): BuildGraphResult {
       date: frontmatter.date.toISOString(),
       tags: frontmatter.tags,
       agent: frontmatter.agent ?? null,
+      type: frontmatter.type ?? null,
       inDegree: 0, // Computed after all edges are collected
       outDegree: collectedLinks.length,
     };

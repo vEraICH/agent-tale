@@ -4,46 +4,43 @@
 > It's a snapshot, not a log. Overwrite entirely each session.
 
 ## Current focus
-VRA-Lab V.3 and V.4 completed. Site is live at www.vra-lab.tech.
+
+MCP server shipped (2.5 + 2.6). Eight tools, compiling clean. Memory system scaffolding (mem-2, mem-2a) done. Now: mem-1 naming layer, then 2.7 (file watcher) to unblock 2.8 (dogfood).
 
 ## Completed this session
-- About page redesigned: book-style layout (Georgia serif, drop caps, fleurons, small caps, 36rem column)
-- Tim added as co-author on About page with equal presence
-- Tim's avatar: constellation SVG (amber nodes on violet field) — `/images/tim-avatar.svg`
-- AuthorBio component: human/agent variants, shown at bottom of every post
-- `author` field added to content schema (`content.config.ts`) and PostLayout
-- `building-a-bounce.md` tagged with `author: tim`
-- Footer X link updated from vEraICH to raQuiam
-- Astro config: `server: { host: '0.0.0.0' }` for Railway healthcheck
-- Site URL changed to `https://www.vra-lab.tech`
-- Deployed to Railway — live and verified
-- GoDaddy DNS: CNAME (www → Railway), TXT verification, root domain forwarding to www
-- `private-docs/` added to .gitignore, untracked from git
-- Deployment guide updated with full Railway + GoDaddy walkthrough
-- Devlog post: "Equal Footing"
 
-## Blockers / open questions
-- GoDaddy root domain forwarding (vra-lab.tech → www.vra-lab.tech) — set up but may take hours for SSL
-- Light theme not tested thoroughly on production
-- Railway filesystem is ephemeral — admin UI posts lost on redeploy
+- Archived completed tasks to `docs/task/archive-20260407.md`
+- MCP server: 8 tools registered — `write_post`, `read_post`, `search`, `get_backlinks`, `get_recent`, `get_graph_neighborhood`, `get_orphans`, `suggest_links`
+- MCP entry point: `packages/mcp-server/src/index.ts`
+- `KnowledgeLayout.astro` — badge, left border accent, provenance panel
+- `PostCard.astro` + `PostList.astro` — `type` field surfaced in list
+- `content.config.ts` (both sites) — `knowledge` type, bi-temporal fields
+- `packages/core/src/content/frontmatter.ts` — `knowledge` type, `valid_until`, `superseded_by`, `confidence`, `sources`
+- `packages/core/src/graph/types.ts` — `type` on `GraphNode`
+- `packages/core/src/graph/builder.ts` — `type` included in built nodes
+- Agent-Tale graph logo added to nav in `BaseLayout.astro`
+- `karpathy-convergence.md` written and copied to `sites/vra-lab`
+- 4 knowledge summary posts (written previous session, rendered this session)
+- Tasks completed: mem-0, mem-2, mem-2a, 2.5, 2.6
 
-## Next session should start with
-- Verify root domain forwarding works (vra-lab.tech → www.vra-lab.tech)
-- Post page styling review — code blocks, typography, prose width (60rem container may want narrower prose)
-- Phase 2 tasks: Admin UI file browser (2.3), MCP server (2.5), or other priorities
-- Consider adding `author` field to remaining posts
+## What next session starts with
 
-## Important context for next Tim
-- Site live at: https://www.vra-lab.tech
-- Railway service: @agent-tale/theme-vra-lab (name is misleading — it's the full vra-lab site)
-- Deploy branch: release/vra-lab
-- Root railway.toml has full monorepo build command (core → integration → vra-lab)
-- Railway auto-deploys on push to release/vra-lab
-- GoDaddy domain: vra-lab.tech, DNS managed at godaddy.com
-- CNAME: www → eub2mcnn.up.railway.app
-- private-docs/ is gitignored — deployment guide lives locally only
-- AuthorBio component: packages/theme-vra-lab/src/components/AuthorBio.astro
-- Tim's avatar: examples/vra-lab/public/images/tim-avatar.svg
-- Vashira's avatar: examples/vra-lab/public/images/author-avatar.jpg (from X @raQuiam)
-- 6 posts total (5 original + devlog-equal-footing.md)
-- Vashira is in Thailand, X handle is @raQuiam
+1. **mem-1** — memory-scoped MCP tool naming (`store_memory`, `retrieve_memory`, `get_memory_context`). Adapter layer over existing tools. Key decision: does it enforce `type: memory` collection, or just rename?
+2. **2.7** — file watcher (chokidar in MCP server process, rebuild SQLite on content change). Needed to unblock 2.8.
+3. **2.8** — dogfood: Claude Code writes posts via MCP, verifies graph updates.
+4. VRA Lab: vra-8 (search, Pagefind) and vra-9 (hover previews) are high-visibility.
+
+## Active blockers
+
+- mem-1 depends on 2.5 — **now unblocked** (2.5 completed this session)
+- mem-3 depends on 2.5 — **now unblocked**
+- 2.8 depends on 2.7 — file watcher still pending
+
+## Important context
+
+- MCP server: `packages/mcp-server/src/` — McpServer high-level API, stdio transport
+- `suggest_links` uses tag overlap (not embeddings) — semantic search is 3.7, can swap later
+- KnowledgeLayout provenance panel renders raw frontmatter — needs wikilink resolution eventually
+- Site live at: https://www.vra-lab.tech (Railway, auto-deploys from release/vra-lab)
+- Railway filesystem ephemeral — admin UI posts lost on redeploy (mem-1 territory)
+- Devlog numbering gaps (1-4, 1-5, 1-10 missing) — gap detection tool idea, not yet on board

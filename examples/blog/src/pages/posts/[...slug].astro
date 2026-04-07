@@ -9,6 +9,7 @@
 import { getCollection, render } from 'astro:content';
 import PostLayout from '@agent-tale/theme-default/layouts/PostLayout.astro';
 import LessonLayout from '@agent-tale/theme-default/layouts/LessonLayout.astro';
+import KnowledgeLayout from '@agent-tale/theme-default/layouts/KnowledgeLayout.astro';
 import { getBacklinks } from 'agent-tale:graph';
 
 export async function getStaticPaths() {
@@ -27,7 +28,7 @@ const readingTime = (post as any).data?.readingTime?.minutes
   ?? (post.body ? Math.max(1, Math.ceil(post.body.split(/\s+/).length / 238)) : null);
 
 const isLesson = post.data.type === 'lesson';
-const Layout = isLesson ? LessonLayout : PostLayout;
+const isKnowledge = post.data.type === 'knowledge';
 ---
 
 {isLesson ? (
@@ -46,6 +47,21 @@ const Layout = isLesson ? LessonLayout : PostLayout;
   >
     <Content />
   </LessonLayout>
+) : isKnowledge ? (
+  <KnowledgeLayout
+    title={post.data.title}
+    date={post.data.date.toISOString()}
+    description={post.data.description}
+    tags={post.data.tags}
+    agent={post.data.agent}
+    confidence={post.data.confidence}
+    minutesRead={readingTime}
+    consolidated_from={post.data.consolidated_from}
+    sources={post.data.sources}
+    backlinks={backlinks}
+  >
+    <Content />
+  </KnowledgeLayout>
 ) : (
   <PostLayout
     title={post.data.title}

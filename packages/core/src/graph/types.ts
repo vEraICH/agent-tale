@@ -8,6 +8,7 @@ export interface GraphNode {
   date: string | null;
   tags: string[];
   agent: string | null;
+  type: string | null;
   inDegree: number;
   outDegree: number;
 }

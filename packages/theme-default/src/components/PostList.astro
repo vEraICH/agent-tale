@@ -13,6 +13,7 @@ interface PostData {
   description?: string | null;
   agent?: string | null;
   tags?: string[];
+  type?: string | null;
 }
 
 interface Props {
@@ -40,6 +41,7 @@ const {
           description={post.description}
           agent={post.agent}
           tags={post.tags}
+          type={post.type}
         />
       </li>
     ))}
