@@ -540,4 +540,279 @@ const confidenceLabel = confidence != null
       });
     });
   </script>
+
+  <!-- ── Wikilink hover preview (vra-9) ── -->
+  <div id="wikilink-popover" role="tooltip" aria-live="polite" hidden>
+    <div class="wp-header">
+      <div class="wp-tags" id="wp-tags"></div>
+      <button class="wp-close" id="wp-close" aria-label="Close preview">
+        <svg class="wp-pin-icon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16 3a1 1 0 0 1 .707.293l4 4A1 1 0 0 1 20 9h-1v1a3 3 0 0 1-1.5 2.598l-.866.5L15 15.732V19a1 1 0 0 1-.553.894l-4 2A1 1 0 0 1 9 21v-5.268l-1.634-2.83-.866-.5A3 3 0 0 1 5 10V9H4a1 1 0 0 1-.707-1.707l4-4A1 1 0 0 1 8 3h8z"/>
+        </svg>
+        ×
+      </button>
+    </div>
+    <div class="wp-title" id="wp-title"></div>
+    <div class="wp-excerpt" id="wp-excerpt"></div>
+    <div class="wp-footer">
+      <span class="wp-connections" id="wp-connections"></span>
+      <a class="wp-open-link" id="wp-open-link" href="#">Open post →</a>
+      <span class="wp-hint">click to pin</span>
+    </div>
+  </div>
+
+  <style is:global>
+    #wikilink-popover {
+      position: fixed;
+      z-index: 200;
+      width: 280px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-strong);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      box-shadow: 0 8px 32px oklch(0 0 0 / 0.45), 0 2px 8px oklch(0 0 0 / 0.25);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      pointer-events: none;
+    }
+
+    #wikilink-popover:not([hidden]) {
+      display: block;
+    }
+
+    #wikilink-popover.wp-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #wikilink-popover.wp-pinned {
+      pointer-events: all;
+      border-color: color-mix(in oklch, var(--color-accent) 55%, transparent);
+    }
+
+    .wp-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-block-end: 0.55rem;
+    }
+
+    .wp-tags {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .wp-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      background: color-mix(in oklch, var(--color-accent) 12%, transparent);
+      border-radius: 3px;
+      padding: 0.1em 0.5em;
+    }
+
+    .wp-close {
+      flex-shrink: 0;
+      display: none;
+      align-items: center;
+      gap: 0.3rem;
+      background: none;
+      border: none;
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      line-height: 1;
+      padding: 0.15em 0.35em;
+      border-radius: 3px;
+    }
+
+    .wp-close:hover {
+      color: var(--color-text);
+      background: var(--color-border);
+    }
+
+    #wikilink-popover.wp-pinned .wp-close {
+      display: flex;
+    }
+
+    .wp-pin-icon {
+      color: var(--color-accent);
+    }
+
+    .wp-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      margin-block-end: 0.45rem;
+    }
+
+    .wp-excerpt {
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      line-height: 1.6;
+    }
+
+    .wp-footer {
+      margin-block-start: 0.75rem;
+      padding-block-start: 0.65rem;
+      border-block-start: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wp-connections {
+      font-size: 0.7rem;
+      color: var(--color-text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .wp-open-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+      display: none;
+    }
+
+    .wp-open-link:hover {
+      text-decoration: underline;
+    }
+
+    #wikilink-popover.wp-pinned .wp-open-link { display: inline; }
+    #wikilink-popover.wp-pinned .wp-hint { display: none; }
+
+    .wp-hint {
+      font-size: 0.7rem;
+      color: var(--color-text-tertiary);
+    }
+  </style>
+
+  <script>
+    const popover    = document.getElementById('wikilink-popover')!;
+    const wpTitle    = document.getElementById('wp-title')!;
+    const wpExcerpt  = document.getElementById('wp-excerpt')!;
+    const wpTags     = document.getElementById('wp-tags')!;
+    const wpConns    = document.getElementById('wp-connections')!;
+    const wpOpenLink = document.getElementById('wp-open-link') as HTMLAnchorElement;
+    const wpClose    = document.getElementById('wp-close')!;
+
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+    let pinned = false;
+    const cache = new Map<string, { title: string; excerpt: string; tags: string[]; connections: number }>();
+
+    function slugFromHref(href: string): string {
+      // e.g. /posts/my-slug → my-slug
+      return href.split('/').filter(Boolean).pop() ?? '';
+    }
+
+    function position(link: HTMLElement) {
+      const rect = link.getBoundingClientRect();
+      const pad = 12;
+      const pWidth = 280;
+      const pHeight = popover.offsetHeight || 180;
+
+      let left = rect.left + rect.width / 2 - pWidth / 2;
+      let top  = rect.bottom + pad;
+
+      if (top + pHeight > window.innerHeight - 16) top = rect.top - pHeight - pad;
+      left = Math.max(16, Math.min(left, window.innerWidth - pWidth - 16));
+
+      popover.style.left = `${left}px`;
+      popover.style.top  = `${top}px`;
+    }
+
+    function populate(data: typeof cache extends Map<string, infer V> ? V : never, href: string) {
+      wpTitle.textContent   = data.title;
+      wpExcerpt.textContent = data.excerpt;
+      wpConns.textContent   = `${data.connections} connection${data.connections !== 1 ? 's' : ''}`;
+      wpTags.innerHTML      = data.tags.map(t => `<span class="wp-tag">${t}</span>`).join('');
+      wpOpenLink.href       = href;
+    }
+
+    async function fetchPreview(slug: string) {
+      if (cache.has(slug)) return cache.get(slug)!;
+      try {
+        const res = await fetch(`/api/preview/${slug}`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        cache.set(slug, data);
+        return data;
+      } catch { return null; }
+    }
+
+    async function showPreview(link: HTMLAnchorElement) {
+      if (pinned) return;
+      clearTimeout(hideTimer!);
+
+      const slug = slugFromHref(link.href);
+      if (!slug) return;
+
+      const data = await fetchPreview(slug);
+      if (!data || pinned) return; // may have changed while awaiting
+
+      populate(data, link.href);
+      popover.removeAttribute('hidden');
+      position(link);
+      requestAnimationFrame(() => popover.classList.add('wp-visible'));
+    }
+
+    function hidePreview() {
+      if (pinned) return;
+      hideTimer = setTimeout(() => {
+        popover.classList.remove('wp-visible');
+        setTimeout(() => { if (!pinned) popover.setAttribute('hidden', ''); }, 150);
+      }, 100);
+    }
+
+    async function pinPreview(link: HTMLAnchorElement) {
+      clearTimeout(hideTimer!);
+
+      const slug = slugFromHref(link.href);
+      if (!slug) return;
+
+      const data = await fetchPreview(slug);
+      if (!data) return;
+
+      populate(data, link.href);
+      popover.removeAttribute('hidden');
+      position(link);
+      pinned = true;
+      popover.classList.add('wp-visible', 'wp-pinned');
+    }
+
+    function unpin() {
+      pinned = false;
+      popover.classList.remove('wp-visible', 'wp-pinned');
+      setTimeout(() => popover.setAttribute('hidden', ''), 150);
+    }
+
+    wpClose.addEventListener('click', unpin);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && pinned) unpin();
+    });
+
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (pinned && !popover.contains(t) && !t.closest('a.wikilink')) unpin();
+    });
+
+    document.querySelectorAll<HTMLAnchorElement>('.post-content a.wikilink:not(.wikilink-broken)').forEach(link => {
+      link.addEventListener('mouseenter', () => showPreview(link));
+      link.addEventListener('mouseleave', hidePreview);
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (pinned) { unpin(); return; }
+        pinPreview(link);
+      });
+    });
+  </script>
 </BaseLayout>

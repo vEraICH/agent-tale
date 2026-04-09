@@ -16,13 +16,6 @@
 
 ---
 
-## VRA-Lab — Sprint 2 (leftover)
-
-| # | Task | Status | Depends | Context Doc | Notes |
-|---|---|---|---|---|---|
-| vra-8 | Search (site-wide) | `pending` | — | `docs/research/gap-analysis.md` | Pagefind or similar. Search by title, tags, content. Accessible from nav. |
-
----
 
 ## VRA-Lab Building — Make It Outstanding
 
@@ -44,7 +37,6 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 |---|---|---|---|---|---|
 | vra-6 | JSON-LD structured data (BlogPosting) | `completed` | — | `docs/research/gap-analysis.md` | Schema.org BlogPosting on every post page. Title, date, author, description. |
 | vra-7 | Dynamic OG image generation | `completed` | — | `docs/research/gap-analysis.md` | Satori/resvg at build time. Branded image with post title + date. Every post gets one. |
-| vra-8 | Search (site-wide) | `pending` | — | `docs/research/gap-analysis.md` | Pagefind or similar. Search by title, tags, content. Accessible from nav. |
 
 ### Infra — Root Domain SSL
 
