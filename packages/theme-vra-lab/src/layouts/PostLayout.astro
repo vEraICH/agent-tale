@@ -3,13 +3,11 @@ import BaseLayout from './BaseLayout.astro';
 import TagList from '@agent-tale/theme-default/components/TagList.astro';
 import BacklinksPanel from '@agent-tale/theme-default/components/BacklinksPanel.astro';
 import AuthorBio from '../components/AuthorBio.astro';
+import NeighborhoodGraph from '@agent-tale/theme-default/components/NeighborhoodGraph.tsx';
+import ConnectedTales from '@agent-tale/theme-default/components/ConnectedTales.astro';
+import SeriesNav from '@agent-tale/theme-default/components/SeriesNav.astro';
 
 interface BacklinkRef {
-  slug: string;
-  title: string;
-}
-
-interface PostNavLink {
   slug: string;
   title: string;
 }
@@ -18,6 +16,34 @@ interface Heading {
   depth: number;
   slug: string;
   text: string;
+}
+
+interface GraphNode {
+  slug: string;
+  title: string;
+  inDegree: number;
+  outDegree: number;
+  tags: string[];
+}
+
+interface GraphEdge {
+  source: string;
+  target: string;
+}
+
+interface SeriesPost {
+  slug: string;
+  title: string;
+  seriesOrder: number;
+  isCurrent: boolean;
+}
+
+interface RelatedPost {
+  slug: string;
+  title: string;
+  tags: string[];
+  date: string | null;
+  connectionCount: number;
 }
 
 interface Props {
@@ -31,9 +57,13 @@ interface Props {
   minutesRead?: number | null;
   backlinks?: BacklinkRef[];
   ogImage?: string;
-  postNav?: { prev: PostNavLink | null; next: PostNavLink | null };
   headings?: Heading[];
   slug?: string;
+  graphNodes?: GraphNode[];
+  graphEdges?: GraphEdge[];
+  relatedPosts?: RelatedPost[];
+  seriesName?: string;
+  seriesPosts?: SeriesPost[];
 }
 
 const {
@@ -47,9 +77,13 @@ const {
   minutesRead,
   backlinks = [],
   ogImage,
-  postNav,
   headings = [],
   slug,
+  graphNodes = [],
+  graphEdges = [],
+  relatedPosts = [],
+  seriesName,
+  seriesPosts = [],
 } = Astro.props;
 
 const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
@@ -121,6 +155,10 @@ const confidenceLabel = confidence != null
         </div>
       </header>
 
+      {seriesName && seriesPosts.length > 0 && (
+        <SeriesNav seriesName={seriesName} posts={seriesPosts} />
+      )}
+
       <div class="prose post-content">
         <slot />
       </div>
@@ -130,21 +168,15 @@ const confidenceLabel = confidence != null
         <AuthorBio author={author} />
       </footer>
 
-      {postNav && (postNav.prev || postNav.next) && (
-        <nav class={`post-nav ${postNav.prev && postNav.next ? 'post-nav--both' : ''}`} aria-label="Post navigation">
-          {postNav.prev && (
-            <a href={`/posts/${postNav.prev.slug}`} class="post-nav-link post-nav-prev">
-              <span class="post-nav-label">Older</span>
-              <span class="post-nav-title">{postNav.prev.title}</span>
-            </a>
-          )}
-          {postNav.next && (
-            <a href={`/posts/${postNav.next.slug}`} class="post-nav-link post-nav-next">
-              <span class="post-nav-label">Newer</span>
-              <span class="post-nav-title">{postNav.next.title}</span>
-            </a>
-          )}
-        </nav>
+      <ConnectedTales posts={relatedPosts} />
+
+      {slug && graphNodes.length > 0 && (
+        <NeighborhoodGraph
+          client:visible
+          slug={slug}
+          nodes={graphNodes}
+          edges={graphEdges}
+        />
       )}
 
       <BacklinksPanel backlinks={backlinks} />
@@ -340,40 +372,27 @@ const confidenceLabel = confidence != null
       border-block-start: 1px solid var(--color-border);
     }
 
-    /* ── Post navigation ── */
-    .post-nav {
+  </style>
+
+  <style is:global>
+    /* ── Neighborhood graph (vra-11) ── */
+    .ng-wrap {
       margin-block-start: 2.5rem;
       border: 1px solid var(--color-border);
       border-radius: 6px;
       overflow: hidden;
+      background: var(--color-surface);
     }
 
-    .post-nav--both {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background-color: var(--color-border);
-    }
-
-    .post-nav-link {
+    .ng-header {
       display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      padding: 1.25rem 1.5rem;
-      background-color: var(--color-bg);
-      text-decoration: none;
-      transition: background-color 0.15s ease;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1rem;
+      border-block-end: 1px solid var(--color-border);
     }
 
-    .post-nav-link:hover {
-      background-color: var(--color-surface);
-    }
-
-    .post-nav-next {
-      text-align: end;
-    }
-
-    .post-nav-label {
+    .ng-title {
       font-family: var(--font-heading);
       font-size: 0.7rem;
       font-weight: 600;
@@ -382,26 +401,30 @@ const confidenceLabel = confidence != null
       color: var(--color-text-tertiary);
     }
 
-    .post-nav-title {
+    .ng-meta {
       font-family: var(--font-heading);
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--color-text);
-      line-height: 1.3;
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      opacity: 0.6;
     }
 
-    .post-nav-link:hover .post-nav-title {
+    .ng-graph-link {
+      margin-inline-start: auto;
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .ng-graph-link:hover {
       color: var(--color-accent);
     }
 
-    @media (max-width: 640px) {
-      .post-nav {
-        grid-template-columns: 1fr;
-      }
-
-      .post-nav-next {
-        text-align: start;
-      }
+    .ng-canvas {
+      display: block;
+      width: 100%;
     }
   </style>
 

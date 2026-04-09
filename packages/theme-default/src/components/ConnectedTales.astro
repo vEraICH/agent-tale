@@ -1,0 +1,166 @@
+---
+/**
+ * ConnectedTales — related posts ranked by graph proximity.
+ *
+ * Shows the closest posts in the graph by BFS distance + tag overlap.
+ * A navigational complement to the visual NeighborhoodGraph.
+ */
+
+interface RelatedPost {
+  slug: string;
+  title: string;
+  tags: string[];
+  date: string | null;
+  connectionCount: number;
+}
+
+interface Props {
+  posts: RelatedPost[];
+  /** Base path for post URLs (default: '/posts/') */
+  basePath?: string;
+}
+
+const { posts, basePath = '/posts/' } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="connected-tales" aria-label="Connected tales">
+    <h2 class="ct-title">Connected tales</h2>
+    <ul class="ct-list">
+      {posts.map((post) => {
+        const date = post.date
+          ? new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
+          : null;
+        const displayTags = post.tags.slice(0, 2);
+        return (
+          <li class="ct-item">
+            <a href={`${basePath}${post.slug}`} class="ct-link">
+              <span class="ct-item-title">{post.title}</span>
+              <span class="ct-item-meta">
+                {post.connectionCount >= 2 && (
+                  <span class="ct-connections" title={`${post.connectionCount} connections`}>
+                    <svg class="ct-conn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" aria-hidden="true">
+                      <circle cx="2" cy="6" r="1.5" fill="currentColor"/>
+                      <circle cx="10" cy="2.5" r="1.5" fill="currentColor"/>
+                      <circle cx="10" cy="9.5" r="1.5" fill="currentColor"/>
+                      <line x1="2" y1="6" x2="10" y2="2.5" stroke="currentColor" stroke-width="1"/>
+                      <line x1="2" y1="6" x2="10" y2="9.5" stroke="currentColor" stroke-width="1"/>
+                    </svg>
+                    {post.connectionCount}
+                  </span>
+                )}
+                {displayTags.map((tag) => (
+                  <span class="ct-tag">#{tag}</span>
+                ))}
+                {date && <time class="ct-date" datetime={post.date ?? ''}>{date}</time>}
+              </span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
+
+<style>
+  .connected-tales {
+    margin-block-start: 2rem;
+    padding-block-start: 1.75rem;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .ct-title {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-tertiary);
+    margin-block-end: 0.85rem;
+  }
+
+  .ct-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ct-item {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .ct-item:first-child {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .ct-link {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    flex-wrap: wrap;
+    padding-block: 0.65rem;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color 0.15s ease;
+  }
+
+  .ct-link:hover {
+    color: var(--color-accent);
+  }
+
+  .ct-item-title {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ct-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+  }
+
+  .ct-connections {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--color-text-tertiary);
+    opacity: 0.7;
+  }
+
+  .ct-link:hover .ct-connections {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  .ct-conn-icon {
+    width: 0.7rem;
+    height: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .ct-tag {
+    color: var(--color-text-tertiary);
+    opacity: 0.7;
+    letter-spacing: 0.01em;
+  }
+
+  .ct-link:hover .ct-tag {
+    opacity: 1;
+  }
+
+  .ct-date {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+</style>

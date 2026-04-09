@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import PostLayout from '@agent-tale/theme-vra-lab/layouts/PostLayout.astro';
 import LessonLayout from '@agent-tale/theme-vra-lab/layouts/LessonLayout.astro';
-import { getBacklinks } from 'agent-tale:graph';
+import { getBacklinks, getRelated, nodes as graphNodes, edges as graphEdges } from 'agent-tale:graph';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -16,24 +16,37 @@ const { post } = Astro.props;
 const { Content, headings } = await render(post);
 const backlinks = getBacklinks(post.id);
 
+// Related posts by graph proximity (vra-12)
+const nodeMap = new Map(graphNodes.map((n) => [n.slug, n]));
+const relatedPosts = getRelated(post.id).map((ref) => {
+  const node = nodeMap.get(ref.slug);
+  return {
+    slug: ref.slug,
+    title: ref.title,
+    tags: node?.tags ?? [],
+    date: node?.date ?? null,
+    connectionCount: (node?.inDegree ?? 0) + (node?.outDegree ?? 0),
+  };
+});
+
 const readingTime = (post as any).data?.readingTime?.minutes
   ?? (post.body ? Math.max(1, Math.ceil(post.body.split(/\s+/).length / 238)) : null);
 
 const isLesson = post.data.type === 'lesson';
 
-// Compute prev/next by date
-const allPosts = (await getCollection('posts'))
-  .filter((p) => !p.data.draft)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-
-const currentIndex = allPosts.findIndex((p) => p.id === post.id);
-const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
-const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-
-const postNav = {
-  prev: prevPost ? { slug: prevPost.id, title: prevPost.data.title } : null,
-  next: nextPost ? { slug: nextPost.id, title: nextPost.data.title } : null,
-};
+// Series nav (vra-14)
+const seriesName = post.data.series;
+const allPosts = await getCollection('posts');
+const seriesPosts = seriesName
+  ? allPosts
+      .filter((p) => p.data.series === seriesName && !p.data.draft)
+      .map((p) => ({
+        slug: p.id,
+        title: p.data.title,
+        seriesOrder: p.data.seriesOrder ?? 0,
+        isCurrent: p.id === post.id,
+      }))
+  : [];
 ---
 
 {isLesson ? (
@@ -63,10 +76,14 @@ const postNav = {
     confidence={post.data.confidence}
     minutesRead={readingTime}
     backlinks={backlinks}
-    postNav={postNav}
     headings={headings}
     ogImage={`${Astro.site ?? ''}og/${post.id}.png`}
     slug={post.id}
+    graphNodes={graphNodes}
+    graphEdges={graphEdges}
+    relatedPosts={relatedPosts}
+    seriesName={seriesName}
+    seriesPosts={seriesPosts}
   >
     <Content />
   </PostLayout>

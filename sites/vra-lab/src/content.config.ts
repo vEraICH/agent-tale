@@ -22,6 +22,9 @@ const posts = defineCollection({
     mistake: z.string().optional(),
     insight: z.string().optional(),
     applies_to: z.array(z.string()).optional(),
+    // series support (vra-14)
+    series: z.string().optional(),
+    seriesOrder: z.number().int().optional(),
   }),
 });
 

@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import node from '@astrojs/node';
 import agentTale from '@agent-tale/astro-integration';
+import { BUILD_NO } from './src/build.ts';
 
 export default defineConfig({
   site: 'https://www.vra-lab.tech',
@@ -23,5 +24,8 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    define: {
+      __BUILD_NO__: JSON.stringify(BUILD_NO),
+    },
   },
 });

@@ -2,6 +2,7 @@
 import BaseLayout from '@agent-tale/theme-vra-lab/layouts/BaseLayout.astro';
 import PostList from '@agent-tale/theme-default/components/PostList.astro';
 import { nodes } from 'agent-tale:graph';
+import { getCollection } from 'astro:content';
 
 const allPosts = nodes
   .filter((n) => n.date)
@@ -9,6 +10,23 @@ const allPosts = nodes
   .map((n) => ({ ...n, connectionCount: n.inDegree + n.outDegree }));
 const posts = allPosts.slice(0, 10);
 const hasMore = allPosts.length > 10;
+
+// Build series data from content collection
+const allContentPosts = await getCollection('posts');
+const seriesMap = new Map<string, Array<{ slug: string; title: string; seriesOrder: number }>>();
+for (const p of allContentPosts) {
+  if (!p.data.series || p.data.draft) continue;
+  if (!seriesMap.has(p.data.series)) seriesMap.set(p.data.series, []);
+  seriesMap.get(p.data.series)!.push({
+    slug: p.id,
+    title: p.data.title,
+    seriesOrder: p.data.seriesOrder ?? 0,
+  });
+}
+const series = Array.from(seriesMap.entries()).map(([name, seriesPosts]) => ({
+  name,
+  posts: seriesPosts.sort((a, b) => a.seriesOrder - b.seriesOrder),
+}));
 ---
 
 <BaseLayout title="VRA Lab">
@@ -75,6 +93,42 @@ const hasMore = allPosts.length > 10;
       <a href="/llms.txt" class="hero-llms-link">llms.txt</a>
     </section>
 
+    <!-- Series -->
+    {series.length > 0 && (
+      <section class="home-series">
+        <h2 class="home-section-title">Series</h2>
+        <ul class="series-shelf">
+          {series.map((s) => {
+            const first = s.posts[0];
+            return (
+              <li class="series-card">
+                <div class="series-card-header">
+                  <span class="series-card-name">{s.name}</span>
+                  <span class="series-card-count">{s.posts.length} parts</span>
+                </div>
+                <ol class="series-card-list">
+                  {s.posts.map((p) => (
+                    <li class="series-card-item">
+                      <span class="series-card-order">{p.seriesOrder}</span>
+                      <a href={`/posts/${p.slug}`} class="series-card-link">{p.title}</a>
+                    </li>
+                  ))}
+                </ol>
+                <a href={`/posts/${first.slug}`} class="series-card-cta">Start reading →</a>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    )}
+
+    <!-- Posts -->
+    <section class="home-posts">
+      <h2 class="home-section-title">Tales</h2>
+      <PostList posts={posts} />
+      {hasMore && <a href="/tags" class="view-all-link">View all tales →</a>}
+    </section>
+
     <!-- Currently Building -->
     <section class="home-building">
       <h2 class="home-section-title">Working On</h2>
@@ -101,13 +155,6 @@ const hasMore = allPosts.length > 10;
           <p class="building-desc">Turn a chain of AI conversations into structured knowledge — automatically surfacing decisions, insights, and open questions.</p>
         </li>
       </ul>
-    </section>
-
-    <!-- Posts -->
-    <section class="home-posts">
-      <h2 class="home-section-title">Tales</h2>
-      <PostList posts={posts} />
-      {hasMore && <a href="/tags" class="view-all-link">View all tales →</a>}
     </section>
 
   </div>
@@ -318,6 +365,112 @@ const hasMore = allPosts.length > 10;
       color: var(--color-text-tertiary);
       line-height: 1.6;
       margin: 0;
+    }
+
+    /* ── Series shelf ── */
+    .home-series {
+      margin-block-end: clamp(3rem, 7vw, 5rem);
+    }
+
+    .series-shelf {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .series-card {
+      flex: 1;
+      min-width: 260px;
+      max-width: 420px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      border-inline-start: 2px solid var(--color-accent);
+    }
+
+    .series-card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .series-card-name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+    }
+
+    .series-card-count {
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+    }
+
+    .series-card-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      flex: 1;
+    }
+
+    .series-card-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+
+    .series-card-order {
+      font-family: var(--font-heading);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      min-width: 0.8rem;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .series-card-link {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      line-height: 1.4;
+      transition: color 0.15s ease;
+    }
+
+    .series-card-link:hover {
+      color: var(--color-accent);
+    }
+
+    .series-card-cta {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: opacity 0.15s ease;
+      opacity: 0.8;
+    }
+
+    .series-card-cta:hover {
+      opacity: 1;
     }
 
     /* ── Posts ── */

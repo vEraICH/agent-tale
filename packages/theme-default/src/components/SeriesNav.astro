@@ -1,0 +1,149 @@
+---
+/**
+ * SeriesNav — shows a post's position within a named series.
+ *
+ * Renders at the top of the post, before the content.
+ * Posts are ordered by seriesOrder. Current post is highlighted.
+ */
+
+interface SeriesPost {
+  slug: string;
+  title: string;
+  seriesOrder: number;
+  isCurrent: boolean;
+}
+
+interface Props {
+  seriesName: string;
+  posts: SeriesPost[];
+  basePath?: string;
+}
+
+const { seriesName, posts, basePath = '/posts/' } = Astro.props;
+
+const sorted = [...posts].sort((a, b) => a.seriesOrder - b.seriesOrder);
+const currentIndex = sorted.findIndex((p) => p.isCurrent);
+---
+
+<nav class="series-nav" aria-label={`Series: ${seriesName}`}>
+  <div class="series-header">
+    <span class="series-label">Series</span>
+    <span class="series-name">{seriesName}</span>
+    <span class="series-progress">{currentIndex + 1} of {sorted.length}</span>
+  </div>
+  <ol class="series-list">
+    {sorted.map((post) => (
+      <li class={`series-item ${post.isCurrent ? 'series-item--current' : ''}`}>
+        {post.isCurrent ? (
+          <span class="series-link series-link--current" aria-current="page">
+            <span class="series-order">{post.seriesOrder}</span>
+            <span class="series-title">{post.title}</span>
+          </span>
+        ) : (
+          <a href={`${basePath}${post.slug}`} class="series-link">
+            <span class="series-order">{post.seriesOrder}</span>
+            <span class="series-title">{post.title}</span>
+          </a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .series-nav {
+    margin-block-end: 2.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .series-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .series-label {
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+
+  .series-name {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .series-progress {
+    margin-inline-start: auto;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .series-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .series-item {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .series-item:last-child {
+    border-block-end: none;
+  }
+
+  .series-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.65rem 1rem;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  a.series-link:hover {
+    background-color: color-mix(in oklch, var(--color-accent) 6%, transparent);
+    color: var(--color-text);
+  }
+
+  .series-link--current {
+    color: var(--color-text);
+    background-color: color-mix(in oklch, var(--color-accent) 8%, transparent);
+    cursor: default;
+  }
+
+  .series-order {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    min-width: 1rem;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+
+  .series-title {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .series-item--current .series-title {
+    font-weight: 600;
+  }
+</style>
