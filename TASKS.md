@@ -38,12 +38,6 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 | vra-6 | JSON-LD structured data (BlogPosting) | `completed` | — | `docs/research/gap-analysis.md` | Schema.org BlogPosting on every post page. Title, date, author, description. |
 | vra-7 | Dynamic OG image generation | `completed` | — | `docs/research/gap-analysis.md` | Satori/resvg at build time. Branded image with post title + date. Every post gets one. |
 
-### Infra — Root Domain SSL
-
-| # | Task | Status | Depends | Notes |
-|---|---|---|---|---|
-| vra-18 | Fix `vra-lab.tech` root domain HTTPS | `pending` | — | GoDaddy forwarding doesn't support SSL. Migrate to Cloudflare (recommended) or add root domain to Railway with redirect. |
-
 ### Sprint 2.5 — LLM-Friendly Content (differentiator, low effort)
 
 | # | Task | Status | Depends | Context Doc | Notes |
@@ -58,7 +52,7 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 |---|---|---|---|---|---|
 | vra-9 | Wikilink hover previews | `pending` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~100 words. THE digital garden feature. |
 | vra-9 | Wikilink hover previews | `completed` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~80 words. Pin on click. /api/preview/[slug] endpoint. |
-| vra-10 | Connection indicators on post cards | `pending` | — | `docs/research/gap-analysis.md` | Show connection count on PostCard for posts with 2+ links. |
+| vra-10 | Connection indicators on post cards | `in-progress` | — | `docs/research/gap-analysis.md` | Show connection count on PostCard for posts with 2+ links. |
 | vra-11 | Post neighborhood mini-graph | `pending` | vra-9 | `docs/research/gap-analysis.md` | Small force-directed graph on each post showing local neighborhood (depth 1-2). |
 | vra-12 | Related posts by graph proximity | `pending` | vra-10 | `docs/research/gap-analysis.md` | "Connected tales" section: 3-5 closest posts by graph distance, not just tags. |
 
@@ -103,6 +97,14 @@ Friction list captured in `devlog-2026-04-07.md`. MCP server (2.5 + 2.6) complet
 | 2.9 | Unlinked mentions detection | `pending` | 1.3 | `docs/content-model.md` | Scan content for title/slug matches without explicit links |
 | 2.10 | `agent-tale check` CLI command | `pending` | 1.3 | `docs/conventions.md` | Validate content: broken wikilinks, missing frontmatter, orphan detection |
 | 2.11 | Integration test suite | `pending` | 2.5 | `docs/testing.md` | End-to-end: write via MCP → verify graph → verify rendered HTML |
+
+---
+
+## To-Be-Decided-Later
+
+| # | Task | Status | Depends | Notes |
+|---|---|---|---|---|
+| vra-18 | Fix `vra-lab.tech` root domain HTTPS | `pending` | — | GoDaddy forwarding doesn't support SSL. Migrate to Cloudflare (recommended) or add root domain to Railway with redirect. |
 
 ---
 

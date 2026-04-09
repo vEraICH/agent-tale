@@ -5,7 +5,8 @@ import { nodes } from 'agent-tale:graph';
 
 const allPosts = nodes
   .filter((n) => n.date)
-  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())
+  .map((n) => ({ ...n, connectionCount: n.inDegree + n.outDegree }));
 const posts = allPosts.slice(0, 10);
 const hasMore = allPosts.length > 10;
 ---

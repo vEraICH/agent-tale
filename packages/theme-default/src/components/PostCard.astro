@@ -14,6 +14,8 @@ interface Props {
   agent?: string | null;
   tags?: string[];
   type?: string | null;
+  /** Total wikilink connections (inDegree + outDegree). Shows indicator if >= 2. */
+  connectionCount?: number;
   /** Base path for post URLs (default: '/posts/') */
   basePath?: string;
 }
@@ -26,6 +28,7 @@ const {
   agent,
   tags = [],
   type,
+  connectionCount = 0,
   basePath = '/posts/',
 } = Astro.props;
 
@@ -44,6 +47,18 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
       <span class="post-card-title">{title}</span>
     </span>
     <span class="post-card-meta">
+      {connectionCount >= 2 && (
+        <span class="post-card-connections" title={`${connectionCount} connections`} aria-label={`${connectionCount} connections`}>
+          <svg class="post-card-connections-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" aria-hidden="true">
+            <circle cx="2" cy="6" r="1.5" fill="currentColor"/>
+            <circle cx="10" cy="2.5" r="1.5" fill="currentColor"/>
+            <circle cx="10" cy="9.5" r="1.5" fill="currentColor"/>
+            <line x1="2" y1="6" x2="10" y2="2.5" stroke="currentColor" stroke-width="1"/>
+            <line x1="2" y1="6" x2="10" y2="9.5" stroke="currentColor" stroke-width="1"/>
+          </svg>
+          {connectionCount}
+        </span>
+      )}
       <time datetime={date}>{formattedDate}</time>
       {agent && (
         <>
@@ -126,6 +141,27 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     color: var(--color-text-tertiary);
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
+  }
+
+  .post-card-connections {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--color-text-tertiary);
+    opacity: 0.7;
+    margin-inline-end: 0.6rem;
+    transition: opacity 0.15s ease, color 0.15s ease;
+  }
+
+  .post-card-link:hover .post-card-connections {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  .post-card-connections-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
   }
 
   .post-card-sep {

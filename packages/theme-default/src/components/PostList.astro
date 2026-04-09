@@ -14,6 +14,7 @@ interface PostData {
   agent?: string | null;
   tags?: string[];
   type?: string | null;
+  connectionCount?: number;
 }
 
 interface Props {
@@ -42,6 +43,7 @@ const {
           agent={post.agent}
           tags={post.tags}
           type={post.type}
+          connectionCount={post.connectionCount}
         />
       </li>
     ))}

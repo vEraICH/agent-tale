@@ -14,7 +14,8 @@ export function getStaticPaths() {
 const { tag } = Astro.props;
 const posts = nodes
   .filter((n) => n.tags.includes(tag) && n.date)
-  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())
+  .map((n) => ({ ...n, connectionCount: n.inDegree + n.outDegree }));
 ---
 
 <BaseLayout title={`#${tag}`} description={`Posts tagged "${tag}"`}>
