@@ -9,3 +9,5 @@ dist/
 !.env.example
 .claude/settings.local.json
 private-docs/
+sites/vra-lab/data/analytics.db-shm
+sites/vra-lab/data/analytics.db-wal
