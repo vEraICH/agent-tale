@@ -62,7 +62,6 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
-| vra-13 | Newsletter signup (Buttondown or Resend) | `pending` | — | `docs/research/gap-analysis.md` | Simple email form in footer or post footer. |
 | vra-14 | Post series / collections | `completed` | — | `docs/research/gap-analysis.md` | Frontmatter `series` + `seriesOrder`. Series nav at top of post. |
 
 ---
