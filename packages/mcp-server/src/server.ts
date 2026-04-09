@@ -65,7 +65,7 @@ export async function startServer(opts: ServerOptions) {
     },
     async (input) => {
       const graph = buildLiveGraph(contentDir, collection);
-      const result = readPost(input, graph);
+      const result = readPost(input, graph, contentDir);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
       };

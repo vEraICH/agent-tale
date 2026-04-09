@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "agent-tale": {
+      "command": "node",
+      "args": [
+        "packages/mcp-server/dist/index.js",
+        "--content", "examples/blog/content/posts",
+        "--collection", "posts"
+      ]
+    }
+  }
+}

@@ -24,7 +24,6 @@
 
 ---
 
-<<<<<<< HEAD
 ## VRA-Lab Building — Make It Outstanding
 
 Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/research/gap-analysis.md`
@@ -62,9 +61,6 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 | vra-17 | "LLM" button on post pages | `completed` | vra-16 | `docs/research/gap-analysis.md` | Small button linking to the `.md` version. DatoCMS-style but minimal. |
 
 ### Sprint 3 — Digital Garden Identity (differentiator)
-=======
-## VRA-Lab — Sprint 3: Digital Garden Identity
->>>>>>> develop
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|

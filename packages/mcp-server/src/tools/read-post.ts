@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import matter from 'gray-matter';
 import type { Graph } from '@agent-tale/core';
@@ -9,7 +9,7 @@ export interface ReadPostInput {
   include_related?: boolean;
 }
 
-export function readPost(input: ReadPostInput, graph: Graph) {
+export function readPost(input: ReadPostInput, graph: Graph, contentDir: string) {
   const { slug, include_backlinks = true, include_related = true } = input;
 
   const node = graph.nodes.get(slug);
@@ -17,7 +17,7 @@ export function readPost(input: ReadPostInput, graph: Graph) {
     return { error: `Post "${slug}" not found.` };
   }
 
-  const fileContent = readFileSync(join(process.cwd(), node.filePath), 'utf-8');
+  const fileContent = readFileSync(join(contentDir, node.filePath), 'utf-8');
   const { data: frontmatter, content } = matter(fileContent);
 
   const result: Record<string, unknown> = { frontmatter, content };
