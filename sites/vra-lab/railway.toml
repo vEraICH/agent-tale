@@ -4,6 +4,12 @@ builder = "nixpacks"
 [build.nixpacksPlan.phases.setup]
 nixPkgs = ["nodejs_22"]
 
+[build.nixpacksPlan.phases.build]
+cmds = [
+  "pnpm install --ignore-scripts",
+  "pnpm turbo run build --filter=@agent-tale/vra-lab"
+]
+
 [deploy]
 startCommand = "node dist/server/entry.mjs"
 healthcheckPath = "/"
