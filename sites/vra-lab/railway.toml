@@ -1,17 +1,8 @@
 [build]
-builder = "nixpacks"
-
-[build.nixpacksPlan.phases.setup]
-nixPkgs = ["nodejs_22"]
-
-[build.nixpacksPlan.phases.build]
-cmds = [
-  "pnpm install --ignore-scripts",
-  "pnpm turbo run build --filter=@agent-tale/vra-lab"
-]
+buildCommand = "pnpm install --ignore-scripts && pnpm --filter @agent-tale/core build && pnpm --filter @agent-tale/astro-integration build && pnpm --filter @agent-tale/analytic build && pnpm --filter @agent-tale/vra-lab build"
 
 [deploy]
-startCommand = "node dist/server/entry.mjs"
+startCommand = "node sites/vra-lab/dist/server/entry.mjs"
 healthcheckPath = "/"
 healthcheckTimeout = 30
 restartPolicyType = "on_failure"
