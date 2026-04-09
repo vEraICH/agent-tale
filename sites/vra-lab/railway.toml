@@ -1,8 +1,0 @@
-[build]
-buildCommand = "pnpm install --ignore-scripts && pnpm run build"
-
-[deploy]
-startCommand = "node sites/vra-lab/dist/server/entry.mjs"
-healthcheckPath = "/"
-healthcheckTimeout = 30
-restartPolicyType = "on_failure"
