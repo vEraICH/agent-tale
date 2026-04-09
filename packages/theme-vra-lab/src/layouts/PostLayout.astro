@@ -6,6 +6,7 @@ import AuthorBio from '../components/AuthorBio.astro';
 import NeighborhoodGraph from '@agent-tale/theme-default/components/NeighborhoodGraph.tsx';
 import ConnectedTales from '@agent-tale/theme-default/components/ConnectedTales.astro';
 import SeriesNav from '@agent-tale/theme-default/components/SeriesNav.astro';
+import AnalyticTracker from '@agent-tale/theme-default/components/AnalyticTracker.astro';
 
 interface BacklinkRef {
   slug: string;
@@ -181,6 +182,8 @@ const confidenceLabel = confidence != null
 
       <BacklinksPanel backlinks={backlinks} />
     </article>
+
+    {slug && <AnalyticTracker slug={slug} />}
 
     {showToc && (
       <aside class="toc-sidebar" aria-label="Table of contents">

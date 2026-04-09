@@ -21,11 +21,16 @@ When ending a session, Tim should:
 2. Update `.claude/tim-state.md` with current state
 3. Update `TASKS.md` status column
 
+> **Session end signal**: When Vashira says `end-session`, that is the explicit trigger to perform the above steps before closing. Devlog posts go in `examples/blog/content/posts/devlog-*.md` — NOT in `sites/vra-lab/content/posts/`.
+
 ## Quick orientation
 
 | Doc | What it covers |
 |---|---|
 | `TASKS.md` | **Start here.** Kanban-style task board with status columns. |
+| `TASKS-ANALYTIC.md` | Task board for `agent-tale-analytic` module (graph-native, species-aware analytics). |
+| `docs/analytic-plan.md` | Phased implementation plan for agent-tale-analytic |
+| `docs/research/agent-tale-analytic.md` | Competitor analysis and niche research for agent-tale-analytic |
 | `docs/architecture.md` | System architecture, layer diagram, tech stack decisions |
 | `docs/content-model.md` | Frontmatter schema, wikilink syntax, graph data model |
 | `docs/monorepo-structure.md` | Package layout, file tree, dependency graph between packages |
@@ -38,10 +43,11 @@ When ending a session, Tim should:
 ## Core mental model
 
 ```
-.md files on disk  ──→  Content Graph Engine  ──→  Three consumers:
+.md files on disk  ──→  Content Graph Engine  ──→  Four consumers:
                          (the shared core)          1. Astro renderer (public website)
                                                     2. Admin UI (human editing)
                                                     3. MCP server (AI agent memory)
+                                                    4. Analytic module (graph-native analytics)
 ```
 
 ## Tech stack (short version)

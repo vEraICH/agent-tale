@@ -82,6 +82,28 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/analytic:
+    dependencies:
+      '@agent-tale/core':
+        specifier: workspace:*
+        version: link:../core
+      better-sqlite3:
+        specifier: ^11.0.0
+        version: 11.10.0
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      '@types/better-sqlite3':
+        specifier: ^7.6.0
+        version: 7.6.13
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)
+
   packages/astro-integration:
     dependencies:
       '@agent-tale/core':
@@ -236,6 +258,9 @@ importers:
 
   sites/vra-lab:
     dependencies:
+      '@agent-tale/analytic':
+        specifier: workspace:*
+        version: link:../../packages/analytic
       '@agent-tale/astro-integration':
         specifier: workspace:*
         version: link:../../packages/astro-integration

@@ -1,0 +1,44 @@
+---
+/**
+ * AnalyticTracker — opt-in human event tracker.
+ *
+ * Add to your post layout: <AnalyticTracker slug={slug} />
+ * Zero JS shipped unless this component is included.
+ * Respects Do Not Track. No cookies. No PII.
+ */
+interface Props {
+  slug: string;
+  endpoint?: string;
+}
+
+const { slug, endpoint = '/api/analytics/event' } = Astro.props;
+
+// Build the tracker script with the slug embedded as a literal.
+// Kept compact — under 1 KB when rendered.
+const script = `(function(){
+  if(navigator.doNotTrack==='1'||localStorage.getItem('vra_dnt')==='1')return;
+  var slug=${JSON.stringify(slug)},E=${JSON.stringify(endpoint)};
+  function h(s){var x=5381;for(var i=0;i<s.length;i++)x=(x*33^s.charCodeAt(i))>>>0;return x.toString(36);}
+  var d=new Date,sid=h(d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+navigator.userAgent+(screen.width||0)+'x'+(screen.height||0));
+  function send(p){try{var b=JSON.stringify(p);navigator.sendBeacon(E,new Blob([b],{type:'application/json'}));}catch(e){}}
+  send({timestamp:new Date().toISOString(),event_type:'post.read',species:'human',session_id:sid,content_node:slug,metadata:{referrer:document.referrer||''}});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a.wikilink:not(.wikilink-broken)');
+    if(!a)return;
+    var m=a.href.match(/\\/posts\\/([^/?#]+)/);
+    if(!m||m[1]===slug)return;
+    send({timestamp:new Date().toISOString(),event_type:'wikilink.followed',species:'human',session_id:sid,content_node:m[1],source_node:slug,edge_id:slug+'->'+m[1],metadata:{}});
+  });
+  var depth=0;
+  window.addEventListener('scroll',function(){
+    var s=window.scrollY+window.innerHeight,t=document.documentElement.scrollHeight;
+    depth=Math.max(depth,Math.round(s/t*100));
+  },{passive:true});
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='hidden'&&depth>5)
+      send({timestamp:new Date().toISOString(),event_type:'post.read',species:'human',session_id:sid,content_node:slug,metadata:{reading_depth:depth}});
+  });
+})();`;
+---
+
+<script is:inline set:html={script}></script>

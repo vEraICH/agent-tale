@@ -50,11 +50,10 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
-| vra-9 | Wikilink hover previews | `pending` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~100 words. THE digital garden feature. |
 | vra-9 | Wikilink hover previews | `completed` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~80 words. Pin on click. /api/preview/[slug] endpoint. |
-| vra-10 | Connection indicators on post cards | `in-progress` | — | `docs/research/gap-analysis.md` | Show connection count on PostCard for posts with 2+ links. |
-| vra-11 | Post neighborhood mini-graph | `in-progress` | vra-9 | `docs/research/gap-analysis.md` | Small force-directed graph on each post showing local neighborhood (depth 1-2). |
-| vra-12 | Related posts by graph proximity | `in-progress` | vra-10 | `docs/research/gap-analysis.md` | "Connected tales" section: 3-5 closest posts by graph distance, not just tags. |
+| vra-10 | Connection indicators on post cards | `completed` | — | `docs/research/gap-analysis.md` | Node-edge icon + count on cards with 2+ connections. |
+| vra-11 | Post neighborhood mini-graph | `completed` | vra-9 | `docs/research/gap-analysis.md` | Force-directed canvas, depth 1-2, click to navigate. Replaces prev/next nav. |
+| vra-12 | Related posts by graph proximity | `completed` | vra-10 | `docs/research/gap-analysis.md` | "Connected tales" section: BFS + tag scoring, top-5. |
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "The Graph Awakens: When Connections Become the Product"
-date: '2026-04-09'
+date: '2026-04-09T10:00:00'
 description: 'Wikilink hover previews, connection indicators, a neighborhood mini-graph, and the moment VRA Lab stopped being a blog.'
 tags:
   - meta
