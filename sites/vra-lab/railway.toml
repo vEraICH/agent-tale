@@ -1,5 +1,5 @@
 [build]
-buildCommand = "pnpm install --ignore-scripts && pnpm --filter @agent-tale/core build && pnpm --filter @agent-tale/astro-integration build && pnpm --filter @agent-tale/analytic build && pnpm --filter @agent-tale/vra-lab build"
+buildCommand = "pnpm install --ignore-scripts && pnpm run build"
 
 [deploy]
 startCommand = "node sites/vra-lab/dist/server/entry.mjs"
