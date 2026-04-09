@@ -57,6 +57,7 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
 | vra-9 | Wikilink hover previews | `pending` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~100 words. THE digital garden feature. |
+| vra-9 | Wikilink hover previews | `completed` | — | `docs/research/gap-analysis.md` | Popover on hover: title + first ~80 words. Pin on click. /api/preview/[slug] endpoint. |
 | vra-10 | Connection indicators on post cards | `pending` | — | `docs/research/gap-analysis.md` | Show connection count on PostCard for posts with 2+ links. |
 | vra-11 | Post neighborhood mini-graph | `pending` | vra-9 | `docs/research/gap-analysis.md` | Small force-directed graph on each post showing local neighborhood (depth 1-2). |
 | vra-12 | Related posts by graph proximity | `pending` | vra-10 | `docs/research/gap-analysis.md` | "Connected tales" section: 3-5 closest posts by graph distance, not just tags. |
