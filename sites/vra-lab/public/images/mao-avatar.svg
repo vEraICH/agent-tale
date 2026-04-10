@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="mao-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a2535"/>
+      <stop offset="100%" stop-color="#0f1820"/>
+    </radialGradient>
+    <radialGradient id="mao-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7ec8b4" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#7ec8b4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="200" cy="200" r="200" fill="url(#mao-bg)"/>
+  <circle cx="200" cy="200" r="115" fill="url(#mao-glow)"/>
+
+  <!-- Inner edges — muted, structural -->
+  <g stroke="#7ec8b4" stroke-opacity="0.22" stroke-width="1.2" fill="none">
+    <!-- Core triangle -->
+    <line x1="200" y1="152" x2="240" y2="222"/>
+    <line x1="200" y1="152" x2="160" y2="222"/>
+    <line x1="160" y1="222" x2="240" y2="222"/>
+    <!-- Core to middle ring -->
+    <line x1="200" y1="152" x2="200" y2="108"/>
+    <line x1="200" y1="152" x2="268" y2="158"/>
+    <line x1="240" y1="222" x2="272" y2="248"/>
+    <line x1="240" y1="222" x2="248" y2="304"/>
+    <line x1="160" y1="222" x2="128" y2="248"/>
+    <line x1="160" y1="222" x2="152" y2="304"/>
+    <line x1="200" y1="152" x2="132" y2="158"/>
+    <!-- Middle ring connections -->
+    <line x1="200" y1="108" x2="268" y2="158"/>
+    <line x1="268" y1="158" x2="272" y2="248"/>
+    <line x1="272" y1="248" x2="248" y2="304"/>
+    <line x1="152" y1="304" x2="248" y2="304"/>
+    <line x1="128" y1="248" x2="152" y2="304"/>
+    <line x1="128" y1="248" x2="132" y2="158"/>
+    <line x1="132" y1="158" x2="200" y2="108"/>
+  </g>
+
+  <!-- Outer boundary edges — the ring Mao lights up -->
+  <g stroke="#7ec8b4" stroke-opacity="0.72" stroke-width="1.4" fill="none">
+    <line x1="200" y1="68"  x2="302" y2="112"/>
+    <line x1="302" y1="112" x2="334" y2="224"/>
+    <line x1="334" y1="224" x2="272" y2="318"/>
+    <line x1="272" y1="318" x2="128" y2="318"/>
+    <line x1="128" y1="318" x2="66"  y2="224"/>
+    <line x1="66"  y1="224" x2="98"  y2="112"/>
+    <line x1="98"  y1="112" x2="200" y2="68"/>
+  </g>
+
+  <!-- Spokes from middle ring to outer boundary — faint -->
+  <g stroke="#7ec8b4" stroke-opacity="0.14" stroke-width="1" fill="none">
+    <line x1="200" y1="108" x2="200" y2="68"/>
+    <line x1="268" y1="158" x2="302" y2="112"/>
+    <line x1="272" y1="248" x2="334" y2="224"/>
+    <line x1="248" y1="304" x2="272" y2="318"/>
+    <line x1="152" y1="304" x2="128" y2="318"/>
+    <line x1="128" y1="248" x2="66"  y2="224"/>
+    <line x1="132" y1="158" x2="98"  y2="112"/>
+  </g>
+
+  <!-- Middle ring nodes -->
+  <g fill="#7ec8b4">
+    <circle cx="200" cy="108" r="3.5" opacity="0.7"/>
+    <circle cx="268" cy="158" r="3"   opacity="0.65"/>
+    <circle cx="272" cy="248" r="3"   opacity="0.65"/>
+    <circle cx="248" cy="304" r="3"   opacity="0.6"/>
+    <circle cx="152" cy="304" r="3"   opacity="0.6"/>
+    <circle cx="128" cy="248" r="3"   opacity="0.65"/>
+    <circle cx="132" cy="158" r="3"   opacity="0.65"/>
+  </g>
+
+  <!-- Core triangle nodes -->
+  <g fill="#7ec8b4">
+    <circle cx="200" cy="152" r="6"   opacity="1"/>
+    <circle cx="240" cy="222" r="5"   opacity="0.9"/>
+    <circle cx="160" cy="222" r="5"   opacity="0.9"/>
+  </g>
+
+  <!-- Outer boundary nodes — bright, the edge she tests -->
+  <g fill="#b8e8de">
+    <circle cx="200" cy="68"  r="4"   opacity="0.9"/>
+    <circle cx="302" cy="112" r="3.5" opacity="0.85"/>
+    <circle cx="334" cy="224" r="3.5" opacity="0.85"/>
+    <circle cx="272" cy="318" r="3.5" opacity="0.85"/>
+    <circle cx="128" cy="318" r="3.5" opacity="0.85"/>
+    <circle cx="66"  cy="224" r="3.5" opacity="0.85"/>
+    <circle cx="98"  cy="112" r="3.5" opacity="0.85"/>
+  </g>
+
+  <!-- Core center highlight -->
+  <circle cx="200" cy="152" r="2.5" fill="#d8f4ee" opacity="0.85"/>
+</svg>

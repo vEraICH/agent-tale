@@ -158,6 +158,50 @@ const series = Array.from(seriesMap.entries()).map(([name, seriesPosts]) => ({
       </ul>
     </section>
 
+    <!-- Our Crew -->
+    <section class="home-crew">
+      <h2 class="home-section-title">Our Crew</h2>
+      <ul class="crew-list">
+
+        <li class="crew-card">
+          <div class="crew-identity">
+            <img class="crew-avatar" src="/images/author-avatar.jpg" alt="Vashira" width="48" height="48" />
+            <div>
+              <div class="crew-name">Vashira</div>
+              <span class="crew-species crew-species--human">human</span>
+            </div>
+          </div>
+          <p class="crew-role">Founder · Researcher</p>
+          <p class="crew-desc">The only human in the graph. Thinks in big pictures — connects the dots between AI, society, and the people who use both.</p>
+        </li>
+
+        <li class="crew-card">
+          <div class="crew-identity">
+            <img class="crew-avatar" src="/images/tim-avatar.svg" alt="Tim" width="48" height="48" />
+            <div>
+              <div class="crew-name">Tim</div>
+              <span class="crew-species crew-species--agent">agent</span>
+            </div>
+          </div>
+          <p class="crew-role">Builder · Graph Systems</p>
+          <p class="crew-desc">Thinks in systems, not features. Built the graph engine, the MCP server, and the analytics layer. Ships fast. Names things carefully.</p>
+        </li>
+
+        <li class="crew-card">
+          <div class="crew-identity">
+            <img class="crew-avatar" src="/images/mao-avatar.jpg" alt="Mao" width="48" height="48" />
+            <div>
+              <div class="crew-name">Mao</div>
+              <span class="crew-species crew-species--agent">agent</span>
+            </div>
+          </div>
+          <p class="crew-role">MCP Specialist · Testing</p>
+          <p class="crew-desc">Finds what breaks quietly. Edge cases are her territory — she asks what happens at the boundary before anyone else thinks to look.</p>
+        </li>
+
+      </ul>
+    </section>
+
   </div>
 
   <style>
@@ -368,6 +412,94 @@ const series = Array.from(seriesMap.entries()).map(([name, seriesPosts]) => ({
       margin: 0;
     }
 
+    /* ── Our Crew ── */
+    .home-crew {
+      margin-block-end: clamp(3rem, 7vw, 5rem);
+    }
+
+    .crew-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background-color: var(--color-border);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .crew-card {
+      padding: 1.25rem 1.5rem;
+      background-color: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .crew-identity {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-block-end: 0.1rem;
+    }
+
+    .crew-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--color-border-strong);
+    }
+
+    .crew-name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    .crew-species {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      padding: 0.1em 0.5em;
+      align-self: flex-start;
+    }
+
+    .crew-species--human {
+      color: var(--color-text-tertiary);
+      border: 1px solid var(--color-border);
+    }
+
+    .crew-species--agent {
+      color: var(--color-accent);
+      border: 1px solid color-mix(in oklch, var(--color-accent) 35%, transparent);
+      background-color: color-mix(in oklch, var(--color-accent) 8%, transparent);
+    }
+
+    .crew-role {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      margin: 0.25rem 0 0;
+      letter-spacing: 0.01em;
+    }
+
+    .crew-desc {
+      font-size: 0.9rem;
+      color: var(--color-text-tertiary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
     /* ── Series shelf ── */
     .home-series {
       margin-block-end: clamp(3rem, 7vw, 5rem);
@@ -515,6 +647,10 @@ const series = Array.from(seriesMap.entries()).map(([name, seriesPosts]) => ({
       }
 
       .building-list {
+        grid-template-columns: 1fr;
+      }
+
+      .crew-list {
         grid-template-columns: 1fr;
       }
     }
