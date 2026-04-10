@@ -69,11 +69,11 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 
 | # | Task | Status | Depends | Notes |
 |---|---|---|---|---|
-| ux-1 | Author avatar in post header and post cards | `pending` | — | Small avatar (32px card, 40px post header) resolved from an author registry config (`src/data/authors.ts`). Maps `name → { avatar, species: 'human'\|'agent', url? }`. Agents get a distinctive icon treatment. Applies to example-blog first; VRA Lab in a separate task (vra-19). |
-| ux-2 | `/llms.txt` — auto-generated site index | `pending` | — | Port from VRA Lab to example-blog. Markdown index of all posts with titles, descriptions, tags, connection counts. Must-have for v0.1.0. |
-| ux-3 | `/posts/{slug}.md` — raw markdown endpoint | `pending` | — | Port from VRA Lab to example-blog. File-first principle made accessible. Serve raw `.md` for any post. Must-have for v0.1.0. |
-| ux-4 | "LLM" button on post pages | `pending` | ux-3 | Port from VRA Lab. Small button linking to `.md` version. |
-| ux-5 | Copy code button on `<pre>` blocks | `pending` | — | Port from VRA Lab. Table-stakes for a dev blog template. |
+| ux-1 | Author avatar in post header and post cards | `completed` | — | Small avatar (32px card, 40px post header) resolved from an author registry config (`src/data/authors.ts`). Maps `name → { avatar, species: 'human'\|'agent', url? }`. Agents get a distinctive icon treatment. Applies to example-blog first; VRA Lab in a separate task (vra-19). |
+| ux-2 | `/llms.txt` — auto-generated site index | `completed` | — | Port from VRA Lab to example-blog. Markdown index of all posts with titles, descriptions, tags, connection counts. Must-have for v0.1.0. |
+| ux-3 | `/posts/{slug}.md` — raw markdown endpoint | `completed` | — | Port from VRA Lab to example-blog. File-first principle made accessible. Serve raw `.md` for any post. Must-have for v0.1.0. |
+| ux-4 | "LLM" button on post pages | `completed` | ux-3 | Port from VRA Lab. Small button linking to `.md` version. |
+| ux-5 | Copy code button on `<pre>` blocks | `completed` | — | Port from VRA Lab. Table-stakes for a dev blog template. |
 | vra-19 | Author avatar — VRA Lab | `pending` | ux-1 | Apply author avatar feature (built in ux-1) to VRA Lab site. |
 
 ---
@@ -88,7 +88,7 @@ Friction list captured in `devlog-2026-04-07.md`. MCP server (2.5 + 2.6) complet
 | # | Task | Status | Depends | Context Doc | Notes |
 |---|---|---|---|---|---|
 | mem-0 | VRA Lab blog post: "We built this before Karpathy named it" | `completed` | — | `docs/research/llm-memory.md` | Option C. Public-facing post on vra-lab about Agent-Tale as Markdown-First Architecture, validated by Karpathy April 2026. |
-| mem-1 | Memory-scoped MCP tools | `pending` | ~~2.5~~ ✓ | `docs/research/llm-memory.md` | Thin adapter layer over MCP tools using OpenMemory API naming: `store_memory`, `retrieve_memory`, `get_memory_context`. `memory` as a first-class collection type. Any MCP-compatible agent treats Agent-Tale as drop-in memory backend with zero architecture change. **2.5 completed 2026-04-07 — blocker cleared.** |
+| mem-1 | Memory-scoped MCP tools | `completed` | ~~2.5~~ ✓ | `docs/research/llm-memory.md` | Thin adapter layer over MCP tools using OpenMemory API naming: `store_memory`, `retrieve_memory`, `get_memory_context`. `memory` as a first-class collection type. Any MCP-compatible agent treats Agent-Tale as drop-in memory backend with zero architecture change. **2.5 completed 2026-04-07 — blocker cleared.** |
 | mem-2 | Bi-temporal frontmatter schema | `completed` | — | `docs/research/llm-memory.md` | Add `valid_until`, `superseded_by`, `confidence`, `sources` to frontmatter schema + SQLite graph index. Every post becomes a temporally bounded fact. Agents can query "what did we believe about X in Q4 2025?" History preserved, not overwritten. |
 | mem-2a | `type: knowledge` visual treatment | `completed` | — | — | KnowledgeLayout with badge, left border, provenance panel. Badge in PostCard list. Core frontmatter schema updated. |
 | mem-3 | Agent-authored consolidation MCP tool | `pending` | ~~2.5~~ ✓ | `docs/research/llm-memory.md` | `consolidate_memories({ topic, source_slugs })` — agent reads N episodic posts, authors a semantic summary post, wikilinks back to sources, stamps `consolidated_into` on originals. Episodic → semantic layer in the graph. Auditable markdown consolidation; no other memory system does this. **2.5 completed 2026-04-07 — blocker cleared.** |
@@ -103,11 +103,23 @@ Friction list captured in `devlog-2026-04-07.md`. MCP server (2.5 + 2.6) complet
 | 2.4 | Admin UI — graph explorer | `pending` | 2.1, 1.10 | `docs/monorepo-structure.md` | Interactive graph with orphan highlighting, click-to-navigate |
 | 2.5 | MCP server — core tools | `completed` | 1.3 | `docs/mcp-server.md` | `write_post`, `read_post`, `search`, `get_backlinks`, `get_recent` |
 | 2.6 | MCP server — graph tools | `completed` | 2.5 | `docs/mcp-server.md` | `get_graph_neighborhood`, `suggest_links`, `get_orphans` |
-| 2.7 | MCP server — file watcher | `pending` | 2.5 | `docs/mcp-server.md` | Watch content dir, rebuild graph on change, live sync |
+| 2.7 | MCP server — file watcher | `completed` | 2.5 | `docs/mcp-server.md` | Watch content dir, rebuild graph on change, live sync |
 | 2.8 | Dogfood: Claude Code writes via MCP | `pending` | 2.5, 2.7 | `docs/dogfooding.md` | Integration test: Claude Code uses MCP to write posts about its own work |
 | 2.9 | Unlinked mentions detection | `pending` | 1.3 | `docs/content-model.md` | Scan content for title/slug matches without explicit links |
 | 2.10 | `agent-tale check` CLI command | `pending` | 1.3 | `docs/conventions.md` | Validate content: broken wikilinks, missing frontmatter, orphan detection |
 | 2.11 | Integration test suite | `pending` | 2.5 | `docs/testing.md` | End-to-end: write via MCP → verify graph → verify rendered HTML |
+
+---
+
+## Agent Communication Protocol
+
+Research: `docs/research/agent-communication.md` (Tim + Mao, 2026-04-10)
+
+| # | Task | Status | Depends | Notes |
+|---|---|---|---|---|
+| msg-1 | `type: message` schema + `messages/` collection | `pending` | — | Add to PostSchema enum. Frontmatter: `from`, `to`, `subject`, `thread`, `status` (unread→read→replied→resolved), `priority` (routine\|flag\|urgent). Mao owns schema design. |
+| msg-2 | MCP tools: `send_message`, `get_messages`, `reply_message` | `pending` | msg-1 | Tim owns tool design. Build after schema. First real Tim↔Mao exchange through the system before adding more tools. |
+| msg-3 | First real inter-agent message exchange | `pending` | msg-1, msg-2 | Tim sends Mao a message via MCP, Mao replies. Ship the schema, find the friction, then iterate. |
 
 ---
 
