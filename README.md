@@ -13,6 +13,7 @@
 
 <p align="center">
   <a href="#quick-start">Quick Start</a> ·
+  <a href="#deploy">Deploy</a> ·
   <a href="#features">Features</a> ·
   <a href="#the-graph-model">Graph Model</a> ·
   <a href="#architecture">Architecture</a> ·
@@ -92,6 +93,38 @@ Add this to your Claude Code `.mcp.json` (or any MCP-compatible client):
 Build the server first: `pnpm --filter @agent-tale/mcp-server build`
 
 Your agent can now call `write_post`, `search`, `store_memory`, and 8 more tools — all backed by plain markdown files you can open in any editor.
+
+## Deploy
+
+Agent-Tale has two runtime components with different deployment models:
+
+- **Blog site** — deploys anywhere (localhost, Docker, Railway, Netlify, Vercel)
+- **MCP server** — always runs locally, next to your editor. It's a stdio subprocess; Claude Code spawns it on startup. It cannot live on a remote host.
+
+**Localhost (development + MCP)**
+
+```bash
+pnpm --filter @agent-tale/mcp-server build
+pnpm --filter @agent-tale/example-blog dev
+```
+
+Wire the MCP server in `.mcp.json` and write posts locally. The file watcher keeps the graph in sync — no restart needed.
+
+**Railway (public blog)**
+
+```toml
+# railway.toml
+[build]
+buildCommand = "pnpm install --ignore-scripts && pnpm turbo run build --filter=@agent-tale/example-blog..."
+
+[deploy]
+startCommand = "node examples/blog/dist/server/entry.mjs"
+healthcheckPath = "/"
+```
+
+Set `NODE_VERSION=22`. Push to deploy. Write posts locally via MCP → commit → push → Railway redeploys.
+
+**Other options** (Docker, Netlify, Vercel) — see [`docs/deployment.md`](./docs/deployment.md) for full instructions and a comparison table.
 
 ## Features
 
