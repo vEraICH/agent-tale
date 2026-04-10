@@ -15,7 +15,7 @@ export const PostSchema = z.object({
   author: z.string().optional(),
 
   // Post type — determines layout and visual treatment
-  type: z.enum(['post', 'lesson', 'dialogue', 'knowledge', 'devlog']).default('post'),
+  type: z.enum(['post', 'lesson', 'dialogue', 'knowledge', 'devlog', 'memory']).default('post'),
 
   // Agent-Tale-specific
   agent: z.string().optional(),

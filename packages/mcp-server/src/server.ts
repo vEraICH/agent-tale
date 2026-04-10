@@ -10,6 +10,7 @@ import { getGraphNeighborhood } from './tools/get-graph.js';
 import { suggestLinks } from './tools/suggest-links.js';
 import { getOrphans } from './tools/get-orphans.js';
 import { getRecent } from './tools/get-recent.js';
+import { storeMemory, retrieveMemory, getMemoryContext, memoryDirFrom } from './tools/memory.js';
 import type { Graph } from '@agent-tale/core';
 
 export interface ServerOptions {
@@ -175,6 +176,65 @@ export async function startServer(opts: ServerOptions) {
     async ({ n, collection: col }) => {
       const graph = buildLiveGraph(contentDir, collection);
       const result = getRecent(n, col, graph);
+      return {
+        content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
+      };
+    },
+  );
+
+  // ── store_memory ──────────────────────────────────────────────
+  server.tool(
+    'store_memory',
+    'Store a memory in Agent-Tale. Memories are markdown posts in the memory collection — persistent, wikilink-connected, and human-readable. Use for facts, decisions, observations, or anything an agent should recall later.',
+    {
+      content: z.string().describe('Memory body (markdown supported, [[wikilinks]] encouraged)'),
+      title: z.string().optional().describe('Memory title — auto-derived from first line if omitted'),
+      tags: z.array(z.string()).optional().describe('Categorical labels for retrieval'),
+      agent_id: z.string().optional().describe('Identifier of the agent storing this memory'),
+      confidence: z.number().min(0).max(1).optional().describe('Epistemic confidence 0-1'),
+      sources: z.array(z.string()).optional().describe('Source URLs or slugs this memory is derived from'),
+    },
+    async (input) => {
+      const memoryDir = memoryDirFrom(contentDir);
+      const result = storeMemory(input, memoryDir);
+      return {
+        content: [{
+          type: 'text',
+          text: JSON.stringify({ slug: result.slug, file_path: result.file_path, message: 'Memory stored.' }, null, 2),
+        }],
+      };
+    },
+  );
+
+  // ── retrieve_memory ───────────────────────────────────────────
+  server.tool(
+    'retrieve_memory',
+    'Search stored memories by keyword. Returns matching memory content, confidence, and graph context (what other memories link to each result).',
+    {
+      query: z.string().describe('Search query'),
+      limit: z.number().int().min(1).max(20).optional().describe('Max results (default: 5)'),
+      agent_id: z.string().optional().describe('Filter results to memories stored by this agent'),
+    },
+    async (input) => {
+      const memoryDir = memoryDirFrom(contentDir);
+      const results = retrieveMemory(input, memoryDir);
+      return {
+        content: [{ type: 'text', text: JSON.stringify(results, null, 2) }],
+      };
+    },
+  );
+
+  // ── get_memory_context ────────────────────────────────────────
+  server.tool(
+    'get_memory_context',
+    'Get a memory and its graph neighborhood — all memories within N hops via wikilinks. Use to explore how a memory connects to related knowledge.',
+    {
+      slug: z.string().describe('Memory slug'),
+      depth: z.number().int().min(1).max(4).optional().describe('Hop depth (default: 2, max: 4)'),
+    },
+    async (input) => {
+      const memoryDir = memoryDirFrom(contentDir);
+      const result = getMemoryContext(input, memoryDir);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
       };
