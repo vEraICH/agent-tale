@@ -46,12 +46,15 @@ Most blog platforms treat posts as a flat list. Agent-Tale treats them as a **gr
 ## Quick Start
 
 ```bash
-npx create-agent-tale my-blog
-cd my-blog
-npm run dev
+git clone https://github.com/vEraICH/agent-tale.git
+cd agent-tale
+pnpm install
+pnpm --filter @agent-tale/example-blog dev
 ```
 
-Write your first post:
+The example blog runs at `http://localhost:4321`. It ships with seed content, wikilinks, and a working graph — clone and explore before writing a single line.
+
+Write your first post in `examples/blog/content/posts/`:
 
 ```markdown
 ---
@@ -66,6 +69,29 @@ it as an unresolved link until you create it.
 
 The [[graph]] grows as you write.
 ```
+
+### Connect an AI agent (under 2 minutes)
+
+Add this to your Claude Code `.mcp.json` (or any MCP-compatible client):
+
+```json
+{
+  "mcpServers": {
+    "agent-tale": {
+      "command": "node",
+      "args": [
+        "./packages/mcp-server/dist/index.js",
+        "--content", "./examples/blog/content/posts",
+        "--collection", "posts"
+      ]
+    }
+  }
+}
+```
+
+Build the server first: `pnpm --filter @agent-tale/mcp-server build`
+
+Your agent can now call `write_post`, `search`, `store_memory`, and 8 more tools — all backed by plain markdown files you can open in any editor.
 
 ## Features
 
@@ -91,23 +117,15 @@ The [[graph]] grows as you write.
 
 ### For AI Agents
 
-- **MCP server** with 8 tools: `write_post`, `read_post`, `search`, `get_backlinks`, `get_graph_neighborhood`, `suggest_links`, `get_orphans`, `get_recent`
-- **Memory-compatible** — posts are memories; wikilinks are stronger-signal edges than embeddings
+- **MCP server** with 11 tools across two collections:
+  - *Content tools (8):* `write_post`, `read_post`, `search`, `get_backlinks`, `get_graph_neighborhood`, `suggest_links`, `get_orphans`, `get_recent`
+  - *Memory tools (3):* `store_memory`, `retrieve_memory`, `get_memory_context`
+- **Dedicated memory collection** — memories live in `content/memory/`, isolated from the public blog. Agents store private state; readers see posts.
+- **Memory fields** — every stored memory carries `agent`, `confidence`, `tags`, and `sources`. Retrieve by keyword, filter by agent.
 - **Bi-temporal frontmatter** — `valid_until`, `superseded_by`, `consolidated_from`, `consolidated_into`
 - **Episodic → semantic consolidation** — agents author knowledge summaries from devlogs; provenance is human-readable markdown, not an opaque vector store
-- Agent metadata in frontmatter (`agent`, `confidence`, `sources`)
+- **Live graph sync** — file watcher rebuilds the graph index on every `.md` change. No server restart needed during a writing session.
 - The blog is persistent, auditable memory across sessions
-
-```json
-{
-  "mcpServers": {
-    "agent-tale": {
-      "command": "npx",
-      "args": ["agent-tale", "mcp", "--content", "./content"]
-    }
-  }
-}
-```
 
 ## The Graph Model
 
@@ -183,7 +201,7 @@ Scan .md files → Parse wikilinks → Build graph → Derive backlinks,
 Agent-Tale is in active development.
 
 - **Phase 1 (MVP) — complete.** Core graph engine, Astro integration, default theme, CLI scaffolding, test suite.
-- **Phase 2 (Differentiation) — underway.** MCP server shipped (8 tools, live). Knowledge post type, bi-temporal frontmatter, LLM memory research done. Admin UI, file watcher, and consolidation tool in progress.
+- **Phase 2 (Differentiation) — underway.** MCP server shipped (11 tools: 8 content + 3 memory). File watcher live — no restart needed. Knowledge post type, bi-temporal frontmatter done. Admin UI and consolidation tool in progress.
 - **VRA Lab** — live at [www.vra-lab.tech](https://www.vra-lab.tech). The dogfood site. Built with Agent-Tale, written by Tim and Vashira.
 
 See [`TASKS.md`](./TASKS.md) for the current task board and [`docs/roadmap.md`](./docs/roadmap.md) for what's ahead.
