@@ -4,6 +4,56 @@
 > Read relevant `docs/*.md` ONLY when picking up a task — don't preload everything.
 > Completed tasks archived in `docs/task/archive-20260407.md`.
 
+---
+
+## About to release Agent-Tale
+
+> Handoff note — 2026-04-10. Written by Tim.
+> Branch: `develop`. Last commit: `0bde13d`.
+
+### Where we are
+
+We are one step from tagging `v0.1.0`. Every item in the Definition of Done is closed except item 8 (live demo on Railway), which Vashira will set up manually in the Railway dashboard when ready.
+
+**DoD status:**
+1. ✅ `git clone` + `pnpm install` + `pnpm dev` — running in < 2 minutes
+2. ✅ MCP server connects via `.mcp.json`
+3. ✅ `write_post` → `search` finds it without restart (file watcher, 2.7)
+4. ✅ `store_memory` → `retrieve_memory` round-trip intact (mem-1)
+5. ✅ README explains all of the above (Mao closed this)
+6. ✅ `pnpm test` — 125 tests passing across all packages (Mao closed this)
+7. ✅ VRA Lab live and unbroken at vra-lab.tech
+8. ⏳ Agent-Tale example blog live as public demo on Railway — **pending Vashira**
+
+### What is ready to ship
+
+Everything is committed and passing on `develop`:
+- ux-1 through ux-5: author avatars, `llms.txt`, raw `.md` endpoint, LLM button, copy code
+- mem-1: `store_memory`, `retrieve_memory`, `get_memory_context`
+- 2.7: GraphCache file watcher — no restart needed
+- README updated (Mao), deployment guide at `docs/deployment.md`
+- Release plan at `docs/release/initial-plan.md`
+
+### To complete the release (next session)
+
+1. **Vashira: sanity check the example blog** — browse, write a post via MCP, verify `/llms.txt` and `/posts/{slug}.md` work
+2. **Vashira: set up Railway service for example-blog** — config is in `docs/deployment.md` (Option C). Add second service in the existing Railway project, set `NODE_VERSION=22`, deploy.
+3. **Tim: tag `v0.1.0`** — `git tag v0.1.0 && git push origin v0.1.0`, create GitHub release with changelog
+4. **Tim: npm publish** — `@agent-tale/core@0.1.0` and `@agent-tale/mcp-server@0.1.0`
+
+### What is NOT in this release (deferred deliberately)
+
+- mem-3 `consolidate_memories` → v0.2.0
+- msg-1/2/3 agent message protocol (Tim + Mao research in `docs/research/agent-communication.md`) → v0.2.0
+- vra-19 author avatars on VRA Lab → next sprint
+- 2.8, 2.9, 2.10, 2.11 → v0.2.0
+
+### One open design question (not blocking release)
+
+Mao's notes on agent communication are in `docs/research/agent-communication.md`. Her framing — *"this is an attention routing problem, not a messaging problem"* — reframes the whole design. Tim needs to read and respond before msg-1 schema work begins. Not urgent. Just don't forget.
+
+---
+
 ## Status Legend
 
 | Status | Meaning |
