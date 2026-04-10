@@ -5,49 +5,58 @@
 
 ## Current focus
 
-**agent-tale-analytic Phase 2 — MCP agent instrumentation.**
+**Agent-Tale v0.1.0 release — one step away.**
 
-## Completed this session (2026-04-09, session 3)
+## Completed this session (2026-04-10, session 4)
 
-### Phase 0 — Graph Health Dashboard (all completed)
-- an-0.1: `@agent-tale/analytic` package scaffold (Zod schema, graph metrics, SQLite store)
-- an-0.2: Graph metrics engine — PageRank, betweenness, BFS connectivity/diameter (pure TS, no graphology)
-- an-0.3: `/analytics` page — graph health dashboard (SSR, `export const prerender = false`)
-- an-0.4: Edge inventory table
+### UX features (ported from VRA Lab to example-blog)
+- ux-1: `AuthorAvatar` component, `authors.ts` registry (tim/mao/vashira), integrated into PostCard + PostLayout
+- ux-2: `/llms.txt` auto-generated post index
+- ux-3: `/posts/{slug}.md` raw markdown endpoint
+- ux-4: LLM `md` button in post header (slug prop on PostLayout)
+- ux-5: copy code button on all `.prose pre` blocks
 
-### Phase 1 — Human Event Ingestion (all completed)
-- an-1.1: Zod `AnalyticEvent` schema with `species` enum (human/agent/crawler)
-- an-1.2: SQLite event store via `node:sqlite` (switched from `better-sqlite3` — no VS C++ toolset)
-- an-1.3: Browser tracker `<AnalyticTracker />` — beacon, DNT, session fingerprint
-- an-1.4: `POST /api/analytics/event` route — rate-limited, Zod-validated
-- an-1.5: Opt-in tracker in `PostLayout.astro` and home `index.astro` (`_home` slug)
-- an-1.6: Dashboard human metrics panel — views, sessions, 14-day chart, top posts, top edges
+### MCP server
+- 2.7: `GraphCache` with `fs.watch({ recursive: true })` — in-memory cache, invalidates on `.md` file change, graceful Linux fallback. `write_post` calls `cache.invalidate()`. 48 tests passing.
 
-### Other
-- Railway deploy config: Node 22 pinned, `ANALYTICS_DB_PATH` env var
-- Post: "Why We Built Our Own Analytics" with 3 screenshots
-- Home page: Veil → Agent-Tale-Analytic ("analytics stops being a vanity metric and becomes a feedback loop")
-- CLAUDE.md: `end-session` signal documented
+### Docs
+- `docs/deployment.md` — localhost, Docker, Railway, Netlify/Vercel options. Key point: MCP server is always local (stdio subprocess), blog deploys anywhere.
+- `docs/research/agent-communication.md` — Tim + Mao co-authored. Mao reframed as attention routing problem, added `priority` field (routine|flag|urgent), state lifecycle (unread→read→replied→resolved).
+- README: added Deploy section with quick paths + link to deployment guide
+- `docs/release/initial-plan.md`: added DoD item 8 (live demo on Railway)
+- `TASKS.md`: marked mem-1, 2.7, ux-1–ux-5 completed; added msg-1/2/3 tasks; handoff note at top
+
+### Mao's review (between sessions)
+- 125 tests passing (was 48 — she added `--passWithNoTests` to astro-integration)
+- README accurate, clone path updated, 11 tools documented
+- Notes in `docs/research/agent-communication.md` — read before msg-1 schema design
 
 ## Next session priority
 
-**Phase 2 — MCP Agent Instrumentation (an-2.1 → an-2.3)**
+**Complete the v0.1.0 release:**
 
-1. **an-2.1** — MCP analytics middleware: wrap tool handlers, emit `mcp.tool_call` events
-2. **an-2.2** — Agent session reconstruction: group events by session, reconstruct traversal paths
-3. **an-2.3** — Dashboard agent metrics panel: sessions/day, tool usage, top posts by agent reads
+1. Wait for Vashira sanity check (browser, MCP, `/llms.txt`, `/posts/{slug}.md`)
+2. Vashira sets up Railway service for example-blog (config in `docs/deployment.md` Option C)
+3. Tag `v0.1.0` → `git tag v0.1.0 && git push origin v0.1.0`
+4. Create GitHub release with changelog
+5. npm publish: `@agent-tale/core@0.1.0` and `@agent-tale/mcp-server@0.1.0`
+
+**After release:**
+- Respond to Mao's agent-communication notes — schema design for `type: message`
+- msg-1: `type: message` in PostSchema + `messages/` collection (Mao owns schema)
+- msg-2: MCP tools `send_message`, `get_messages`, `reply_message` (Tim owns tools)
+- msg-3: First real Tim↔Mao message exchange through the system
 
 ## Important context
-- Site live at: https://www.vra-lab.tech (Railway, auto-deploys from `release/vra-lab-auto`)
-- Deploy branch: `release/vra-lab-auto`
-- Dev server: `pnpm --filter @agent-tale/vra-lab dev`
+
+- Branch: `develop` (switched from `release/vra-lab-prd2` during break — Mao committed on develop)
+- Last commit: `3bfbd79` (TASKS.md handoff note)
+- VRA Lab: live at https://www.vra-lab.tech, branch `release/vra-lab-auto`
+- example-blog dev: `pnpm --filter @agent-tale/example-blog dev` → http://localhost:4321
+- MCP server build: `pnpm --filter @agent-tale/mcp-server build`
 - `node:sqlite` used (NOT `better-sqlite3`) — no VS C++ toolset on this machine
-- SQLite DB path: `ANALYTICS_DB_PATH` env var, defaults to `<cwd>/data/analytics.db`
-- Railway: volume mounted at `/data`, `ANALYTICS_DB_PATH=/data/analytics.db`
-- Both `analytics.astro` and `api/analytics/event.ts` need `export const prerender = false`
-- `_home` slug used for home page tracking — will need filtering in Phase 4
-- VRA Lab has 11 posts now
-- All pages use 60rem container (user preference — don't narrow)
-- About page uses Georgia intentionally — don't change
-- Vashira always reviews changes in browser before committing — never commit proactively
+- contentDir for example-blog MCP: `./examples/blog/content/posts` (NOT `./content` — memory files leaked in before this fix)
+- Authors registry: `examples/blog/src/data/authors.ts` — hardcoded for example-blog, users of Agent-Tale create their own
+- `LessonLayout` and `KnowledgeLayout` do not have the LLM `md` button yet — only PostLayout. Not blocking release.
+- Mao's two open GAPs (cross-graph wikilinks, agent_id pagination) → v0.2.0, not blocking
 - `end-session` is the signal to write devlog, update this file, update TASKS
