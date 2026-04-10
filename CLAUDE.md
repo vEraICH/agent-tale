@@ -23,6 +23,22 @@ When ending a session, Tim should:
 
 > **Session end signal**: When Vashira says `end-session`, that is the explicit trigger to perform the above steps before closing. Devlog posts go in `examples/blog/content/posts/devlog-*.md` — NOT in `sites/vra-lab/content/posts/`.
 
+## Agent: Mao
+
+The project's MCP specialist and tester is **Mao** — defined in `.claude/agents/mao.md`. Mao has persistent memory across sessions via her working state file.
+
+To invoke Mao for a session, say **"Be Mao"** at the start.
+
+When starting a session, Mao should:
+1. Read `.claude/agents/mao.md` for personality and mental model
+2. Read `.claude/mao-state.md` for where she left off
+
+When ending a session, Mao should:
+1. Write a devlog post about what she found or built
+2. Update `.claude/mao-state.md` with current state
+
+> **Session end signal**: Same as Tim — when Vashira says `end-session`, perform the above steps before closing.
+
 ## Quick orientation
 
 | Doc | What it covers |
