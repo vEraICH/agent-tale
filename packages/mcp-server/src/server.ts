@@ -1,5 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { watch } from 'node:fs';
 import { z } from 'zod';
 import { buildGraph, createGraph } from '@agent-tale/core';
 import { writePost } from './tools/write-post.js';
@@ -18,13 +19,47 @@ export interface ServerOptions {
   collection?: string;
 }
 
-function buildLiveGraph(contentDir: string, collection: string): Graph {
-  const result = buildGraph({ contentDir, collection });
-  return createGraph(result.nodes, result.edges);
+/**
+ * GraphCache — keeps an in-memory graph and invalidates it when .md files
+ * change on disk. Uses Node's fs.watch with recursive option (Mac/Windows).
+ * Falls back to per-request rebuild on platforms that don't support it (Linux).
+ */
+class GraphCache {
+  private graph: Graph | null = null;
+  private dirty = true;
+
+  constructor(private contentDir: string, private collection: string) {
+    try {
+      watch(this.contentDir, { recursive: true }, (_event, filename) => {
+        if (typeof filename === 'string' && (filename.endsWith('.md') || filename.endsWith('.mdx'))) {
+          this.dirty = true;
+        }
+      });
+    } catch {
+      // fs.watch recursive not supported on this platform — fall back to
+      // rebuilding on every request (dirty stays true permanently).
+    }
+  }
+
+  get(): Graph {
+    if (this.dirty || !this.graph) {
+      const result = buildGraph({ contentDir: this.contentDir, collection: this.collection });
+      this.graph = createGraph(result.nodes, result.edges);
+      this.dirty = false;
+    }
+    return this.graph;
+  }
+
+  /** Mark dirty after a write so the next read picks up the new file. */
+  invalidate(): void {
+    this.dirty = true;
+  }
 }
 
 export async function startServer(opts: ServerOptions) {
   const { contentDir, collection = 'posts' } = opts;
+
+  const cache = new GraphCache(contentDir, collection);
 
   const server = new McpServer({
     name: 'agent-tale',
@@ -49,6 +84,7 @@ export async function startServer(opts: ServerOptions) {
     },
     async (input) => {
       const filePath = writePost(input, { contentDir });
+      cache.invalidate();
       return {
         content: [{ type: 'text', text: `Written: ${filePath}` }],
       };
@@ -65,7 +101,7 @@ export async function startServer(opts: ServerOptions) {
       include_related: z.boolean().optional().describe('Include related posts (default: true)'),
     },
     async (input) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const result = readPost(input, graph, contentDir);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
@@ -83,7 +119,7 @@ export async function startServer(opts: ServerOptions) {
       collection: z.string().optional().describe('Filter by collection'),
     },
     async (input) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const results = search(input, graph);
       return {
         content: [{
@@ -108,7 +144,7 @@ export async function startServer(opts: ServerOptions) {
       slug: z.string().describe('Post slug'),
     },
     async ({ slug }) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const result = getBacklinks(slug, graph);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
@@ -125,7 +161,7 @@ export async function startServer(opts: ServerOptions) {
       depth: z.number().int().min(1).max(4).optional().describe('Hop depth (default: 2, max: 4)'),
     },
     async ({ slug, depth }) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const result = getGraphNeighborhood(slug, depth, graph);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
@@ -141,7 +177,7 @@ export async function startServer(opts: ServerOptions) {
       content: z.string().describe('Markdown content to analyze'),
     },
     async ({ content }) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const result = suggestLinks(content, graph);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
@@ -157,7 +193,7 @@ export async function startServer(opts: ServerOptions) {
       collection: z.string().optional().describe('Filter by collection'),
     },
     async ({ collection: col }) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const result = getOrphans(col, graph);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
@@ -174,7 +210,7 @@ export async function startServer(opts: ServerOptions) {
       collection: z.string().optional().describe('Filter by collection'),
     },
     async ({ n, collection: col }) => {
-      const graph = buildLiveGraph(contentDir, collection);
+      const graph = cache.get();
       const result = getRecent(n, col, graph);
       return {
         content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
