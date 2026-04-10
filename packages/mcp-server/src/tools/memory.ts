@@ -16,9 +16,10 @@ function buildMemoryGraph(memoryDir: string): Graph {
   return createGraph(result.nodes, result.edges);
 }
 
+let _counter = 0;
 function generateSlug(): string {
   const date = new Date().toISOString().split('T')[0].replace(/-/g, '');
-  const suffix = Date.now().toString(36).slice(-5);
+  const suffix = (Date.now() + _counter++).toString(36).slice(-5);
   return `memory-${date}-${suffix}`;
 }
 
@@ -38,7 +39,7 @@ export function storeMemory(
   memoryDir: string,
 ): { slug: string; file_path: string } {
   const { content, tags, agent_id, confidence, sources } = input;
-  const title = input.title ?? content.split('\n')[0].replace(/^#+\s*/, '').slice(0, 80);
+  const title = input.title || content.split('\n')[0].replace(/^#+\s*/, '').slice(0, 80);
   const slug = generateSlug();
 
   const filePath = writePost(

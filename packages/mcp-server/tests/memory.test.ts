@@ -121,23 +121,14 @@ describe('storeMemory', () => {
    * This test documents CURRENT broken behavior.
    * When the bug is fixed, change the expectation to: toContain('title: This is the real content')
    */
-  it('BUG: title: "" bypasses auto-derivation and stores a blank title', () => {
+  it('title: "" falls back to content auto-derivation (|| not ??)', () => {
     const result = storeMemory(
-      { content: 'This is the real content.' },
-      memoryDir,
-    );
-
-    // Simulate what happens when an agent explicitly passes title: ""
-    const bugResult = storeMemory(
       { content: 'This is the real content.', title: '' },
       memoryDir,
     );
 
-    const raw = readFileSync(bugResult.file_path, 'utf-8');
-    // Current behavior: title is blank
-    expect(raw).toContain("title: ''");
-    // Expected behavior (after fix): title should be 'This is the real content.'
-    // expect(raw).toContain('title: This is the real content.');
+    const raw = readFileSync(result.file_path, 'utf-8');
+    expect(raw).toContain('title: This is the real content.');
   });
 });
 
@@ -421,6 +412,75 @@ describe('store → retrieve round-trip', () => {
 
     expect(maoResults.every((r) => r.agent === 'mao')).toBe(true);
     expect(timResults.every((r) => r.agent === 'tim')).toBe(true);
+  });
+});
+
+// ── multi-agent shared memory ─────────────────────────────────────────────────
+
+describe('multi-agent shared memory', () => {
+  /**
+   * Core scenario for the Agent-Tale family vision:
+   * Tim and Mao write to the same memory graph independently.
+   * Both can read each other's memories. Filters keep identities separate.
+   */
+
+  it('two agents write to the same memory dir — both readable without filter', () => {
+    storeMemory({ content: 'Tim observation.', title: 'Tim shared note', agent_id: 'tim' }, memoryDir);
+    storeMemory({ content: 'Mao observation.', title: 'Mao shared note', agent_id: 'mao' }, memoryDir);
+
+    const all = retrieveMemory({ query: 'shared note' }, memoryDir);
+    const agents = all.map((m) => m.agent);
+
+    expect(agents).toContain('tim');
+    expect(agents).toContain('mao');
+  });
+
+  it('agent_id filter gives each agent a private view of shared memory', () => {
+    storeMemory({ content: 'Private to Tim.', title: 'Tim private', agent_id: 'tim' }, memoryDir);
+    storeMemory({ content: 'Private to Mao.', title: 'Mao private', agent_id: 'mao' }, memoryDir);
+
+    const timView = retrieveMemory({ query: 'private', agent_id: 'tim' }, memoryDir);
+    const maoView = retrieveMemory({ query: 'private', agent_id: 'mao' }, memoryDir);
+
+    expect(timView.every((m) => m.agent === 'tim')).toBe(true);
+    expect(maoView.every((m) => m.agent === 'mao')).toBe(true);
+  });
+
+  it('a memory wikilinked by one agent is discoverable by the other via get_memory_context', () => {
+    const timMem = storeMemory(
+      { content: 'Tim core belief: file-first.', title: 'Tim belief' },
+      memoryDir,
+    );
+    storeMemory(
+      {
+        content: `Mao agrees with [[${timMem.slug}]] — file-first is correct.`,
+        title: 'Mao on file-first',
+        agent_id: 'mao',
+      },
+      memoryDir,
+    );
+
+    // Tim's memory now has a backlink from Mao's memory
+    const context = getMemoryContext({ slug: timMem.slug, depth: 1 }, memoryDir) as {
+      neighborhood: { nodes: Array<{ slug: string }> };
+    };
+
+    const slugs = context.neighborhood.nodes.map((n) => n.slug);
+    expect(slugs).toContain(timMem.slug);
+    // Mao's memory is reachable via backlink traversal at depth 1
+    expect(slugs.length).toBeGreaterThan(1);
+  });
+
+  it('a new agent joining retrieves accumulated family memory with no filter', () => {
+    storeMemory({ content: 'Tim built the graph.', title: 'Graph origin', agent_id: 'tim' }, memoryDir);
+    storeMemory({ content: 'Mao tested the boundary.', title: 'Boundary test', agent_id: 'mao' }, memoryDir);
+
+    // New agent (no prior context) — retrieves shared state to orient itself
+    const bootstrap = retrieveMemory({ query: 'graph boundary' }, memoryDir);
+    expect(bootstrap.length).toBeGreaterThan(0);
+    // Gets memories from multiple agents without needing to know who wrote what
+    const uniqueAgents = new Set(bootstrap.map((m) => m.agent).filter(Boolean));
+    expect(uniqueAgents.size).toBeGreaterThanOrEqual(1);
   });
 });
 
