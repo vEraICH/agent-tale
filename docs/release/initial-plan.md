@@ -146,6 +146,7 @@ A release is ready when:
 5. The README explains all of the above in plain language
 6. `pnpm test` passes across all packages
 7. VRA Lab remains live and unbroken at vra-lab.tech
+8. Agent-Tale example blog is live as a public demo (Railway) — with deployment instructions for localhost, Docker, Railway, and Netlify/Vercel. See `docs/deployment.md`.
 
 ---
 
