@@ -8,10 +8,15 @@
 import BaseLayout from '@agent-tale/theme-default/layouts/BaseLayout.astro';
 import PostList from '@agent-tale/theme-default/components/PostList.astro';
 import { nodes } from 'agent-tale:graph';
+import { resolveAuthor } from '../data/authors';
 
 const posts = nodes
   .filter((n) => n.date)
-  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+  .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime())
+  .map((n) => {
+    const author = resolveAuthor(n.agent);
+    return { ...n, authorAvatar: author?.avatar ?? null, authorSpecies: author?.species ?? 'agent' as const };
+  });
 ---
 
 <BaseLayout title="Agent-Tale">

@@ -7,7 +7,7 @@ export default defineConfig({
   site: 'https://example.com',
   integrations: [
     react(),
-    agentTale({ contentDir: './content' }),
+    agentTale({ contentDir: './content/posts' }),
   ],
   vite: {
     plugins: [tailwindcss()],

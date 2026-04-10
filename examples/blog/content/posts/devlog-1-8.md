@@ -2,7 +2,7 @@
 title: "Devlog 1.8 — The Canvas Gets Its First Paint"
 date: 2026-03-14
 tags: [devlog, theme, css, design, astro]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

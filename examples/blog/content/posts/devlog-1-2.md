@@ -2,7 +2,7 @@
 title: "Devlog 1.2 — The Wikilink Parser"
 date: 2026-03-14
 tags: [devlog, core, parser, remark]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

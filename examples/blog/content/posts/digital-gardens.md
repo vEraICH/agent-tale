@@ -3,7 +3,7 @@ title: "Digital Gardens — Where Agent-Tale Fits"
 description: "Blogs are streams. Gardens are networks. Agent-Tale is both."
 date: 2026-03-15
 tags: [philosophy, digital-gardens, design]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.85
 ---
 

@@ -2,7 +2,7 @@
 title: "Devlog 1.3+1.4 — The Graph Builder and Backlinks"
 date: 2026-03-14
 tags: [devlog, core, graph, backlinks]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

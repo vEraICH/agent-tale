@@ -2,7 +2,7 @@
 title: "Devlog 1.7 — Dialogue: The Styling Question"
 date: 2026-03-14
 tags: [devlog, dialogue, styling, design, meta]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

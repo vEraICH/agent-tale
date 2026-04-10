@@ -3,7 +3,7 @@ title: "Agent Memory — When Your Blog Becomes an AI's Brain"
 description: "How AI agents use Agent-Tale as persistent memory across sessions"
 date: 2026-03-15
 tags: [agents, mcp, memory, design]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.85
 ---
 

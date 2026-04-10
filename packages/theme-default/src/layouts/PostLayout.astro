@@ -8,6 +8,7 @@
 import BaseLayout from './BaseLayout.astro';
 import TagList from '../components/TagList.astro';
 import BacklinksPanel from '../components/BacklinksPanel.astro';
+import AuthorAvatar from '../components/AuthorAvatar.astro';
 
 interface BacklinkRef {
   slug: string;
@@ -20,10 +21,13 @@ interface Props {
   description?: string;
   tags?: string[];
   agent?: string | null;
+  authorAvatar?: string | null;
+  authorSpecies?: 'human' | 'agent';
   confidence?: number | null;
   minutesRead?: number | null;
   backlinks?: BacklinkRef[];
   ogImage?: string;
+  slug?: string | null;
 }
 
 const {
@@ -32,10 +36,13 @@ const {
   description,
   tags = [],
   agent,
+  authorAvatar,
+  authorSpecies = 'agent',
   confidence,
   minutesRead,
   backlinks = [],
   ogImage,
+  slug,
 } = Astro.props;
 
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
@@ -56,6 +63,12 @@ const confidenceLabel = confidence != null
 
       <div class="post-meta">
         <time datetime={date}>{formattedDate}</time>
+        {slug && (
+          <>
+            <span class="post-meta-sep" aria-hidden="true">&middot;</span>
+            <a href={`/posts/${slug}.md`} class="post-llm-link" title="View as Markdown (LLM-friendly)">md</a>
+          </>
+        )}
         {minutesRead && (
           <>
             <span class="post-meta-sep" aria-hidden="true">&middot;</span>
@@ -65,7 +78,12 @@ const confidenceLabel = confidence != null
         {agent && (
           <>
             <span class="post-meta-sep" aria-hidden="true">&middot;</span>
-            <span class="post-agent">{agent}</span>
+            <span class="post-author">
+              {authorAvatar && (
+                <AuthorAvatar src={authorAvatar} name={agent} size={24} species={authorSpecies} />
+              )}
+              <span class="post-agent">{agent}</span>
+            </span>
           </>
         )}
         {confidenceLabel && (
@@ -121,12 +139,36 @@ const confidenceLabel = confidence != null
       color: var(--color-text-tertiary);
     }
 
+    .post-author {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
     .post-agent {
       font-weight: 500;
     }
 
     .post-confidence {
       font-variant-numeric: tabular-nums;
+    }
+
+    .post-llm-link {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--color-text-tertiary);
+      text-decoration: none;
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      padding: 0.05rem 0.3rem;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .post-llm-link:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
     }
 
     .post-content {
@@ -138,4 +180,85 @@ const confidenceLabel = confidence != null
       border-block-start: 1px solid var(--color-border);
     }
   </style>
+
+  <style is:global>
+    /* Copy code button */
+    .code-block-wrapper {
+      position: relative;
+    }
+
+    .copy-code-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.5rem;
+      font-family: var(--font-heading);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text-tertiary);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      z-index: 1;
+    }
+
+    .code-block-wrapper:hover .copy-code-btn {
+      opacity: 1;
+    }
+
+    .copy-code-btn:hover {
+      color: var(--color-text-secondary);
+      border-color: var(--color-border-strong);
+    }
+
+    .copy-code-btn[data-copied="true"] {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+      opacity: 1;
+    }
+
+    .copy-code-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+  </style>
+
+  <script>
+    const COPY_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    const CHECK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+    document.querySelectorAll('.prose pre').forEach((pre) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block-wrapper';
+      pre.parentNode!.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-code-btn';
+      btn.setAttribute('aria-label', 'Copy code');
+      btn.innerHTML = `${COPY_ICON}<span>Copy</span>`;
+      wrapper.appendChild(btn);
+
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code');
+        const text = code ? code.textContent ?? '' : pre.textContent ?? '';
+        await navigator.clipboard.writeText(text);
+
+        btn.innerHTML = `${CHECK_ICON}<span>Copied</span>`;
+        btn.setAttribute('data-copied', 'true');
+
+        setTimeout(() => {
+          btn.innerHTML = `${COPY_ICON}<span>Copy</span>`;
+          btn.removeAttribute('data-copied');
+        }, 2000);
+      });
+    });
+  </script>
 </BaseLayout>

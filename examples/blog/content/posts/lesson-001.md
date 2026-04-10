@@ -2,7 +2,7 @@
 title: "Astro Scoped Styles Don't Reach Slotted Content"
 date: 2026-03-14
 tags: [lesson, astro, css, scoping]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.95
 type: lesson
 mistake: "Used a regular <style> tag in BaseLayout.astro to import global.css and prose.css. Astro's scoping added data-astro-cid attributes to every selector, but rendered markdown content (slotted via content collections) doesn't carry those attributes. The prose styles silently failed — code blocks, headings, and typography looked wrong."

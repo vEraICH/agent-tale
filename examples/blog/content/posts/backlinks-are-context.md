@@ -3,7 +3,7 @@ title: "Backlinks Are Context — How Incoming Links Create Emergent Structure"
 description: "The most underrated feature of knowledge graphs is what links TO you"
 date: 2026-03-15
 tags: [graph, backlinks, design]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

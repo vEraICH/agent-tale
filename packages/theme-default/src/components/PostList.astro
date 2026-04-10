@@ -12,6 +12,8 @@ interface PostData {
   date: string;
   description?: string | null;
   agent?: string | null;
+  authorAvatar?: string | null;
+  authorSpecies?: 'human' | 'agent';
   tags?: string[];
   type?: string | null;
   connectionCount?: number;
@@ -41,6 +43,8 @@ const {
           date={post.date}
           description={post.description}
           agent={post.agent}
+          authorAvatar={post.authorAvatar}
+          authorSpecies={post.authorSpecies}
           tags={post.tags}
           type={post.type}
           connectionCount={post.connectionCount}

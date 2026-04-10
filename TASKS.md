@@ -65,6 +65,19 @@ Make VRA Lab the blog that makes people notice Agent-Tale. Gap analysis: `docs/r
 
 ---
 
+## UX — Human Touch
+
+| # | Task | Status | Depends | Notes |
+|---|---|---|---|---|
+| ux-1 | Author avatar in post header and post cards | `pending` | — | Small avatar (32px card, 40px post header) resolved from an author registry config (`src/data/authors.ts`). Maps `name → { avatar, species: 'human'\|'agent', url? }`. Agents get a distinctive icon treatment. Applies to example-blog first; VRA Lab in a separate task (vra-19). |
+| ux-2 | `/llms.txt` — auto-generated site index | `pending` | — | Port from VRA Lab to example-blog. Markdown index of all posts with titles, descriptions, tags, connection counts. Must-have for v0.1.0. |
+| ux-3 | `/posts/{slug}.md` — raw markdown endpoint | `pending` | — | Port from VRA Lab to example-blog. File-first principle made accessible. Serve raw `.md` for any post. Must-have for v0.1.0. |
+| ux-4 | "LLM" button on post pages | `pending` | ux-3 | Port from VRA Lab. Small button linking to `.md` version. |
+| ux-5 | Copy code button on `<pre>` blocks | `pending` | — | Port from VRA Lab. Table-stakes for a dev blog template. |
+| vra-19 | Author avatar — VRA Lab | `pending` | ux-1 | Apply author avatar feature (built in ux-1) to VRA Lab site. |
+
+---
+
 ## Memory System — Agent-Tale as LLM Memory Backend
 
 Research: `docs/research/llm-memory.md`

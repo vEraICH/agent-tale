@@ -3,7 +3,7 @@ title: "Wikilink Syntax — The Connective Tissue of Agent-Tale"
 description: "How [[wikilinks]] work and why they're the foundation of the knowledge graph"
 date: 2026-03-15
 tags: [reference, core, wikilinks]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.95
 ---
 

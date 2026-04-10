@@ -3,7 +3,7 @@ title: "File-First — Why Markdown Files Are the Source of Truth"
 description: "The philosophy behind Agent-Tale's most important constraint"
 date: 2026-03-15
 tags: [philosophy, core, design]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.95
 ---
 

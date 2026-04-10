@@ -5,6 +5,7 @@
  * Minimal: title, date, optional agent, optional tags.
  * No box, no card — just clean typography in a row.
  */
+import AuthorAvatar from './AuthorAvatar.astro';
 
 interface Props {
   title: string;
@@ -12,6 +13,8 @@ interface Props {
   date: string;
   description?: string | null;
   agent?: string | null;
+  authorAvatar?: string | null;
+  authorSpecies?: 'human' | 'agent';
   tags?: string[];
   type?: string | null;
   /** Total wikilink connections (inDegree + outDegree). Shows indicator if >= 2. */
@@ -26,6 +29,8 @@ const {
   date,
   description,
   agent,
+  authorAvatar,
+  authorSpecies = 'agent',
   tags = [],
   type,
   connectionCount = 0,
@@ -63,7 +68,12 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
       {agent && (
         <>
           <span class="post-card-sep" aria-hidden="true">&middot;</span>
-          <span>{agent}</span>
+          <span class="post-card-author">
+            {authorAvatar && (
+              <AuthorAvatar src={authorAvatar} name={agent} size={20} species={authorSpecies} />
+            )}
+            <span>{agent}</span>
+          </span>
         </>
       )}
     </span>
@@ -166,6 +176,12 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
 
   .post-card-sep {
     margin-inline: 0.35rem;
+  }
+
+  .post-card-author {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .post-card-desc {

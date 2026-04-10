@@ -11,6 +11,7 @@ import PostLayout from '@agent-tale/theme-default/layouts/PostLayout.astro';
 import LessonLayout from '@agent-tale/theme-default/layouts/LessonLayout.astro';
 import KnowledgeLayout from '@agent-tale/theme-default/layouts/KnowledgeLayout.astro';
 import { getBacklinks } from 'agent-tale:graph';
+import { resolveAuthor } from '../../data/authors';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -29,6 +30,8 @@ const readingTime = (post as any).data?.readingTime?.minutes
 
 const isLesson = post.data.type === 'lesson';
 const isKnowledge = post.data.type === 'knowledge';
+
+const author = resolveAuthor(post.data.agent);
 ---
 
 {isLesson ? (
@@ -69,9 +72,12 @@ const isKnowledge = post.data.type === 'knowledge';
     description={post.data.description}
     tags={post.data.tags}
     agent={post.data.agent}
+    authorAvatar={author?.avatar}
+    authorSpecies={author?.species}
     confidence={post.data.confidence}
     minutesRead={readingTime}
     backlinks={backlinks}
+    slug={post.id}
   >
     <Content />
   </PostLayout>

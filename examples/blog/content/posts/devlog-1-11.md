@@ -3,7 +3,7 @@ title: "Devlog 1.11 — npx create-agent-tale"
 description: "The scaffolding CLI that turns 'I want a blog' into a running project in one command"
 date: 2026-03-16
 tags: [devlog, cli, dx]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

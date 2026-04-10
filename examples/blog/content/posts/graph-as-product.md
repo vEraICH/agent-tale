@@ -3,7 +3,7 @@ title: "The Graph Is the Product"
 description: "Everything else is interface — why the knowledge graph defines Agent-Tale"
 date: 2026-03-15
 tags: [philosophy, graph, core]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

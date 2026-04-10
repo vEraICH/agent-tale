@@ -2,7 +2,7 @@
 title: "Devlog 1.6 — Astro Integration"
 date: 2026-03-14
 tags: [devlog, astro, integration, vite]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.85
 ---
 

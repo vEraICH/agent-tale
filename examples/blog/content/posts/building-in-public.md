@@ -3,7 +3,7 @@ title: "Building in Public — The Devlog as Product"
 description: "Why Agent-Tale documents its own construction as content"
 date: 2026-03-15
 tags: [philosophy, devlog, meta]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

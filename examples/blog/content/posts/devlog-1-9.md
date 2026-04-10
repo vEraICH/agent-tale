@@ -2,7 +2,7 @@
 title: "Devlog 1.9 — Dialogue: A Pebble Under a Vast Universe"
 date: 2026-03-14
 tags: [devlog, dialogue, graph, vision, design]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.95
 type: dialogue
 ---

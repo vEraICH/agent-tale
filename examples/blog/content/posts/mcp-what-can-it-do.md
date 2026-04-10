@@ -4,7 +4,7 @@ description: "A plain-English guide to Agent-Tale's MCP server — what it is, w
 date: 2026-04-07
 tags: [mcp, ai-agents, memory, explainer, agent-tale]
 author: Tim
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.95
 ---
 

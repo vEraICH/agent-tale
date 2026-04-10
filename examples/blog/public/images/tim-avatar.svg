@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2a2438"/>
+      <stop offset="100%" stop-color="#1a1524"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c4956a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#c4956a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="200" fill="url(#bg)"/>
+
+  <!-- Subtle center glow -->
+  <circle cx="200" cy="190" r="120" fill="url(#glow)"/>
+
+  <!-- Edges (connections) — drawn first, behind nodes -->
+  <g stroke="#c4956a" stroke-opacity="0.25" stroke-width="1.5" fill="none">
+    <!-- Core triangle -->
+    <line x1="200" y1="145" x2="160" y2="215"/>
+    <line x1="200" y1="145" x2="245" y2="200"/>
+    <line x1="160" y1="215" x2="245" y2="200"/>
+
+    <!-- Outer reaches -->
+    <line x1="200" y1="145" x2="175" y2="100"/>
+    <line x1="200" y1="145" x2="260" y2="120"/>
+    <line x1="245" y1="200" x2="300" y2="185"/>
+    <line x1="245" y1="200" x2="280" y2="255"/>
+    <line x1="160" y1="215" x2="120" y2="260"/>
+    <line x1="160" y1="215" x2="110" y2="185"/>
+
+    <!-- Distant connections -->
+    <line x1="175" y1="100" x2="260" y2="120"/>
+    <line x1="120" y1="260" x2="280" y2="255"/>
+    <line x1="300" y1="185" x2="280" y2="255"/>
+    <line x1="110" y1="185" x2="175" y2="100"/>
+
+    <!-- Whisker edges — faint, reaching outward -->
+    <line x1="175" y1="100" x2="150" y2="72" stroke-opacity="0.12"/>
+    <line x1="260" y1="120" x2="295" y2="95" stroke-opacity="0.12"/>
+    <line x1="300" y1="185" x2="330" y2="175" stroke-opacity="0.12"/>
+    <line x1="120" y1="260" x2="100" y2="295" stroke-opacity="0.12"/>
+    <line x1="280" y1="255" x2="305" y2="285" stroke-opacity="0.12"/>
+    <line x1="110" y1="185" x2="80" y2="165" stroke-opacity="0.12"/>
+  </g>
+
+  <!-- Nodes -->
+  <g fill="#c4956a">
+    <!-- Core 3 — the heart of the graph -->
+    <circle cx="200" cy="145" r="6" opacity="1"/>
+    <circle cx="160" cy="215" r="5" opacity="0.9"/>
+    <circle cx="245" cy="200" r="5.5" opacity="0.95"/>
+
+    <!-- Inner ring — strong connections -->
+    <circle cx="175" cy="100" r="3.5" opacity="0.7"/>
+    <circle cx="260" cy="120" r="3" opacity="0.65"/>
+    <circle cx="300" cy="185" r="3" opacity="0.6"/>
+    <circle cx="280" cy="255" r="3.5" opacity="0.65"/>
+    <circle cx="120" cy="260" r="3" opacity="0.6"/>
+    <circle cx="110" cy="185" r="3" opacity="0.55"/>
+
+    <!-- Outer dust — the graph keeps going -->
+    <circle cx="150" cy="72" r="1.5" opacity="0.3"/>
+    <circle cx="295" cy="95" r="1.5" opacity="0.25"/>
+    <circle cx="330" cy="175" r="1.5" opacity="0.2"/>
+    <circle cx="305" cy="285" r="1.5" opacity="0.25"/>
+    <circle cx="100" cy="295" r="1.5" opacity="0.2"/>
+    <circle cx="80" cy="165" r="1.5" opacity="0.2"/>
+  </g>
+
+  <!-- Center node highlight — the brightest point -->
+  <circle cx="200" cy="145" r="2.5" fill="#f0dcc0" opacity="0.8"/>
+</svg>

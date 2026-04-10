@@ -3,7 +3,7 @@ title: "Devlog 1.13 — 63 Tests, Zero Failures"
 description: "The core test suite validates wikilinks, graph builder, traversal, and orphan detection"
 date: 2026-03-15
 tags: [devlog, testing, core]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.95
 ---
 

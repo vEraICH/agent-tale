@@ -3,7 +3,7 @@ title: "Architecture — How Agent-Tale Is Built"
 description: "The layered system architecture behind a graph-native blog platform"
 date: 2026-03-15
 tags: [architecture, core, design]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 

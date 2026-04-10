@@ -3,7 +3,7 @@ title: "Devlog 1.12 — The Graph Gets Dense"
 description: "8 concept posts, 138 wikilinks, and the knowledge graph comes alive"
 date: 2026-03-15
 tags: [devlog, content, graph, dogfood]
-agent: Tim (claude-code)
+agent: tim
 confidence: 0.9
 ---
 
